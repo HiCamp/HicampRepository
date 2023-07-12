@@ -1,0 +1,76 @@
+private Integer activityNo;
+private String activityType;
+private String activityName;
+private String activityLocation;
+private String activityInfo;
+private Integer activityQuota;
+private Integer activityPrice;
+
+private Integer activityPeriodNo;
+private Integer activityNo;
+private Date activityDepartureDate;
+private Date activityReturnDate;
+private Date signupDeadline;
+private Integer activityPeriodQuota;
+private Integer activityPeriodPrice;
+private Integer signupQuantity;
+	
+private Integer activityPictureNo;
+private Integer activityNo;
+private String activityFileName;
+private byte[] activityPicture;
+
+private Integer activitySignupNo;
+private Integer memberNo;
+private Integer activityPeriodNo;
+private Date signupDate;
+private Integer signupTotalAmount;
+private String signupPaymentStatus;
+
+
+	private int memberNo;
+	private String memberName;
+	private String memberGender;
+	private String memberEmail;
+	private String memberPassword;
+	private String memberPhone;
+	private String memberAddress;
+	private String memberId;
+	private String memberBirthday;
+	private String memberEmergencyContact;
+	private String memberEmergencyPhone;
+	private int memberStatus;
+	private byte[] memberPhoto;
+
+activityNo
+activityType
+activityName
+activityLocation
+activityInfo
+activityQuota
+activityPrice
+
+
+activityPeriodNo
+activityNo
+activityDepartureDate
+activityReturnDate
+signupDeadline
+activityPeriodPrice
+activityPeriodQuota
+signupQuantity
+
+
+activityPictureNo
+activityNo
+activityFileName
+activityPicture
+
+
+activitySignupNo
+memberNo
+activityPeriodNo
+signupDate
+signupTotalAmount
+signupPaymentStatus
+

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
@@ -21,7 +22,7 @@ import tw.hicamp.forum.model.PostComment;
 import tw.hicamp.forum.model.PostLike;
 import tw.hicamp.forum.model.PostReport;
 import tw.hicamp.product.model.Orders;
-
+import tw.hicamp.activity.model.ActivitySignup;
 @Entity
 @Table(name = "member")
 @Data
@@ -61,4 +62,8 @@ public class Member {
 	@JsonIgnoreProperties("member")
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Orders> orders = new ArrayList<>();
+
+	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
+	private List<ActivitySignup> activitySignup = new ArrayList<>();	
 }

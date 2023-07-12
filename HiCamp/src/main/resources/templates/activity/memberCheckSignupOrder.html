@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>訂單資訊確認</title>
+
+	<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<!-- owl carousel -->
+	<link rel="stylesheet" href="assets/css/owl.carousel.css">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<!-- animate css -->
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+	<!-- main style -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="assets/css/responsive.css">
+
+<style>
+.cartbody-row {
+    height: 50px;
+}
+
+.billing-address-form .signupInfomation p {
+	margin-bottom: 15px;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.billing-address-form .signupInfomation p input {
+	outline: none;
+	border: none;
+	padding: 10px;
+	border-radius: 5px;
+	width: 70%;
+	font-size: 16px;
+}
+
+.billing-address-form .signupInfomation p label {
+	width: 25%;
+	font-weight: 600;
+}
+
+button.btn.btn-link {
+	background: #4CAF50;
+	color: white;
+	padding: 10px;
+	border-radius: 5px;
+	font-size: 18px;
+}
+</style>
+</head>
+<body>
+	
+	<div th:replace="~{/layout/frontTopBar}"></div>
+	
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Hiking and Camping</p>
+						<h1>Check Out Sign Up Information</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+	
+	<!-- 訂單細項 -->
+	<!--  -->
+	<!--  -->
+<div class="checkout-section mt-150 mb-150" style="margin: 0;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="checkout-accordion-wrap">
+						<div class="accordion" id="accordionExample">
+						
+						  <div class="card single-accordion" style="padding:10px; margin:10px">
+						    <div class="card-header" id="headingOne">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						          訂單明細:
+						        </button>
+						      </h5>
+						    </div>
+
+						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+						      <div class="card-body">
+						        <div class="billing-address-form" style="display: flex; justify-content: center">
+						        	<form class="signupInfomation" th:object="${member}" style="width: 50%;">
+									    <input type="hidden" th:field="*{memberNo}" id="memberNo" >
+									    <p>會員資訊:<p>
+									    <p>姓名:<input type="text" th:field="*{memberName}" placeholder="Name"></p>
+									    <p>性別:<input type="text" th:field="*{memberGender}" placeholder="Gender"></p>
+									    <p>生日(西元):<input type="text" th:field="*{memberBirthday}" placeholder="BirthDay(XXXX/XX/XX)"></p>
+									    <p>身分證字號:<input type="text" th:field="*{memberId}" placeholder="ID"></p>
+									    <p>連絡電話:<input type="text" th:field="*{memberPhone}" placeholder="Phone"></p>
+									    <p>Email:<input type="email" th:field="*{memberEmail}" placeholder="Email"></p>
+									    <p>聯絡地址:<input type="text" th:field="*{memberAddress}" placeholder="Address"></p>
+									    <p>緊急聯絡人:<input type="text" th:field="*{memberEmergencyContact}" placeholder="Emergency Contact"></p>
+									    <p>緊急聯絡人電話:<input type="text" th:field="*{memberEmergencyPhone}" placeholder="Emergency Contact Phone"></p>
+									</form>
+									<form class="signupInfomation" style="width: 50%;">
+									    <p>訂單編號:<input type="text" th:value="${activitySignup.activitySignupNo}"></p>
+									    <p>訂單日期:<input type="text" th:value="${#dates.format(activitySignup.signupDate, 'yyyy-MM-dd')}"></p>
+									    <p>活動名稱:<input type="text" th:value="${activity.activityName}"></p>
+									    <p>出發地點:<input type="text" th:value="${activity.activityLocation}"></p>
+									    <p>出發日期:<input type="text" th:value="${#dates.format(activityPeriod.activityDepartureDate, 'yyyy-MM-dd')}"></p>
+									    <p>回程日期:<input type="text" th:value="${#dates.format(activityPeriod.activityReturnDate, 'yyyy-MM-dd')}"></p>
+									    <p>活動單價:<input type="text" th:value="${activityPeriod.activityPeriodPrice}"></p>
+									    <p>訂購數量:<input type="text" th:value="${activitySignup.signupQuantity}"></p>
+									    <p>訂購總額:<input type="text" th:value="${activitySignup.signupTotalAmount}"></p>
+									    <p>付款狀態:<input type="text" th:value="${activitySignup.signupPaymentStatus}"></p>
+									</form>
+									
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						    
+
+					</div>
+				</div>
+
+				
+			</div>
+		</div>
+	</div>	
+	</div>	
+	
+	
+
+<div th:replace="~{/layout/frontBottomBar}"></div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script>
+  $(document).ready(function() {
+    var isFirstVisit = localStorage.getItem('isFirstVisit');
+    if (isFirstVisit === null) {
+      swal('付款成功', '請確認訂單明細');
+      localStorage.setItem('isFirstVisit', true);
+    }
+  });
+</script>
+
+</body>
+</html>

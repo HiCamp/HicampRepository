@@ -5,16 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import tw.hicamp.activity.model.Activity;
 import tw.hicamp.activity.model.ActivityPeriod;
-import tw.hicamp.activity.model.ActivityPicture;
 import tw.hicamp.activity.model.ActivityPictureRepository;
 import tw.hicamp.activity.model.ActivityPeriodRepository;
 import tw.hicamp.activity.model.ActivityRepository;
@@ -36,6 +30,10 @@ public class ActivityPeriodService {
 		return actPeriodRepo.saveAll(activityPeriods);
 	}
 	
+	public ActivityPeriod insertOnePeriod(ActivityPeriod activityPeriod) {
+		return actPeriodRepo.save(activityPeriod);
+	}
+	
 //	select----------------------------------------------------------------------
 	
 	public List<ActivityPeriod> findAllActPeriods() {
@@ -54,15 +52,10 @@ public class ActivityPeriodService {
 		return actPeriodRepo.getReferenceById(activityNo);
 	}
 
-	// 會用到ㄇ?
-//	public Activity findLatest() {
-//		return actRepo.findFirstByOrderByAddedDesc();
-//	}
-
 //	update----------------------------------------------------------------------
 	@Transactional
-	public ActivityPeriod updateActivityById(Integer activityPeriodNo, Integer activityNo, Date activityDepartureDate,
-			Date activityReturnDate, Date signupDeadline, Integer activityQuota, Integer activityPrice) {
+	public ActivityPeriod updateActivityPeriodById(Integer activityPeriodNo, Integer activityNo, Date activityDepartureDate,
+			Date activityReturnDate, Date signupDeadline, Integer activityPeriodQuota, Integer activityPeriodPrice, Integer activitySignupQuantity) {
 		Optional<ActivityPeriod> optional = actPeriodRepo.findById(activityPeriodNo);
 		if (optional.isPresent()) {
 			ActivityPeriod activityPeriod = optional.get();
@@ -70,8 +63,9 @@ public class ActivityPeriodService {
 			activityPeriod.setActivityDepartureDate(activityDepartureDate);
 			activityPeriod.setActivityReturnDate(activityReturnDate);
 			activityPeriod.setSignupDeadline(signupDeadline);
-			activityPeriod.setActivityPeriodQuota(activityQuota);
-			activityPeriod.setActivityPeriodPrice(activityPrice);
+			activityPeriod.setActivityPeriodQuota(activityPeriodQuota);
+			activityPeriod.setActivityPeriodPrice(activityPeriodPrice);
+			activityPeriod.setSignupQuantity(activitySignupQuantity);
 			
 			return activityPeriod;
 		}

@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>訂單資訊查詢(會員中心)</title>
+
+	<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<!-- owl carousel -->
+	<link rel="stylesheet" href="assets/css/owl.carousel.css">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<!-- animate css -->
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+	<!-- main style -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="assets/css/responsive.css">
+
+    <link rel="stylesheet" type="text/css" href="/jquery.datetimepicker.css"/ >
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+    
+<style>
+.cartbody-row {
+    height: 50px;
+}
+
+    .order-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 10px;
+    }
+
+    .order-table th,
+    .order-table td {
+        padding: 8px;
+        text-align: center;
+        border: 1px solid #ddd;
+         width: 700px;
+    }
+
+    .order-table thead th {
+        background-color: #f2f2f2;
+        color: #333;
+    }
+
+</style>
+</head>
+<body>
+	
+	<div th:replace="~{/layout/frontTopBar}"></div>
+	
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Hiking and Camping</p>
+						<h1>Check Out Sign Up Information</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+	
+	<!-- 訂單細項 -->
+	<!--  -->
+	<!--  -->
+	
+	<div style="margin:20px auto; padding:10px;justify-content:center; width:1500px;">
+	<table>
+	<tbody>
+	
+	<tr>
+ 	<th>訂單時間</th>
+ 	<td class="signupDate">
+ 		<input type="text" readonly class="Datepicker" value="" name="" id="signupDate" style="border-radius:3px">
+ 		<button id="datesearchBtn " class="btn btn-outline-primary">查詢</button>
+ 		<button type="reset" class="datesearchBtn btn btn-outline-secondary">清除</button>
+		<span>可查詢一年內的訂單</span>
+ 	</td>
+	</tr>
+	
+	<tr id="singupOrderSearchArea">
+ 	<th>報名查詢</th>
+ 	<td>
+ 		<input type="text" placeholder="查詢" id="keywordInput" value="" style="border-radius:3px">
+		<button id="searchBtn"  class="btn btn-outline-primary">查詢</button>
+		<button type="reset"  class="btn btn-outline-secondary">清除</button>
+ 	</td>
+	</tr>
+	
+ 	</tbody>
+ 	</table>
+ 	</div>
+ 	
+ 	
+	<div style="margin:20px auto; padding:10px;justify-content:center; width:1500px;">
+	<ul class="nav nav-tabs">
+  	<li class="nav-item">
+    <a class="nav-link active" aria-current="page" href="#">訂單查詢</a>
+    
+ <div class="order-table-container" style="padding: 10px;" >
+    <table class="order-table">
+        <thead>
+            <tr>
+                <th colspan="8">您的查詢結果如下:</th>
+            </tr>
+            <tr>
+                <th style="display:none;">會員編號</th>
+                <th style="width:250px">報名編號</th>
+                <th style="width:500px">報名日期</th>
+                <th style="width:800px">活動名稱</th>
+                <th style="width:700px">活動日期</th>
+                <th style="width:350px">報名金額</th>
+                <th style="width:250px">付款狀態</th>
+                <th style="width:250px">詳細資訊</th>
+                <th style="width:250px">取消訂單</th>
+            </tr>
+        </thead>
+        <tbody  id="searchResults">
+            <th:block th:each="signupOrder : ${signupOrders}" >
+                <tr>
+                    <td th:text="${signupOrder.memberNo}" class="memberNo" style="display:none;"></td>
+                    <td th:text="${signupOrder.activitySignupNo}" class="activitySignupNo" style="width:250px"></td>
+                    <td th:text="${#dates.format(signupOrder.SignupDate, 'yyyy-MM-dd')}"style="width:500px"></td>
+                    <td th:text="${signupOrder.activityName}"  style="width:800px"></td>
+                    <td th:text="${#dates.format(signupOrder.activityDepartureDate, 'yyyy-MM-dd')} + ' ~ ' + ${#dates.format(signupOrder.activityReturnDate, 'yyyy-MM-dd')}"  style="width:700px"></td>
+                    <td th:text="${signupOrder.signupTotalAmount}"  style="width:350px"></td>
+                    <td th:text="${signupOrder.signupPaymentStatus}" style="width:250px"></td>
+                    <td style="width:250px"> 
+                    <button type="button" style="border: none; background-color: white;" class="checkSignupOrderBtn" th:value="${signupOrder.activitySignupNo}">
+                    <i class="fas fa-search" style="cursor:pointer; font-size:120%;"></i></button></td>
+                    <td style="width:250px"> 
+                    <button type="button" style="border: none; background-color: white;" class="cancelSignupOrderBtn" th:value="${signupOrder.activitySignupNo}">
+                    <i class="fa-solid fa-trash-can" style="cursor:pointer; font-size:120%;"></i></button></td>
+                </tr>
+            </th:block>
+        </tbody>
+    </table>
+</div>
+	</ul>
+	</div>
+	
+	
+
+<div th:replace="~{/layout/frontBottomBar}"></div>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+
+<!-- DatePicker -->
+<script>
+ $(function () {
+            $("#signupDate").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+</script>
+
+<!-- 查詢清除按鈕 -->
+<script>
+var resetButton = $('button[type="reset"]');
+var inputElement = $('#keywordInput');
+resetButton.on('click', function() {
+    inputElement.val('');
+});
+
+var resetDateButton = $('.datesearchBtn');
+var datepickerInput = $('#signupDate');
+
+resetDateButton.on('click', function() {
+    datepickerInput.datepicker('setDate', null);
+});
+</script>
+
+<!-- 訂單詳細按鈕 -->
+<script>
+$(document).ready(function() {
+    $(document).on("click", ".checkSignupOrderBtn", function() {
+        var activitySignupNo = $(this).val();
+
+        $.ajax({
+            url: "http://localhost:8080/HiCamp/activity/memberCheckSignupOrder",
+            type: "get",
+            data: { orderId: activitySignupNo },
+            success: function(response) {
+                console.log(activitySignupNo);
+                window.location.href = "http://localhost:8080/HiCamp/activity/memberCheckSignupOrder?orderId=" + activitySignupNo;
+            }
+        });
+    });
+});
+
+</script>
+
+<!-- 關鍵字查詢按鈕 -->
+<script>
+$(document).ready(function() {
+    $("#searchBtn").click(function() {
+        var keyword = $("#keywordInput").val();
+        console.log(keyword);
+        $.ajax({
+            url: "http://localhost:8080/HiCamp/activity/memberCenterFindSignupOrderByKeyword",
+            type: "GET",
+            data: { keyword: keyword },
+            success: function(response) {
+                $("#searchResults").empty();
+				console.log(response);
+                $.each(response, function(index, activitySignup) {
+                        var departureDate = new Date(activitySignup.activityDepartureDate);
+          	 var returnDate = new Date(activitySignup.activityReturnDate);
+          	 var signupDate = new Date(activitySignup.signupDate);
+          	 var signupDate1 = formatDate(signupDate);
+         	 var formattedDate = formatDate(departureDate) + ' ~ ' + formatDate(returnDate);
+        	
+       		 var row = "<tr>" +
+                        "<td>" + activitySignup.activitySignupNo + "</td>" +
+                        "<td>" + signupDate1 + "</td>" +
+                        "<td>" + activitySignup.activityName + "</td>" +
+                         "<td>" + formattedDate + "</td>" +
+                        "<td>" + activitySignup.signupTotalAmount + "</td>" +
+                        "<td>" + activitySignup.signupPaymentStatus + "</td>" +
+                        "<td><button type='button' class='checkSignupOrderBtn' style='border: none; background-color: white;' value='" + activitySignup.activitySignupNo + "'><i class='fas fa-search'></i></button></td>" +
+          			    "<td><button type='button' class='cancelSignupOrderBtn' style='border: none; background-color: white;' value='" + activitySignup.activitySignupNo + "'><i class='fa-solid fa-trash-can'></i></button></td>" +
+                        "</tr>";
+
+                    $("#searchResults").append(row);
+                });
+            },
+            error: function() {
+                alert("查询失败");
+            }
+        });
+    });
+});
+</script>
+
+<!-- 日期查詢 -->
+<script>
+$(document).ready(function() {
+  $("#datesearchBtn").click(function() {
+    var selectedDate = $("#signupDate").datepicker("getDate"); 
+    selectedDate = $.datepicker.formatDate('yy-mm-dd', selectedDate);  
+
+    $.ajax({
+      url: 'http://localhost:8080/HiCamp/activity/memberCenterFindSignupOrderBySignupDate',
+      type: 'GET',
+      data: {
+        signupDate: selectedDate
+      },
+      success: function(data) {
+      console.log(data);
+        $('.order-table tbody').empty();
+
+        $.each(data, function(i, activitySignup) {
+             var departureDate = new Date(activitySignup.activityDepartureDate);
+          	 var returnDate = new Date(activitySignup.activityReturnDate);
+          	 var signupDate = new Date(activitySignup.signupDate);
+          	 var signupDate1 = formatDate(signupDate);
+         	 var formattedDate = formatDate(departureDate) + ' ~ ' + formatDate(returnDate);
+        	
+       		 var row = "<tr>" +
+                        "<td>" + activitySignup.activitySignupNo + "</td>" +
+                        "<td>" + signupDate1 + "</td>" +
+                        "<td>" + activitySignup.activityName + "</td>" +
+                         "<td>" + formattedDate + "</td>" +
+                        "<td>" + activitySignup.signupTotalAmount + "</td>" +
+                        "<td>" + activitySignup.signupPaymentStatus + "</td>" +
+                        "<td><button type='button' class='checkSignupOrderBtn' style='border: none; background-color: white;' value='" + activitySignup.activitySignupNo + "'><i class='fas fa-search'></i></button></td>" +
+          			    "<td><button type='button' class='cancelSignupOrderBtn' style='border: none; background-color: white;' value='" + activitySignup.activitySignupNo + "'><i class='fa-solid fa-trash-can'></i></button></td>" +
+                        "</tr>";
+
+          $('.order-table tbody').append(row);
+        });
+      },
+      error: function() {
+        alert('查询失败');
+      }
+    });
+  });
+});
+
+
+function formatDate(date) {
+  var year = date.getFullYear();
+  var month = ('0' + (date.getMonth() + 1)).slice(-2);
+  var day = ('0' + date.getDate()).slice(-2);
+  return year + '-' + month + '-' + day;
+}
+
+</script>
+
+</body>
+</html>

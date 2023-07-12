@@ -65,7 +65,7 @@
 						<nav class="main-menu">
 							<ul>
 								<li><a href="http://localhost:8080/HiCamp/projecthomepage">首頁</a></li>
-								<li><a href="http://localhost:8080/HiCamp/activity/alldata">活動</a></li>
+								<li><a href="http://localhost:8080/HiCamp/activity/memberActivityHomePage">活動</a></li>
 								<li><a href="http://localhost:8080/HiCamp/shopping">商品</a></li>
 								<li><a href="http://localhost:8080/HiCamp/campsite/frontCampsite">營區</a></li>
 								<li><a href="http://localhost:8080/HiCamp/forum/showall">論壇</a></li>
@@ -92,6 +92,7 @@
 														<a class="shopping-cart"><i th:text="${session.name}"></i></a>
 														<ul class="sub-menu" style="width: 110px;">
 															<li><a href="http://localhost:8080/HiCamp/membercenter">會員中心</a></li>
+															<li><a href="http://localhost:8080/HiCamp/activity/memberCenterFindAllSignupOrders">活動訂單</a></li>
 															<li><a href="http://localhost:8080/HiCamp/campsite/getBooking">營區訂單</a></li>
 															<li><a th:href="@{/forum/showpostbymember/{memberNo}(memberNo=${session.memberNo})}">我的文章</a></li>
 															<li><a href="http://localhost:8080/HiCamp/projectmembersetting">設定</a></li>

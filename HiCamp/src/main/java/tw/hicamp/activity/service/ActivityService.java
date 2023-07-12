@@ -80,6 +80,22 @@ public class ActivityService {
 		}
 		return null;
 	}
+	
+	@Transactional
+	public Activity updateActivityDtoById(Integer activityNo, String activityType, String activityName,
+			String activityLocation, String activityInfo) {
+		Optional<Activity> optional = actRepo.findById(activityNo);
+		if (optional.isPresent()) {
+			Activity activity = optional.get();
+			activity.setActivityType(activityType);
+			activity.setActivityName(activityName);
+			activity.setActivityLocation(activityLocation);
+			activity.setActivityInfo(activityInfo);
+
+			return activity;
+		}
+		return null;
+	}
 
 //	delete----------------------------------------------------------------------
 	public void deleteById(Integer activityNo) {

@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>訂單資訊確認</title>
+
+	<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<!-- owl carousel -->
+	<link rel="stylesheet" href="assets/css/owl.carousel.css">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<!-- animate css -->
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+	<!-- main style -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="assets/css/responsive.css">
+
+<style>
+.cartbody-row {
+    height: 50px;
+}
+</style>
+</head>
+<body>
+	
+	<div th:replace="~{/layout/frontTopBar}"></div>
+
+	
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Hiking and Camping</p>
+						<h1>Check Out Sign Up Information</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+	
+	<!-- test  -->
+		<div class="checkout-section mt-150 mb-150" style="margin: 30px;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="checkout-accordion-wrap">
+						<div class="accordion" id="accordionExample" style="width:1298px;">
+						
+						<div class="card single-accordion">
+						    <div class="card-header" id="headingThree">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+						          報名行程確認
+						        </button>
+						      </h5>
+						    </div>
+						    
+						    <div id="collapseThree" class="collapse show" aria-labelledby="headingThree" >
+						      <div class="card-body" style="padding:0; margin:0;">
+						        <div class="card-details">
+						        	<div class="col-lg-16 col-md-24" style="padding:0; margin:0;">
+					<div class="cart-table-wrap">
+						<form th:action="@{/activity/placeOrder}" method="post" th:object="${activitySignupOrderDto}">
+						<table class="cart-table">
+							<thead class="cart-table-head">
+								<tr class="table-head-row">
+									<th class="product-image" >活動照片</th>
+									<th class="product-no" >活動日期</th>
+									<th class="product-name" >活動名稱</th>
+									<th class="product-price" >活動價格</th>
+									<th class="product-quantity" >活動數量</th>
+									<th class="product-total" >總計金額</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="table-body-row cartbody-row">
+									<td class="product-image"><img style="height: 50px;" th:src="'http://localhost:8080/HiCamp/activity/showPictures?activityPictureNo='+${activitySignupOrderDto.activityPictureNo}"></td>
+									<td class="product-no"><input style="outline: none; border: none;" th:value="'出發日期: ' + ${#dates.format(activitySignupOrderDto.activityDepartureDate, 'yyyy-MM-dd')}" readonly><br>
+															<input style="outline: none; border: none;" th:value="'結束日期: ' + ${#dates.format(activitySignupOrderDto.activityReturnDate, 'yyyy-MM-dd')}" readonly>
+															<input type="hidden" id="activityPeriodNo" th:value="${activitySignupOrderDto.activityPeriodNo}"></td>
+									<td class="product-name"  th:text="${activitySignupOrderDto.activityName}" id="activityName"></td>
+									<td id="activityPeriodPrice"  th:text="${activitySignupOrderDto.activityPeriodPrice}"></td>
+									<td class="product-quantity"><input type="number"  min="1" id="quantityInput"></td>
+									<td class="product-total" id="signupTotalAmount" ></td>
+								</tr>
+							</tbody>
+						</table>
+						</form>
+					</div>
+				</div>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+
+	<!-- check out section -->
+	<div class="checkout-section mt-150 mb-150" style="margin: 20px;">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="checkout-accordion-wrap">
+						<div class="accordion" id="accordionExample">
+						
+						  <div class="card single-accordion">
+						    <div class="card-header" id="headingOne">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						          個人資料確認
+						        </button>
+						      </h5>
+						    </div>
+
+						    <div id="collapseOne" class="collapse hidden" aria-labelledby="headingOne" data-parent="#accordionExample">
+						      <div class="card-body">
+						        <div class="billing-address-form">
+						        	<form th:action="@{/activity/checkOrder}" method="get" th:object="${activitySignupOrderDto}">
+									    <input type="hidden" th:field="*{memberNo}" id="memberNo" >
+									    <p>姓名:<input type="text" th:field="*{memberName}" placeholder="Name"></p>
+									    <p>性別:<input type="text" th:field="*{memberGender}" placeholder="Gender"></p>
+									    <p>生日(西元):<input type="text" th:field="*{memberBirthday}" placeholder="BirthDay(XXXX/XX/XX)"></p>
+									    <p>身分證字號:<input type="text" th:field="*{memberId}" placeholder="ID"></p>
+									    <p>連絡電話:<input type="text" th:field="*{memberPhone}" placeholder="Phone"></p>
+									    <p>Email:<input type="email" th:field="*{memberEmail}" placeholder="Email"></p>
+									    <p>聯絡地址:<input type="text" th:field="*{memberAddress}" placeholder="Address"></p>
+									    <p>緊急聯絡人:<input type="text" th:field="*{memberEmergencyContact}" placeholder="Emergency Contact"></p>
+									    <p>緊急聯絡人電話:<input type="text" th:field="*{memberEmergencyPhone}" placeholder="Emergency Contact Phone"></p>
+									    <p>備註:<textarea name="bill" id="bill" cols="30" rows="10" placeholder="此資料僅供申辦保險及申請山屋及營位用途"></textarea></p>
+									</form>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						  
+						  <div class="card single-accordion">
+						    <div class="card-header" id="headingOne">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+						          付款方式確認
+						        </button>
+						      </h5>
+						    </div>
+
+						 <div id="collapseTwo" class="collapse hidden" aria-labelledby="headingTwo" data-parent="#accordionExample">
+						    <div class="card-body">
+						      <div class="billing-address-form">
+						        <div class="form-group">
+						          <label for="payment-method">付款方式:　</label>
+						          <select class="form-control" id="payment-method" onchange="showPaymentInfo()">
+						            <option value="linepay">LinePay支付</option>
+						            <option value="banktransfer">銀行匯款</option>
+						          </select>
+						        </div>
+						        <div id="payment-info" style="display: none;">
+						          <p>請匯款至以下帳號：</p>
+						          <p>銀行：登露山林登出資策會商銀</p>
+						          <p>帳號：112 3456-7890-3210</p>
+						           <div id="bank-code-input" style="display: none;">
+						            <label for="bank-code">請輸入銀行末五碼:</label>
+						            <input type="text" class="form-control" id="bank-code" maxlength="5" oninput="checkBankCode(this)" style="width:150px;">
+						            <div id="bank-code-error" style="color: red; display: none;">請輸入正確的末五碼（僅限數字）</div>
+						          </div>
+						        </div>
+						      </div>
+						    </div>
+						  </div>
+						</div>
+						  
+						  
+						  <!--  
+						    <div class="card single-accordion">
+						    <div class="card-header" id="headingOne">
+						      <h5 class="mb-0">
+						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+						          個人資料(2)確認
+						        </button>
+						      </h5>
+						    </div>
+						    
+						    <div id="collapseTwo" class="collapse hidden" aria-labelledby="headingOne" data-parent="#accordionExample">
+						      <div class="card-body">
+						        <div class="billing-address-form">
+									    <p>姓名:<input type="text"  placeholder="Name"></p>
+									    <p>性別:<input type="text"  placeholder="Gender"></p>
+									    <p>生日(西元):<input type="text"  placeholder="BirthDay(XXXX/XX/XX)"></p>
+									    <p>身分證字號:<input type="text"  placeholder="ID"></p>
+									    <p>連絡電話:<input type="text"  placeholder="Phone"></p>
+									    <p>Email:<input type="email" placeholder="Email"></p>
+									    <p>聯絡地址:<input type="text"  placeholder="Address"></p>
+									    <p>緊急聯絡人:<input type="text"  placeholder="Emergency Contact"></p>
+									    <p>緊急聯絡人電話:<input type="text"  placeholder="Emergency Contact Phone"></p>
+									    <p>備註:<textarea name="bill" id="bill" cols="30" rows="10" placeholder="此資料僅供申辦保險及申請山屋及營位用途"></textarea></p>
+						        </div>
+						      </div>
+						    </div>
+						    
+						  </div>
+						  
+						   -->		
+						</div>
+
+					</div>
+				</div>
+
+				<div class="col-lg-4">
+					<div class="total-section">
+						<table class="total-table">
+							<thead class="total-table-head">
+								<tr class="table-total-row">
+									<th>總計: Total</th>
+									<th>Price</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="total-data">
+									<td><strong >總計金額: </strong></td>
+									<td id="totalPrice">$</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="cart-buttons" style="float:right;">
+							<a class="placeOrderBtn boxed-btn black" id="placeOrderBtn" >確認送出</a>
+						</div>
+					</div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+
+
+
+
+<div th:replace="~{/layout/frontBottomBar}"></div>
+
+<script>
+$(document).ready(function() {
+    let quantity = sessionStorage.getItem("quantity");
+    $("#quantityInput").val(quantity);
+    console.log(quantity);
+
+    cal();
+    totalPrice()
+});
+
+$("#quantityInput").change(function(){
+    cal();
+    totalPrice();
+})
+
+function cal(){    
+    let quantity = $("#quantityInput").val();
+    let price = $("#activityPeriodPrice").text().replace(/,/g, '');
+    console.log(price);
+    $("#signupTotalAmount").text(quantity * price);
+}
+
+function totalPrice(){
+    $("#totalPrice").text($("#signupTotalAmount").text());
+}
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+<script>
+
+var placeOrderBtn = document.getElementById("placeOrderBtn");
+
+placeOrderBtn.addEventListener("click", function(event) {
+
+ var orderData = {
+    activityPeriodNo: $("#activityPeriodNo").val(),
+    signupDate: new Date(), 
+    signupTotalAmount: $("#totalPrice").text(),
+    signupQuantity: $("#quantityInput").val(),
+    signupPaymentStatus: "已付款" 
+  };
+	$.ajax({
+		url: "http://localhost:8080/HiCamp/activity/placeOrder",
+		type: "post",
+		data: orderData,
+		success: function(responseSignupNo){
+
+      	var linePayInfo = {
+        activityName: $("#activityName").text(),
+        activityPeriodPrice: $("#activityPeriodPrice").text(),
+        activitySignupNo: responseSignupNo, 
+        signupTotalAmount: $("#totalPrice").text(),
+        activityPeriodNo: $("#activityPeriodNo").val(),
+        signupQuantity: $("#quantityInput").val()
+        
+        
+      };
+
+      $.ajax({
+        url: "http://localhost:8080/HiCamp/activity/makePaymentViaLinePay",
+        type: "post", 
+        data: linePayInfo,
+        success: function(paymentUrl){
+		   window.location.href = paymentUrl + "&redirect=" + encodeURIComponent("/HiCamp/activity/memberCheckSignupOrder?activitySignupNo=" + responseSignupNo);
+        },
+ 	    error: function(jqXHR, textStatus, errorThrown) {
+        console.log("AJAX request failed: " + textStatus + ", " + errorThrown);
+        window.history.back();
+        }
+      });
+    }
+  });
+});
+
+</script>
+
+<script>
+function showPaymentInfo() {
+  var paymentMethod = document.getElementById("payment-method").value;
+  var paymentInfo = document.getElementById("payment-info");
+  var bankCodeInput = document.getElementById("bank-code-input");
+  
+  if (paymentMethod === "banktransfer") {
+    paymentInfo.style.display = "block";
+    bankCodeInput.style.display = "block";
+  } else {
+    paymentInfo.style.display = "none";
+    bankCodeInput.style.display = "none";
+  }
+}
+
+function checkBankCode(input) {
+  var bankCode = input.value;
+  var bankCodeError = document.getElementById("bank-code-error");
+  
+  var numberPattern = /^\d+$/;
+  var isValid = numberPattern.test(bankCode);
+  
+  if (bankCode.length !== 5 || !isValid) {
+    bankCodeError.style.display = "block";
+  } else {
+    bankCodeError.style.display = "none";
+  }
+}
+</script>
+</body>
+</html>

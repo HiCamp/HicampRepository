@@ -311,7 +311,6 @@
     deleteBtns.forEach(deleteBtn => {
       deleteBtn.addEventListener('click', function (e) {
         e.preventDefault();
-        console.log($(this))
         let actPicId = this.getAttribute('data-actPicId');
         swal({
           title: '是否確認刪除照片?',

@@ -7,8 +7,13 @@
   <!-- mobile metas -->
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  
+      <link rel="stylesheet" type="text/css" href="/jquery.datetimepicker.css"/ >
+          <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+    <link rel="stylesheet" href="/resources/demos/style.css">
+      
 
- <title>顯示所有活動列表(後台管理)</title>
+ <title>顯示所有活動列表(後台管理含照片期別)</title>
 
  <style>
     /* */
@@ -48,9 +53,8 @@
               <div class="col-md-12">
                 <div class="page_title" style="display: flex; align-items: center;">
                   <h2>活動列表</h2>
-
-<!-----新增活動按鈕------>
-                  <button type="button" class="create btn btn-outline-danger btn-lg" style="margin-left: 50px"
+                  
+                   <button type="button" class="create btn btn-outline-danger btn-lg" style="margin-left: 50px"
                     data-bs-toggle="modal" data-bs-target="#exampleModal">新增活動</button>
 
                 </div>
@@ -65,10 +69,13 @@
                     <th style="width: 100px;">活動編號</th>
                     <th style="width: 100px;">活動類型</th>
                     <th style="width: 100px;">活動名稱</th>
-                    <th style="width: 100px;">活動地點</th>
-                    <th style="width: 300px;">活動資訊</th>
+                    <th style="width: 100px;">活動價格($NT)</th>
                     <th style="width: 100px;">活動名額</th>
-                    <th style="width: 100px;">活動價格</th>
+                                        
+                    <th style="width: 100px;">期別編號</th>
+                    <th style="width: 100px;">出發日期</th>
+                    <th style="width: 100px;">回程日期</th>
+                    <th style="width: 100px;">報名人數</th>
                     <th style="width: 100px;">編輯資料</th>
                   </tr>
                 </thead>
@@ -77,29 +84,30 @@
                     <tr>
                       <td th:text="${activity.activityNo}"></td>
                       <td th:text="${activity.activityType}"></td>
-                      <td th:text="${activity.activityName}"
-                        style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 120px">
-                      </td>
-                      <td th:text="${activity.activityLocation}"></td>
-                      <td th:text="${activity.activityInfo}"
-                        style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 320px">
-                      </td>
-                      <td th:text="${activity.activityQuota}"></td>
-                      <td th:text="${activity.activityPrice}"></td>
+                      <td th:text="${activity.activityName}" style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 120px"></td>
+                      <td th:text="${activity.activityPeriodQuota}"></td>
+                      <td th:text="${activity.activityPeriodPrice}"></td>
+                      <td th:text="${activity.activityPeriodNo}"></td>
+                      <td th:text="${#dates.format(activity.activityDepartureDate, 'yyyy-MM-dd')}"></td>
+                      <td th:text="${#dates.format(activity.activityReturnDate, 'yyyy-MM-dd')}"></td>   
+                      <td th:text="${activity.signupQuantity}"></td>
                       <td><button class="edit-btn btn btn-sm" th:data-actId="${activity.activityNo}">編輯</button></td>
 
                     </tr>
                   </th:block>
+                  
                 </tbody>
                 <tfoot>
                   <tr>
                     <th>活動編號</th>
                     <th>活動類型</th>
                     <th>活動名稱</th>
-                    <th>活動地點</th>
-                    <th>活動資訊</th>
-                    <th>活動名額</th>
                     <th>活動價格</th>
+                    <th>活動名額</th>
+                    <th>期別編號</th>
+                    <th>出發日期</th>
+                    <th>回程日期</th>
+                    <th>報名人數</th>
                     <th>編輯資料</th>
                   </tr>
                 </tfoot>
@@ -114,7 +122,7 @@
   </div>
   
   
-  	<!------------新增活動彈跳視窗內容-------------  <!--剩下判斷時間--> 
+   	<!------------新增活動彈跳視窗內容------------->
                   <div class="modal fade" id="exampleModal" data-bs-backdrop="static" tabindex="-1"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
                     <div class="modal-dialog modal-xl">
@@ -124,7 +132,7 @@
                           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
 
-                        <form th:action="@{/activity/insertData}" method="post" enctype="multipart/form-data"
+                        <form th:action="@{/activity/insertActivity}" method="post" enctype="multipart/form-data"
                           id="insertForm">
 
                           <div class="modal-body" style="display: flex; flex-wrap: wrap;">
@@ -134,13 +142,15 @@
                               <p>活動照片:</p>
                               <div>
                                 <img id="imgPreview" src="#"
-                                  style="max-width: 600px; max-height: 400px; display: none" />
+                                  style="max-width: 600px; max-height: 450px; display: none" />
+                                <br>
                                 <input type="file" name="activityPicture" id="imgInput" multiple></input>
                               </div>
                             </div>
 
           <!------摘要(右上)------>
                             <div style="width: 450px; float: right; margin-left: 30px;">
+                            
                               <p>活動摘要:</p>
                               <div>
                                 <label for="" class="col-form-label">活動類型:</label>
@@ -171,6 +181,36 @@
                                 </datalist>
                               </div>
 
+
+                              <div style="float:left">
+                                <label for="" class="col-form-label">出發日期:</label>
+                              <input type="text" id="activityDepartureDate" name="activityDepartureDate" class="form-control" style="width:210px;">
+                              </div>
+                              
+                              <div style="float:right">
+                                <label for="" class="col-form-label">回程日期:</label>
+                                <input type="text"  id="activityReturnDate" name="activityReturnDate" class="form-control" style="width:210px;">
+                              </div>
+                              
+                              <div style="display:none">
+                                <label for="" class="col-form-label">報名名額:</label>
+                                <input type="text" class="form-control" id="signupQuantity" name="signupQuantity" placeholder="0" value="0" >
+                              </div>
+                              
+                              <!-- activityPeriod的名額&價格 -->
+                              
+                              <div style="display:none">
+                                <label for="" class="col-form-label">活動名額:</label>
+                                <input type="text" class="form-control" id="activityPeriodQuota" name="activityPeriodQuota" placeholder="請輸入名額" >
+                              </div>
+                              
+                              <div style="display:none">
+                                <label for="" class="col-form-label">活動價格:</label>
+                                <input type="text" class="form-control" id="activityPeriodPrice" name="activityPeriodPrice" placeholder="請輸入價格"   >
+                              </div>
+                            
+                              <!-- activityPeriod的名額&價格END -->
+
                               <div>
                                 <label for="" class="col-form-label">活動地點:</label>
                                 <input type="text" class="form-control" id="activityLocation" name="activityLocation"
@@ -188,7 +228,7 @@
 
                               <div>
                                 <label for="" class="col-form-label">活動名額:</label>
-                                <input type="text" class="form-control" id="activityQuota" name="activityQuota"
+                                <input type="number" class="form-control" id="activityQuota" name="activityQuota"
                                   list="quotalist" placeholder="請輸入名額">
                                 <datalist id="quotalist">
                                   <option value="30"></option>
@@ -210,6 +250,12 @@
                                   <option value="5000"></option>
                                 </datalist>
                               </div>
+
+                              <div>
+                                <label for="" class="col-form-label">報名截止日期:</label>
+                                <input type="text" id="signupDeadline" name="signupDeadline" class="form-control">
+                              </div>
+                              
                             </div>
 
 
@@ -224,12 +270,14 @@
 
        <!-------- 按鈕 -------->
                           <div class="modal-footer">
-                            <button type="submit" class="btn btn-outline-primary">確定</button>
+                            <button type="submit" class="btn btn-outline-primary" id="checkReturnDate">確定</button>
                             <button type="reset" class="my-reset-data-btn btn btn-outline-primary">清除</button>
                             <button type="button" id="fillData"
                               class="my-filldata-data-btn btn btn-outline-primary">一鍵輸入</button>
                           </div>
+                          
                         </form>
+                        
                       </div>
                     </div>
                   </div>
@@ -237,13 +285,16 @@
 <!------------------------------------------新增活動END------------------------------------------>
   
 
+
   <script th:src="@{/js/jquery-3.3.1.min.js}"></script>
   <script th:src="@{/js/bootstrap.bundle.min.js}"></script>
   <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 
 <!--   一鍵輸入 -->
   <script>
+    const url = "http://localhost:8080/HiCamp/activity/inserttest";
     const btnPreview = document.querySelector(".my-preview-data-btn")
+
     const btnFilldata = document.querySelector(".my-filldata-data-btn");
 
     function fillData() {
@@ -256,24 +307,46 @@
           "雖然說玉山、雪山是台灣最高的山峰，但是在許多台灣山岳人的心目中，「帝王之山」的封號，恐怕得頒給中央山脈北一段的「南湖大山」，而南湖大山甚至還不是中央山脈最高峰呢。而「南湖大山」能夠有這樣的稱號，得自於其威儀厚重、氣勢偉岸的山型，不管從任何角度、任何距離看過去，南湖大山皆是一派端凝莊嚴之氣象。除此之外，南湖山區並不只有南湖大山這一座山，還有數座高低不等、有著各自獨特性格的山峰，有如眾星拱月般護衛著南湖大山主峰，因此更具帝王之相的意義啦！而除了數座高聳入雲的百岳名峰之外，南湖山區有著台灣最完整多變的冰河地形（如壯麗的上、下圈谷）、台灣唯一的「寒漠」地質、台灣最長的冰封雪季、還有一些世界獨有的原生物種....甚至南湖山區似乎帶著某種鍾靈毓秀的天地靈氣，讓南湖大山成為許多愛山人魂牽夢縈的高山美地，總是一而再、再而三地多次拜訪，有些人認為必須春夏秋冬四季都走過一遍，才算是完整的登過南湖大山。";
         document.getElementById("activityQuota").value = "35";
         document.getElementById("activityPrice").value = "12000";
+        document.getElementById("activityPeriodQuota").value = "35";
+        document.getElementById("activityPeriodPrice").value = "12000";
+        document.getElementById("activityDepartureDate").value = "2023/06/01";
+        document.getElementById("activityReturnDate").value = "2023/06/06";
+        document.getElementById("signupDeadline").value = "2023/05/06";
+        
       });
     }
     document.getElementById("fillData").addEventListener("click", fillData);
   </script>
 
 
-  <script>
-    var editBtn = document.getElementsByClassName("edit-btn");
 
-    for (i = 0; i < editBtn.length; i++) {
-      editBtn[i].addEventListener('click', function (e) {
-        const actId = this.getAttribute('data-actId');
-        console.log('actId:' + actId);
-        window.location.href = "http://localhost:8080/HiCamp/activity/findByNo?activityNo=" + actId;
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    <script>
+        $(function () {
+            $("#activityDepartureDate").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+        
+        $(function () {
+            $("#activityReturnDate").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+        
+        $(function () {
+            $("#signupDeadline").datepicker({
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+        
+    </script>
+    
 
-      });
-    }
-  </script>
 
   <script>
     $("#imgInput").change(function () {
@@ -291,10 +364,46 @@
     }
 
   </script>
-
+  
   <script>
     $('form').on('submit', function (e) {
       e.preventDefault();
+      
+    var departureDate = new Date(document.getElementById("activityDepartureDate").value);
+    var returnDate = new Date(document.getElementById("activityReturnDate").value);
+    var signupDeadline = new Date(document.getElementById("signupDeadline").value);
+
+	if (returnDate < departureDate) {
+     swal({
+ 	   title: "",
+ 	   text: "回程日期不能早於出發日期！",
+  	  icon: "error",
+  	  button: "確定"
+  	});
+	  return;
+	}
+	
+	if (signupDeadline > departureDate) {
+     swal({
+ 	   title: "",
+ 	   text: "截止日期不能晚於出發日期！",
+  	  icon: "error",
+  	  button: "確定"
+  	});
+	  return;
+	}
+	
+	if (signupDeadline > returnDate) {
+     swal({
+ 	   title: "",
+ 	   text: "截止日期不能晚於出發日期！",
+  	  icon: "error",
+  	  button: "確定"
+  	});
+	  return;
+	}
+	
+      
       swal({
         title: '是否確認送出?',
         text: "",
@@ -313,13 +422,28 @@
     });
 
   </script>
+  
+  
+  <script>
+    var editBtn = document.getElementsByClassName("edit-btn");
 
+    for (i = 0; i < editBtn.length; i++) {
+      editBtn[i].addEventListener('click', function (e) {
+        const actId = this.getAttribute('data-actId');
+        console.log('actId:' + actId);
+        window.location.href = "http://localhost:8080/HiCamp/activity/findActivityWithPicPeriodByActivityNo?activityNo=" + actId;
+
+      });
+    }
+  </script>
+
+<!-- DataTable -->
 <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
- <script>
+<script>
       $(document).ready(function () {
          $('#example').DataTable();
       });
-   </script>
+</script>
 
 </body>
 

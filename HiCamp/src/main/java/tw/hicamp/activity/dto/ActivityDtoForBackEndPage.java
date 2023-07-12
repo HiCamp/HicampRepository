@@ -2,7 +2,7 @@ package tw.hicamp.activity.dto;
 
 import java.util.Date;
 
-public class ActivityDto {
+public class ActivityDtoForBackEndPage {
 
 	private Integer activityNo;
 
@@ -12,12 +12,8 @@ public class ActivityDto {
 
 	private String activityInfo;
 
-	private Integer activityQuota;
-
-	private Integer activityPrice;
-
-	private Integer activityPicNo;
-
+	private String activityLocation;
+	
 	private Integer activityPeriodNo;
 
 	private Date activityDepartureDate;
@@ -26,8 +22,12 @@ public class ActivityDto {
 
 	private Date signupDeadline;
 	
-	private Integer RemainingQuota;
-
+	private Integer signupQuantity;
+	
+	private Integer activityPeriodQuota;
+	
+	private Integer activityPeriodPrice;
+	
 	public Integer getActivityNo() {
 		return activityNo;
 	}
@@ -60,28 +60,12 @@ public class ActivityDto {
 		this.activityInfo = activityInfo;
 	}
 
-	public Integer getActivityQuota() {
-		return activityQuota;
+	public String getActivityLocation() {
+		return activityLocation;
 	}
 
-	public void setActivityQuota(Integer activityQuota) {
-		this.activityQuota = activityQuota;
-	}
-
-	public Integer getActivityPrice() {
-		return activityPrice;
-	}
-
-	public void setActivityPrice(Integer activityPrice) {
-		this.activityPrice = activityPrice;
-	}
-
-	public Integer getActivityPicNo() {
-		return activityPicNo;
-	}
-
-	public void setActivityPicNo(Integer activityPicNo) {
-		this.activityPicNo = activityPicNo;
+	public void setActivityLocation(String activityLocation) {
+		this.activityLocation = activityLocation;
 	}
 
 	public Integer getActivityPeriodNo() {
@@ -100,6 +84,8 @@ public class ActivityDto {
 		this.activityDepartureDate = activityDepartureDate;
 	}
 
+	
+
 	public Date getActivityReturnDate() {
 		return activityReturnDate;
 	}
@@ -116,13 +102,31 @@ public class ActivityDto {
 		this.signupDeadline = signupDeadline;
 	}
 
-	public Integer getRemainingQuota() {
-		return RemainingQuota;
+	public Integer getSignupQuantity() {
+		return signupQuantity;
 	}
 
-	public void setRemainingQuota(Integer remainingQuota) {
-		RemainingQuota = remainingQuota;
+	public void setSignupQuantity(Integer signupQuantity) {
+		this.signupQuantity = signupQuantity;
 	}
+
+	public Integer getActivityPeriodQuota() {
+		return activityPeriodQuota;
+	}
+
+	public void setActivityPeriodQuota(Integer activityPeriodQuota) {
+		this.activityPeriodQuota = activityPeriodQuota;
+	}
+
+	public Integer getActivityPeriodPrice() {
+		return activityPeriodPrice;
+	}
+
+	public void setActivityPeriodPrice(Integer activityPeriodPrice) {
+		this.activityPeriodPrice = activityPeriodPrice;
+	}
+
+
 
 
 }

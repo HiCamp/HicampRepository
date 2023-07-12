@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!-- basic -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- mobile metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+  <link th:href="@{/activity/bootstrap.min.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/sweetalert/dist/sweetalert.css" />
+  <link rel="stylesheet" type="text/css" href="/jquery.datetimepicker.css" />
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
+
+
+  <style>
+    input,
+    textarea {
+      border: 1px solid #ccc;
+      margin-top: 3%;
+      border-radius: 4px;
+      font-size: 16px;
+      outline: none;
+      padding: 10px;
+      text-size-adjust: auto;
+      width: 700px;
+      font-size: 100%;
+    }
+
+    .editDiv {
+      position: relative;
+    }
+
+    .editBtn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 99;
+    }
+
+    .photo-output {
+      z-index: 1;
+    }
+    
+    table{
+    font-size:1.5em;
+    
+    }
+    
+    .title {
+    font-size:1em; 
+}
+  </style>
+
+</head>
+
+<body class="dashboard dashboard_1">
+  <div class="full_container">
+    <div class="inner_container">
+      <!-- Sidebar  -->
+      <div th:replace="~{layout/leftbar}"></div>
+      <!-- right content -->
+      <div id="content">
+        <!-- topbar -->
+        <div th:replace="~{layout/topbar}"></div>
+        <!-- end topbar -->
+        <!-- dashboard inner -->
+
+        <h2>更新訂單資料</h2>
+        <div class="page_title" style="display: flex; align-items: center;">
+          <!-- 這裡不要忘了換 -->
+
+          <div style="justify-content: center; display: flex;">
+
+            <div>
+            
+ <!-- ====================================== 預覽活動資料(右)====================================== -->
+ <div class="container my-4">
+
+     <div class="row mb-3">
+        <div class="col text-end">
+        <button type="button" class="cancelBtn btn btn-outline-dark btn-lg" style="margin-left: 670px;">回到訂單列表</button>
+        </div>
+    </div>
+    
+       <div class="row">
+        <div class="col">
+        
+    <form id="formData" th:object="${signupOrderDto}">
+    
+                    <table class="table">
+                       <tr>
+                        <td class="title" style="width: 200px;">訂單編號:</td>
+                        <td><input type="number" th:field="*{activitySignupNo}" class="form-control" readonly></td>
+                    </tr>
+                       <tr>
+                        <td class="title" style="width: 200px;">報名日期:</td>
+                        <td><input type="text" th:value="${#dates.format(signupOrderDto.signupDate, 'yyyy-MM-dd')}" id="signupDate"></td>
+                    </tr>
+                       <tr>
+                        <td class="title" style="width: 200px;">訂單總額:</td>
+                        <td><input type="text" th:field="*{signupTotalAmount}" th:value="${signupOrderDto.signupTotalAmount}"></td>
+                    </tr>
+                       <tr>
+                        <td class="title" style="width: 200px;">訂購數量:</td>
+                        <td><input type="text" th:field="*{signupQuantity}" th:value="${signupOrderDto.signupQuantity}"></td>
+                    </tr>
+                   
+                    <tr>
+                        <td class="title" style="width: 200px;">付款狀態:</td>
+                        <td>
+                            <select id="paymentStatusSelect" th:field="*{signupPaymentStatus}" class="form-select" style="font-size:1em;">
+                                <option value="" disabled selected></option>
+                                <option value="已付款">已付款</option>
+                                <option value="未付款">未付款</option>
+                            </select>
+                        </td>
+                    </tr>
+                   </table> 
+                    
+                <div>
+                    <button type="submit" class="submitBtn btn btn-outline-dark btn-lg">送出</button>
+                    <button type="reset" class="cancelBtn btn btn-outline-dark btn-lg" id="cancelBtn">取消</button>
+                </div>
+                
+                <br>
+                
+             <!-- 顯示會員資訊 -->
+              <div>
+             <h2 style="font-weight: bold;">會員資訊:　</h2>
+                          <br>
+                   <table class="table">
+                    <tr>
+                        <td class="title" style="width: 200px;">會員編號:</td>
+                        <td><input type="number" th:field="*{memberNo}" ></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">會員性別:</td>
+                        <td><input type="text" th:field="*{memberGender}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">會員電話:</td>
+                        <td><input type="text" th:field="*{memberPhone}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">聯絡地址:</td>
+                        <td><input type="text" th:field="*{memberAddress}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">Email:　</td>
+                        <td><input type="text" th:field="*{memberEmail}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">身分證字號:　</td>
+                        <td><input type="text" th:field="*{memberId}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">生日(西元):　</td>
+                        <td><input type="text" th:field="*{memberBirthday}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">緊急聯絡人:　</td>
+                        <td><input type="text" th:field="*{memberEmergencyContact}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">緊急聯絡人電話:</td>
+                        <td><input type="text" th:field="*{memberEmergencyPhone}" readonly></td>
+                    </tr>
+                   </table> 
+         </div>
+                         
+                <br>
+                
+             <!-- ------顯示活動資料------ -->
+             <div>
+             <h2 style="font-weight: bold;">活動資料:</h2>
+             <br>
+                   <table class="table">
+                    <tr>
+                        <td class="title" style="width: 200px;"> 期別編號:</td>
+                        <td><input type="number" th:field="*{activityPeriodNo}" ></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">活動類型:</td>
+                        <td><input type="text" th:field="*{activityType}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">活動名稱:</td>
+                        <td><input type="text" th:field="*{activityName}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">集合地點:</td>
+                        <td><input type="text" th:field="*{activityLocation}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">活動價格:＄　</td>
+                        <td><input type="text" th:field="*{activityPeriodPrice}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;">出發日期:　</td>
+                        <td><input type="text" th:value="${#dates.format(signupOrderDto.activityDepartureDate, 'yyyy-MM-dd')}" readonly></td>
+                    </tr>
+                    <tr>
+                        <td class="title" style="width: 200px;"> 回程日期:　</td>
+                        <td><input type="text" th:value="${#dates.format(signupOrderDto.activityReturnDate, 'yyyy-MM-dd')}" readonly></td>
+                    </tr>
+                   </table> 
+         </div>
+    </form>
+</div>
+
+</div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- JS -->
+
+
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script th:src="@{/activity/bootstrap.bundle.min.js}"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
+    
+    
+ 
+ <!-- 取消&回到訂單列表 -->
+    <script>
+      var cancelBtn = document.querySelector(".cancelBtn");
+
+      cancelBtn.addEventListener('click', function () {
+        window.location.href = "http://localhost:8080/HiCamp/activity/findAllSignupOrdersDto";
+      });
+
+    </script>
+    
+    
+    
+<!-- DatePicker -->
+    <script>
+      $(function () {
+        $("#signupDate").datepicker({
+          changeMonth: true,
+          changeYear: true
+        });
+      });
+
+    </script>
+    
+<!-------------編輯訂單----------------------------------->
+  <script>
+    $(".submitBtn").click(function (e) {
+
+      e.preventDefault();
+      
+      let memberNo = $("#memberNo").val();
+      let activitySignupNo = $("#activitySignupNo").val();
+      let activityPeriodNo = $("#activityPeriodNo").val();
+      let signupDate = $("#signupDate").val();
+      let signupTotalAmount = $("#signupTotalAmount").val();
+      let signupPaymentStatus = $("#paymentStatusSelect option:selected").val();
+      let signupQuantity = $("#signupQuantity").val();
+      
+		console.log(activityPeriodNo)
+      let formData = {
+        "memberNo": memberNo,
+        "activitySignupNo": activitySignupNo,
+        "activityPeriodNo": activityPeriodNo,
+        "signupDate": signupDate,
+        "signupTotalAmount": signupTotalAmount,
+        "signupPaymentStatus": signupPaymentStatus,
+        "signupQuantity": signupQuantity
+      }
+
+      $.ajax({
+        url: "http://localhost:8080/HiCamp/activity/updateSignupOrder",
+        type: "put",
+        data: formData,
+        success: function (response) {
+          console.log(response);
+          swal({
+            icon: 'success',
+            text: '編輯成功'
+          })
+            .then(() => {
+              location.reload();
+            });
+
+        },
+        error: function (err) {
+          console.log(JSON.stringify(err));
+        }
+      });
+    })
+  </script>
+  
+  <!-------------更新資料:取消輸入的值(顯示原本資料)-------------------------->
+  <script>
+    var cancelBtn = document.getElementById("cancelBtn");
+    var formData = document.getElementById("formData");
+    var originalFormData = new FormData(formData);
+
+    cancelBtn.addEventListener("click", function () {
+      var inputs = formData.getElementsByTagName("input");
+
+      for (var i = 0; i < inputs.length; i++) {
+        var fieldName = inputs[i].getAttribute("th:field");
+        if (fieldName) {
+          inputs[i].value = originalFormData.get(fieldName);
+        }
+      }
+
+      var textarea = formData.getElementsByTagName("textarea")[0];
+      var fieldName = textarea.getAttribute("th:field");
+      if (fieldName) {
+        textarea.value = originalFormData.get(fieldName);
+      }
+    });
+  </script>
+
+  </body>
+
+</html>
