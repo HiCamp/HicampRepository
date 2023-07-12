@@ -1,0 +1,89 @@
+:root {
+    --text_color: #D08856;
+    --footer_color: #41403C;
+    --bgc_color: #d5f3f5;
+}
+
+.member ul {
+    position: absolute;
+    bottom: -100%;
+    left: 0;
+    display: none;
+}
+
+.article {
+    margin: 200px 0 150px 500px;
+    position: relative;
+    width: 50%;
+}
+
+#search {
+    position: absolute;
+    right: 0;
+    top: -40px;
+    font-size: 20px;
+}
+
+.memberInformation {
+    width: 100%;
+    font-size: 20px;
+    color: var(--text_color);
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 10px
+}
+
+.memberInformation th,
+.memberInformation td {
+    height: 2em;
+    text-align: center;
+}
+
+.th1,
+.th2{
+	width: 8em;
+}
+
+.th3{
+	width: 14em;
+}
+
+.th4{
+	width: 6em;
+}
+
+.memberInformation tbody input {
+    border: none;
+    width: 5em;
+    text-align: center;
+    font-size: 20px;
+    color: var(--text_color);
+}
+
+.memberInformation tbody input:focus {
+    outline: none;
+}
+
+.memberInformation tbody button {
+    font-size: 20px;
+    width: 3em;
+    border: none;
+    font-weight: bold;
+    color: white;
+    background-color: var(--text_color);
+    border: 1px solid var(--text_color);
+    border-radius: 3px;
+    padding: 3px 5px;
+    cursor: pointer;
+}
+
+.memberInformation tbody button:hover {
+    color: var(--text_color);
+    background-color: white;
+    border: 1px solid var(--text_color);
+
+}
+
+footer {
+    position: static;
+}

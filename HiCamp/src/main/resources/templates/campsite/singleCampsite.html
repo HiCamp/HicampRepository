@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+	<!-- title -->
+	<title>登露HiCamp</title>
+
+	<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<!-- owl carousel -->
+	<link rel="stylesheet" href="assets/css/owl.carousel.css">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<!-- animate css -->
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+	<!-- main style -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="assets/css/responsive.css">
+
+
+</head>
+
+<body>
+
+	<div th:replace="~{/layout/frontTopBar}"></div>
+	<!--PreLoader-->
+	<div class="loader">
+		<div class="loader-inner">
+			<div class="circle"></div>
+		</div>
+	</div>
+	<!--PreLoader Ends-->
+
+	<!-- header -->
+	<div class="top-header-area" id="sticker">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12 col-sm-12 text-center">
+					<div class="main-menu-wrap">
+						<!-- logo -->
+						<div class="site-logo">
+							<a href="index.html">
+								<img src="assets/img/logo.png" alt="">
+							</a>
+						</div>
+						<!-- logo -->
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end header -->
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<h1 th:text="${campsite.campsiteName}"></h1>
+						</br>
+						<h5 id="campsiteLocation" th:text="${campsite.campsiteLocation}" style="color: white;"></h5>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- single article section -->
+	<div class="mt-150 mb-150">
+		<div class="container">
+			<div class="single-article-section">
+				<div class="single-article-text">
+					<div style="display: flex; flex-direction: row;">
+						<div th:each="picture : ${campsitePictures}"
+							style="flex: 1; overflow: hidden; display: flex; justify-content: center; height: 550px; width: 866px;">
+							<img class="img-thumbnail rounded float-start"
+								th:src="@{/campsitePicture/{id}(id=${picture.campsitePictureNo})}"
+								alt="Campsite Picture" style="max-width: 100%; height: 100%; object-fit: cover; " />
+						</div>
+						<div class="col-lg-4" style="height: 550px;">
+							<div id="map" style="height: 550px;"></div>
+						</div>
+					</div>
+					</br>
+					<h1>營區資訊</h1>
+					<p th:text="${campsite.campsiteInfo}" style="font-size: 20px; white-space: pre-line;"></p>
+					</br>
+					</br>
+					<table class="table">
+						<thead>
+							<tr>
+								<th style="font-size: 20px;" scope="col">營區名字</th>
+								<th style="font-size: 20px;" scope="col">營區價位</th>
+								<th style="font-size: 20px;" scope="col">剩餘營位</th>
+								<th style="font-size: 20px;" scope="col">訂位</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="campspace : ${campspaces}">
+								<td style="font-size: 20px;" th:text="${campspace.campspaceArea}"></td>
+								<td style="font-size: 20px;" th:text="${campspace.campspacePrice}"></td>
+								<td style="font-size: 20px;" th:text="${campspace.campspaceQuantity}"></td>
+								<td style="font-size: 20px;">
+									<form th:action="@{/campsite/campsiteBooking}" method="get">
+										<input type="hidden" th:name="campsiteNo" th:value="${campsite.campsiteNo}" />
+										<input type="hidden" th:name="campspaceNo"
+											th:value="${campspace.campspaceNo}" />
+										<input type="submit" value="訂位" />
+									</form>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+	</div>
+	<!-- end single article section -->
+
+	<!-- logo carousel -->
+	<div class="logo-carousel-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="logo-carousel-inner">
+						<div class="single-logo-item">
+							<img src="assets/img/company-logos/1.png" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="assets/img/company-logos/2.png" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="assets/img/company-logos/3.png" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="assets/img/company-logos/4.png" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="assets/img/company-logos/5.png" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end logo carousel -->
+	<div th:replace="~{/layout/frontBottomBar}"></div>
+
+	<!-- jquery -->
+	<script src="assets/js/jquery-1.11.3.min.js"></script>
+	<!-- bootstrap -->
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<!-- count down -->
+	<script src="assets/js/jquery.countdown.js"></script>
+	<!-- isotope -->
+	<script src="assets/js/jquery.isotope-3.0.6.min.js"></script>
+	<!-- waypoints -->
+	<script src="assets/js/waypoints.js"></script>
+	<!-- owl carousel -->
+	<script src="assets/js/owl.carousel.min.js"></script>
+	<!-- magnific popup -->
+	<script src="assets/js/jquery.magnific-popup.min.js"></script>
+	<!-- mean menu -->
+	<script src="assets/js/jquery.meanmenu.min.js"></script>
+	<!-- sticker js -->
+	<script src="assets/js/sticker.js"></script>
+	<!-- main js -->
+	<script src="assets/js/main.js"></script>
+	<script async
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAFIy2onTULeU-5wnR8FmBO_-lgFZ0FYFQ&libraries=places&callback=initMap">
+		</script>
+	<script>
+		let map;
+		let geocoder;
+
+		function initMap() {
+			map = new google.maps.Map(document.getElementById('map'), {
+				center: { lat: 23.553118, lng: 121.0211024 },
+				zoom: 3,
+			});
+			geocoder = new google.maps.Geocoder();
+
+			const locationName = document.getElementById("campsiteLocation").innerText;
+
+			geocoder.geocode({ 'address': locationName }, function (results, status) {
+				if (status === 'OK') {
+					map.setCenter(results[0].geometry.location);
+					map.setZoom(12);
+					new google.maps.Marker({
+						map: map,
+						position: results[0].geometry.location
+					});
+				} else {
+					alert('Geocode was not successful for the following reason: ' + status);
+				}
+			});
+		}
+	</script>
+
+</body>
+
+</html>

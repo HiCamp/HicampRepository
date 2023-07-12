@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>登山EZ</title>
+
+</head>
+
+<body>
+	<div th:replace="~{layout/frontTopBar}"></div>
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>HICAMP</p>
+						<h1>我的文章</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- latest news -->
+	<div class="latest-news mt-100 mb-150">
+		<div class="container">
+			<div class="row">
+				<div th:each="post : ${posts}" class="col-lg-4 col-md-6">
+					<div class="single-latest-news">
+						<a th:href="@{/forum/showpostbyno/{postNo}(postNo=${post.postNo})}">
+							<th:block th:if="${post.postAlbum != null}">
+								<div class="latest-news-bg"
+									th:style="'background-image: url(data:image/jpeg;base64,' + ${post.getPostAlbumBase64()} + ')'">
+								</div>
+							</th:block>
+							<th:block th:unless="${post.postAlbum != null}">
+								<div class="latest-news-bg" th:style="'background-image:'">
+								</div>
+							</th:block>
+							<div class="news-text-box">
+								<h3>
+									<span class="category" th:text="'[' + ${post.postType} + ']'"></span>
+									<span class="title" th:text="${post.postTitle}"></span>
+								</h3>
+								<p class="blog-meta">
+									<span class="author">
+										<i class="fas fa-user"></i>
+										<span th:text="${post.member.memberName}"></span>
+									</span>
+									<span class="date">
+										<i class="fas fa-calendar"></i>
+										<span th:text="${#dates.format(post.postDate, 'yyyy/MM/dd HH:mm:ss')}"></span>
+									</span>
+								</p>
+								<p class="excerpt" th:text="${post.postTitle}">
+								</p>
+							</div>
+						</a>
+						<div class="post-action-buttons">
+							<a th:href="@{/forum/update/{postNo}(postNo=${post.postNo})}"
+								class="btn btn-outline-success btn-sm">編輯</a>
+							<button type="button" class="btn btn-outline-danger btn-sm">刪除</button>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12 text-center">
+							<div class="pagination-wrap">
+								<ul>
+									<li><a class="active" href="#">點我回到最上方</a></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end latest news -->
+
+	<div th:replace="~{layout/frontBottomBar}"></div>
+</body>
+
+</html>

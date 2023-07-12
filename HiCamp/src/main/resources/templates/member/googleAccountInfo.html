@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>HiCamp 登露</title>
+	<style>
+		.breadcrumb-text {
+			width: 100%;
+			height: 100%;
+			position: relative;
+			display: flex;
+			justify-content: center;
+		}
+
+		.login-area {
+			background-color: #fff;
+			width: 70%;
+			height: 1100px;
+			border-radius: 20px;
+			background-color: #ffffff;
+			box-shadow: 0 0 10px rgb(151, 151, 151);
+			padding: 30px;
+			padding: 60px 30px 100px 30px;
+			position: absolute;
+		}
+
+		.login-area h2 {
+			color: #F28123;
+			margin-bottom: 20px;
+			font-size: 30px;
+		}
+
+		.login-area form {
+			font-size: 20px;
+		}
+
+		.login-area form label {
+			font-weight: bold;
+			width: 300px;
+			color: #565656;
+			margin: 10px;
+			border-bottom: 1px solid #565656;
+			text-align: left;
+		}
+
+		.login-area form input {
+			border: none;
+			outline: none;
+			text-align: left;
+		}
+
+		.check {
+			display: flex;
+			justify-content: center;
+		}
+
+		.btnStyle {
+			font-size: 18px;
+			font-weight: bold;
+			background-color: #F28123;
+			color: white;
+			width: 95px;
+			border-radius: 8px;
+			margin-bottom: 20px;
+			border: 1px solid #F28123;
+			margin: 0 5px;
+		}
+
+		.btnStyle:hover {
+			background-color: #fff;
+			color: #F28123;
+			border: 1px solid #F28123;
+		}
+
+		.submitBtn:hover {
+			background-color: #fff;
+			color: #F28123;
+			border: 1px solid #F28123;
+		}
+
+		.false {
+			background-color: #565656;
+			border: 1px solid #565656;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<div th:replace="~{layout/frontTopBar}"></div>
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<div class="login-area">
+							<h2>請完成以下表單已完成註冊</h2>
+							<form action="http://localhost:8080/HiCamp/getmemberinformation" method="post"
+								enctype="multipart/form-data">
+								<label>
+									姓名<br><input th:value="${session.memberName}" name="memberName" id="memberName" readonly>
+								</label><br>
+								<label>
+									性別
+									<input th:value="${session.memberGender}" name="memberGender" id="memberGender" readonly>
+								</label><br>
+								<label>
+									電子信箱
+									<input th:value="${session.memberEmail}" name="memberEmail" id="memberEmail" readonly>
+								</label><br>
+								<label>
+									生日
+									<input th:value="${session.memberBirthday}" name="memberBirthday" id="memberBirthday" readonly>
+									<input value="asdfjkl;asdfjk;l" name="memberPassword" id="memberPassword" type="hidden">
+								</label><br>
+								<label>
+									連絡電話<br><input type="tel" name="memberPhone" id="memberPhone" placeholder="請輸入您的電話"
+										required>
+								</label><br>
+								<label>
+									連絡地址<br><input type="text" name="memberAddress" id="memberAddress"
+										placeholder="請輸入您的地址" required>
+								</label><br>
+								<label>
+									身分證字號<br><input type="text" name="memberId" id="memberId" pattern="[A-Z][1-2]\d{8}"
+										placeholder="請輸入您的身分證字號" required>
+								</label><br>
+								<label>
+									緊急聯絡人<br><input type="text" name="memberEmergencyContact"
+										id="memberEmergencyContact" placeholder="請輸入緊急聯絡人姓名" required>
+								</label><br>
+								<label>
+									聯絡人電話<br><input type="tel" name="memberEmergencyPhone" id="memberEmergencyPhone"
+										placeholder="請輸入聯絡人電話" required>
+								</label><br><br>
+								<div class="check">
+									<input type="checkbox" name="check" id="check" required>
+									<p style="letter-spacing: normal;">我已閱讀並同意<a href="#"
+											style="color: #565656;">《個人資料蒐集聲明》</a></p>
+								</div><br>
+								<div><button type="button" class="btnStyle quick">一鍵輸入</button><button type="submit"
+										class="btnStyle false" id="submitBtn" disabled>送出</button>
+
+								</div>
+
+							</form>
+							<br><br><br><br><br>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<script>
+		$(function () {
+
+			$(".quick").click(function () {
+				console.log('click');
+				$("#memberPhone").val("0987654321");
+				$("#memberAddress").val("台北市復興南路一段390號2樓");
+				$("#memberId").val("B113456789");
+				$("#memberEmergencyContact").val("王老明");
+				$("#memberEmergencyPhone").val("0987456123");
+				$("#check").attr("checked", true);
+
+				let check = $("#check").prop("checked");
+				if (check)
+					$("#submitBtn").prop("disabled", false).removeClass("false");
+				else
+					$("#submitBtn").prop("disabled", true).addClass("false");
+			})
+			
+			$("#check").on("change", function () {
+				let check = $("#check").prop("checked");
+				if (check)
+					$("#submitBtn").prop("disabled", false).removeClass("false");
+				else
+					$("#submitBtn").prop("disabled", true).addClass("false");
+			})
+			
+			$("#submitBtn").click(function(){
+				Swal.fire({
+					position: 'top-center',
+					icon: 'success',
+					title: '恭喜你成功註冊！請至信箱開通帳號',
+					showConfirmButton: false,
+					timer: 2000
+				});
+			});
+
+		})
+	</script>
+</body>
+
+</html>

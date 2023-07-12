@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>HiCamp購物車</title>
+
+	<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<!-- owl carousel -->
+	<link rel="stylesheet" href="assets/css/owl.carousel.css">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<!-- animate css -->
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+	<!-- main style -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="assets/css/responsive.css">
+	<style>
+		.detail {
+			/*order: 1px solid #000;*/
+			font-family: 微軟正黑體;
+			font-size: 16px;
+			width: 100%;
+			text-align: center;
+			align-items: center;
+			justify-content: center;
+			/* border-collapse: collapse; */
+		}
+
+		.uptables {
+
+			display: flex;
+			align-content: space-around;
+			width: 1200px;
+			font-family: 微軟正黑體;
+			font-size: 20px;
+			margin-bottom: 20px;
+		}
+	</style>
+
+</head>
+
+<body>
+	<div th:replace="~{/layout/frontTopBar}"></div>
+
+	<!-- TopBar breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Wild Adventures</p>
+						<h1>Hiking & Camping</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end TopBar breadcrumb section -->
+
+	<!-- latest news 222 -->
+
+	<div class="latest-news mt-150 mb-150" style="margin-top:5px">
+
+		<nav aria-label="breadcrumb" style=" font-size:1.5em;display: block; ">
+			<ol class="breadcrumb"
+				style="background-color:#fff; margin-left:310px; margin-top:10px; display: flex; flex-wrap: wrap;  ">
+				<li class="breadcrumb-item active" aria-current="page"></li>
+			</ol>
+		</nav>
+
+		<div class="container">
+			<div
+				style="display: flex;justify-content: space-around; width:1200px; margin-bottom: 50px;font-size: 15px;">
+				<div class="card" style="width: 550px;">
+					<div class="card-header">
+						訂購資訊
+					</div>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<table>
+								<tr>
+									<td>訂購人</td>
+									<td>：</td>
+									<td th:text="${orderDTO.memberName}">訂購人</td>
+								</tr>
+								<tr>
+									<td>訂購人email</td>
+									<td>：</td>
+									<td th:text="${orderDTO.memberEmail}">訂購人email</td>
+								</tr>
+								<tr>
+									<td>訂購人電話</td>
+									<td>：</td>
+									<td th:text="${orderDTO.memberPhone}">訂購人phone</td>
+								</tr>
+								<tr>
+									<td>訂購日期</td>
+									<td>：</td>
+									<td th:text="${orderDTO.orderDate}">訂購日期</td>
+								</tr>
+								<tr>
+									<td>總金額</td>
+									<td>：</td>
+									<td th:text="'$ ' +${orderDTO.orderTotalPrice}">getOrderTotalPrice</td>
+								</tr>
+								<tr>
+									<td>付款方式</td>
+									<td>：</td>
+									<td th:text="${orderDTO.orderPayWay}">getOrderPayWay</td>
+								</tr>
+							</table>
+						</li>
+					</ul>
+				</div>
+				<div class="card" style="width: 550px;">
+					<div class="card-header">
+						收貨資訊
+					</div>
+					<ul class="list-group list-group-flush">
+						<li class="list-group-item">
+							<table>
+								<tr>
+									<td>收貨人</td>
+									<td>：</td>
+									<td th:text="${orderDTO.orderName}">收貨人</td>
+								</tr>
+								<tr>
+									<td>收貨人電話</td>
+									<td>：</td>
+									<td th:text="${orderDTO.orderPhone}">收貨人電話</td>
+								</tr>
+								<tr>
+									<td>送貨地址</td>
+									<td>：</td>
+									<td th:text="${orderDTO.orderShipAddress}">getOrderShipAddress</td>
+								</tr>
+								<tr>
+									<td>備註</td>
+									<td>：</td>
+									<td th:text="${orderDTO.orderMessage}">getOrderMessage</td>
+								</tr>
+							</table>
+						</li>
+						<li class="list-group-item">
+							<form th:action="@{/ecpayCheckout}" method="post">
+								<button id="submit" type="submit" class="btn btn-outline-dark"
+									style="float: right; margin: 10px; width: 100px;">結帳</button>
+							</form>
+						</li>
+					</ul>
+				</div>
+			</div>
+
+
+
+			<div class="card" style="width: 1200px;">
+				<div class="card-header">
+					訂購明細
+				</div>
+				<ul class="list-group list-group-flush">
+					<li class="list-group-item">
+						<table class="detail">
+							<thead>
+								<tr>
+									<td>購買商品</td>
+									<td>數量</td>
+									<td>單價</td>
+									<td>小計</td>
+								</tr>
+							</thead>
+							<tbody>
+								<th:block th:each="itemDTO : ${orderDTO.orderItemDTO}">
+									<tr>
+										<td th:text="${itemDTO.productName}">ProductName</td>
+										<td th:text="${itemDTO.itemQuantity}">ItemQuantity</td>
+										<td th:text="'$ ' +${itemDTO.unitPrice}">getUnitPrice</td>
+										<td th:text="'$ ' +${itemDTO.unitPrice} * ${itemDTO.itemQuantity}">小計</td>
+									</tr>
+								</th:block>
+							</tbody>
+						</table>
+					</li>
+				</ul>
+			</div>
+			<a href=""></a>
+
+		</div>
+		<!-- end latest news -->
+
+		<!-- logo carousel -->
+		<div class=" logo-carousel-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="logo-carousel-inner">
+							<div class="single-logo-item">
+								<img src="assets/img/company-logos/1.png" alt="">
+							</div>
+							<div class="single-logo-item">
+								<img src="assets/img/company-logos/2.png" alt="">
+							</div>
+							<div class="single-logo-item">
+								<img src="assets/img/company-logos/3.png" alt="">
+							</div>
+							<div class="single-logo-item">
+								<img src="assets/img/company-logos/4.png" alt="">
+							</div>
+							<div class="single-logo-item">
+								<img src="assets/img/company-logos/5.png" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end logo carousel -->
+
+		<div th:replace="~{/layout/frontBottomBar}"></div>
+
+		<script>
+			$(function () {
+
+			})
+
+
+		</script>
+		<!-- twzip -->
+		<script th:src="@{/hicamp/js/twzipcode.min.js}"></script>
+		<script src="https://cdn.jsdelivr.net/npm/tw-city-selector@2.1.1/dist/tw-city-selector.min.js"></script>
+		<script src="https://kit.fontawesome.com/a260a05f7c.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+	<!-- title -->
+	<title>登露HiCamp</title>
+	<!-- axios -->
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<!-- owl carousel -->
+	<link rel="stylesheet" href="assets/css/owl.carousel.css">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<!-- animate css -->
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+	<!-- main style -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="assets/css/responsive.css">
+	<!-- Font Awesome CDN -->
+	<script src="https://kit.fontawesome.com/5f7b548e33.js" crossorigin="anonymous"></script>
+
+	<style>
+		.campsite-info {
+			height: 200px;
+			overflow: hidden;
+			text-overflow: ellipsis;
+		}
+
+		.center-div {
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			margin-top: 100px;
+		}
+	</style>
+</head>
+
+<body>
+
+	<div th:replace="~{/layout/frontTopBar}"></div>
+
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Campsite</p>
+						<h1>露營區</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="container center-div">
+		<i class="fa-solid fa-tent fa-2xl"></i>
+		<h1>登露HiCamp</h1>
+		<div class="row" style="margin-top: 25px; margin-left: 20px;">
+			<div class="col-md-12">
+				<div class="input-group mb-3">
+					<input id="searchInput" type="text" class="form-control form-control-lg" placeholder="想找哪個營區呢?" />
+					<div class="input-group-append">
+						<button class="btn btn-primary btn-lg" onclick="search()"><i
+								class="fas fa-light fa-search"></i></button>
+					</div>
+				</div>
+				<a href="/HiCamp/campsite/getBooking" style="margin-right: auto;">已經訂位了嗎?點我查看</a>
+			</div>
+		</div>
+	</div>
+
+	<!-- latest news -->
+	<div class="latest-news mt-150 mb-150">
+		<div class="container">
+			<div id="campsiteArea" class="row">
+
+			</div>
+
+		</div>
+
+
+	</div>
+	</div>
+	<!-- end latest news -->
+
+	<div th:replace="~{/layout/frontBottomBar}"></div>
+	<script>
+		window.onload = function () {
+			axios.get('http://localhost:8080/HiCamp/campsite/data')
+				.then(function (response) {
+					// 將每個露營區插入HTML
+					console.log(response)
+					var campsiteArea = document.getElementById('campsiteArea');
+					let newContent = '';  // 新增一個變數來存儲新內容
+					response.data.forEach(function (campsite) {
+						newContent += `
+						<div class="row">
+    <div class="col-lg-12">
+        <div class="single-latest-news">
+            <div class="row">
+                <div class="col-lg-4 d-flex justify-content-center align-items-center p-0">
+                    <a href="/HiCamp/campsite/singleCampsite?campsiteNo=${campsite.campsiteNo}">
+                        <div style="width:350px; height:350px; overflow:hidden;">
+                            <img src="http://localhost:8080/HiCamp/campsite/getCampsitePicture?id=${campsite.campsitePictureNo}" style="width:100%; height:100%; object-fit:cover;" >
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="news-text-box">
+                        <h2 class="mb-2"><a href="/HiCamp/campsite/singleCampsite?campsiteNo=${campsite.campsiteNo}" class="text-decoration-none text-dark">${campsite.campsiteName}<i class="fa-solid fa-campground"></i></a></h2>
+                        <div class="campsite-info">
+                            <p class="excerpt" style="font-size: 18px;">${campsite.campsiteInfo}</p>
+                        </div>
+                        <a href="/HiCamp/campsite/singleCampsite?campsiteNo=${campsite.campsiteNo}" class="btn btn-outline-dark mt-3">查看詳情<i class="fas fa-angle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+				`;
+					});
+					// 在所有露營區都添加到 newContent 後，再更新 campsiteArea 的內容
+					campsiteArea.innerHTML += newContent;
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+		}
+
+	</script>
+
+	<script>
+		function search() {
+			var query = document.getElementById('searchInput').value;
+			axios.get('http://localhost:8080/HiCamp/campsite/search', { params: { query: query } })
+				.then(function (response) {
+					// 清空並重新填充campsiteArea
+					var campsiteArea = document.getElementById('campsiteArea');
+					campsiteArea.innerHTML = '';
+					let newContent = '';
+					response.data.forEach(function (campsite) {
+						newContent += `
+						<div class="row">
+    <div class="col-lg-12">
+        <div class="single-latest-news">
+            <div class="row">
+                <div class="col-lg-4 d-flex justify-content-center align-items-center p-0">
+                    <a href="/HiCamp/campsite/singleCampsite?campsiteNo=${campsite.campsiteNo}">
+                        <div style="width:350px; height:350px; overflow:hidden;">
+                            <img src="http://localhost:8080/HiCamp/campsite/getCampsitePicture?id=${campsite.campsitePictureNo}" style="width:100%; height:100%; object-fit:cover;" >
+                        </a>
+                    </div>
+                </div>
+                <div class="col-lg-8">
+                    <div class="news-text-box">
+                        <h2 class="mb-2"><a href="/HiCamp/campsite/singleCampsite?campsiteNo=${campsite.campsiteNo}" class="text-decoration-none text-dark">${campsite.campsiteName}<i class="fa-solid fa-campground"></i></a></h2>
+                        <div class="campsite-info">
+                            <p class="excerpt" style="font-size: 18px;">${campsite.campsiteInfo}</p>
+                        </div>
+                        <a href="/HiCamp/campsite/singleCampsite?campsiteNo=${campsite.campsiteNo}" class="btn btn-outline-dark mt-3">查看詳情<i class="fas fa-angle-right"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+				`;
+					});
+
+					campsiteArea.innerHTML += newContent;
+				})
+				.catch(function (error) {
+					console.log(error);
+				});
+		}
+	</script>
+
+</body>
+
+</html>

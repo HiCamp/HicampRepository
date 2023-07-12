@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- basic -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- mobile metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<!-- CSS only -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+	<!-- SweetAlert2 CSS -->
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+
+	<!-- SweetAlert2 JavaScript -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+	<title>HiCamp</title>
+	<style>
+		.header {
+			display: flex;
+			align-items: center;
+		}
+
+		.delete-form {
+			margin-left: 20px;
+		}
+
+		.edit-input {
+			margin-left: auto;
+		}
+	</style>
+
+</head>
+
+<body class="dashboard dashboard_1">
+	<div class="full_container">
+		<div class="inner_container">
+			<!-- Sidebar  -->
+			<div th:replace="~{layout/leftbar}"></div>
+			<!-- right content -->
+			<div id="content">
+				<!-- topbar -->
+				<div th:replace="~{layout/topbar}"></div>
+				<!-- end topbar -->
+				<!-- dashboard inner -->
+				<div class="midde_cont">
+					<div class="container-fluid">
+						<div class="row column_title">
+							<div class="col-md-12">
+								<div class="page_title">
+									<div class="header">
+										<h2>露營區編輯</h2>
+										<form th:action="@{/campsite/delete}" th:method="post" class="delete-form"
+											onsubmit="return confirmDelete(event)">
+											<input name="_method" value="delete" type="hidden" />
+											<input name="campsiteNo" th:value="${campsite.campsiteNo}" type="hidden" />
+											<button type="submit" class="btn btn-danger">刪除營區</button>
+										</form>
+
+									</div>
+									<br />
+
+
+									<div>
+
+
+
+										<form th:action="@{/campsite/edit}" th:method="put" th:object="${campsite}"
+											enctype="multipart/form-data">
+
+											<div style="display: flex; flex-wrap: wrap;">
+												<div th:each="picture : ${campsitePictures}"
+													style="flex: 1; overflow: hidden;">
+													<img class="img-thumbnail rounded float-start"
+														th:src="@{/campsitePicture/{id}(id=${picture.campsitePictureNo})}"
+														alt="Campsite Picture" style="max-width: 100%; height: auto;" />
+												</div>
+											</div>
+											<div class="input-group flex-nowrap mb-3"
+												style="display: flex; justify-content: flex-end; width: 200px;">
+												<input type="file" name="campsitePicture" class="form-control"
+													aria-label="營區圖片" aria-describedby="campsitePicture-addon" multiple>
+											</div>
+
+
+											<br />
+											<div class="row">
+												<div class="col-md-6">
+													<!-- left column for existing form -->
+													<input th:field="*{campsiteNo}" type="hidden"
+														value="${campsite.campsiteNo}" />
+
+
+
+													<div class="input-group flex-nowrap mb-3">
+														<span class="input-group-text" id="campsiteNo-addon">營區編號</span>
+														<input th:field="*{campsiteNo}" type="text" class="form-control"
+															placeholder="請輸入營區編號" aria-label="營區編號"
+															aria-describedby="campsiteNo-addon" readonly>
+													</div>
+													<div class="input-group flex-nowrap mb-3">
+														<span class="input-group-text"
+															id="campsiteName-addon">營區名字</span>
+														<input th:field="*{campsiteName}" type="text"
+															class="form-control" placeholder="請輸入營區名字" aria-label="營區名字"
+															aria-describedby="campsiteName-addon">
+													</div>
+													<div class="input-group flex-nowrap mb-3">
+														<span class="input-group-text"
+															id="campsiteQuantity-addon">營區數量</span>
+														<input th:field="*{campsiteQuantity}" type="number"
+															class="form-control" placeholder="請輸入營區數量" aria-label="營區數量"
+															aria-describedby="campsiteQuantity-addon">
+													</div>
+													<div class="input-group flex-nowrap mb-3">
+														<span class="input-group-text"
+															id="campsiteLocation-addon">營區地點</span>
+														<input th:field="*{campsiteLocation}" type="text"
+															class="form-control" placeholder="請輸入營區地點" aria-label="營區地點"
+															aria-describedby="campsiteLocation-addon">
+													</div>
+													<div class="input-group flex-nowrap mb-3">
+														<span class="input-group-text"
+															id="campsiteInfo-addon">營區資訊</span>
+														<textarea style="height: 200px;" th:field="*{campsiteInfo}"
+															class="form-control" placeholder="請輸入營區資訊" aria-label="營區資訊"
+															aria-describedby="campsiteInfo-addon"></textarea>
+													</div>
+												</div>
+
+												<div class="col-md-6">
+													<!-- right column for camp space details -->
+													<div class="card mb-3" th:each="space, stat : *{campspaces}">
+														<div class="card-body">
+															<div class="input-group flex-nowrap mb-3">
+																<span class="input-group-text"
+																	id="campspaceNo-addon">營位編號</span>
+																<input
+																	th:field="*{campspaces[__${stat.index}__].campspaceNo}"
+																	type="text" id="campspaceNo_input"
+																	class="form-control" placeholder="請輸入營位編號"
+																	aria-label="營位編號"
+																	aria-describedby="campspaceNo-addon" readonly>
+															</div>
+
+															<div class="input-group flex-nowrap mb-3">
+																<span class="input-group-text"
+																	id="campspaceArea-addon">營位名字</span>
+																<input
+																	th:field="*{campspaces[__${stat.index}__].campspaceArea}"
+																	type="text" id="campspaceArea_input"
+																	class="form-control" placeholder="請輸入營位名字"
+																	aria-label="營位名字"
+																	aria-describedby="campspaceArea-addon">
+															</div>
+															<div class="input-group flex-nowrap mb-3">
+																<span class="input-group-text"
+																	id="campspacePrice-addon">營位金額</span>
+																<input
+																	th:field="*{campspaces[__${stat.index}__].campspacePrice}"
+																	type="number" id="campspacePrice_input"
+																	class="form-control" placeholder="請輸入營位金額"
+																	aria-label="營位金額"
+																	aria-describedby="campspacePrice-addon">
+															</div>
+															<div class="input-group flex-nowrap mb-3">
+																<span class="input-group-text"
+																	id="campspaceQuantity-addon">營位金額</span>
+																<input
+																	th:field="*{campspaces[__${stat.index}__].campspaceQuantity}"
+																	type="number" id="campspaceQuantity_input"
+																	class="form-control" placeholder="請輸入營位金額"
+																	aria-label="營位金額"
+																	aria-describedby="campspaceQuantity-addon">
+															</div>
+															<div class="input-group mb-3">
+																<label class="input-group-text"
+																	for="inputGroupSelect01">營區狀態</label>
+																<select class="form-select" id="inputGroupSelect01"
+																	th:field="*{campspaces[__${stat.index}__].status}">
+																	<option value="" selected>請選擇營區狀態</option>
+																	<option value="上架">上架</option>
+																	<option value="下架">下架</option>
+																	<option value="已售出">已售出</option>
+																</select>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+
+											<div class="text-end">
+												<a href="http://localhost:8080/HiCamp/campsite/show"
+													class="btn btn-secondary">返回主頁</a>
+												<input type="submit" value="編輯" class="edit-input btn btn-primary" />
+											</div>
+										</form>
+
+										<!-- 只能到這裡喔 -->
+
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- JavaScript Bundle with Popper -->
+					<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+						integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+						crossorigin="anonymous"></script>
+					<script th:src="@{/hicamp/js/addcamp.js}"></script>
+					<script>
+						function confirmDelete(event) {
+							event.preventDefault();
+
+							Swal.fire({
+								title: '確認刪除',
+								text: '你確定要刪除這個營區嗎？',
+								icon: 'warning',
+								showCancelButton: true,
+								confirmButtonColor: '#3085d6',
+								cancelButtonColor: '#d33',
+								confirmButtonText: '確定',
+								cancelButtonText: '取消'
+							}).then((result) => {
+								if (result.isConfirmed) {
+									event.target.submit();
+								}
+							});
+						}
+
+					</script>
+</body>
+
+</html>

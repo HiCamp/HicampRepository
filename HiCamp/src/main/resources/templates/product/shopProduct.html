@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title th:text="${product.productName}">News</title>
+
+	<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<!-- owl carousel -->
+	<link rel="stylesheet" href="assets/css/owl.carousel.css">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<!-- animate css -->
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+	<!-- main style -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="assets/css/responsive.css">
+
+</head>
+
+<body>
+	<div th:replace="~{/layout/frontTopBar}"></div>
+
+	<!-- TopBar breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Wild Adventures</p>
+						<h1>Hiking & Camping</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end TopBar breadcrumb section -->
+
+	<!-- latest news -->
+
+	<div class="latest-news mt-150 mb-150" style="margin-top:5px">
+
+		<nav aria-label="breadcrumb" style=" font-size:1.5em;display: block; ">
+			<ol class="breadcrumb"
+				style="background-color:#fff; margin-left:310px; margin-top:10px; display: flex; flex-wrap: wrap;  ">
+				<li class="breadcrumb-item active" aria-current="page" th:text="${product.productType}"></li>
+			</ol>
+		</nav>
+
+		<div class="container">
+			<div class="row">
+				<div class="container">
+					<div class="row">
+						<div class="col-md-5" style="width:700px;height:450px;">
+							<div id="firstPic" style="width: 500px;height:500px;">
+								<img
+									th:src="'http://localhost:8080/HiCamp/product/getBigPic?productNo='+${product.productNo}"><br>
+							</div>
+						</div>
+						<div class="col-md-7" style="width:600px">
+							<div class="single-product-content"
+								style="font-family:monospace; color:#374b56; margin:5px">
+								<h1 th:text="${product.productName}"
+									style="font-family:monospace; color:#374b56; font-size:2.5em;"></h1>
+								</hr>
+
+								<h3 th:text=" '$' +${product.productPrice}"
+									style="font-family:monospace; color:#f92909; font-size: 50px;"></h3>
+								<div style="height: 300px;">
+									<h3 th:text=" ${product.productInfo}"
+										style="font-family:monospace; color:#3b5d92; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: auto;text-overflow: ellipsis; width: 300px;">
+									</h3>
+								</div>
+
+								<div class="single-product-form"
+									style=" display: flex; justify-content: space-between; align-items: center;">
+									<form id="shoppingCartForm">
+										<input th:field="${product.productNo}" name="productNo" type="hidden">
+										<input th:field="${product.productPrice}" name="productPrice" type="hidden">
+										<h5 style="font-family:monospace; color:#3b5d92; margin-right: 10px;align-items:center;"
+											class="single-product-pricing">選購數量:</h5>
+										<input type="number" placeholder="1" value="1" min="1" name="itemQuantity"
+											th:max="${product.productQuantity}" style="margin-right: 200px;">
+										<button id="shopping" class="btn btn-primary btn-lg cart-btn"
+											style="background-color: #3b5d92; border-color: #3b5d92; border-radius: 10px;"><i
+												class="fas fa-shopping-cart"></i>加入購物車</button>
+										<button id="shoppingCart" class="btn btn-primary btn-lg cart-btn"
+											style="background-color: #713b92; border-color: #713b92; border-radius: 10px;">立即購買</button>
+									</form>
+								</div>
+
+								<ul class="product-share" style="display:flex;float:right">
+									<li style=" display: flex; justify-content: space-between; align-items: center;">
+										<h5>Share:　</h5>
+									</li>
+									<li><a href=""><i class="fab fa-facebook-f" style="font-size: 15px;"></i></a></li>
+									<li><a href=""><i class="fa-brands fa-instagram"></i></a></li>
+									<li><a href=""><i class="fab fa-line" style="font-size: 15px;"></i></a></li>
+								</ul>
+								<ul class="product-share" style="display:flex;float:left">
+									<li style=" display: flex; justify-content: space-between; align-items: center;">
+										<h5>付款方式:　</h5>
+									</li>
+									<li><a href=""><i class="fa-brands fa-apple-pay" style="font-size: 30px;"></i></a>
+									</li>
+									<li><a href=""><i class="fa-brands fa-cc-visa" style="font-size: 30px;"></i></a>
+									</li>
+								</ul>
+
+							</div>
+						</div>
+
+					</div>
+					<div class="row">
+						<div>
+							<h3>商品詳情</h3>
+							<div style="display:flex;justify-content:center;align-items:center;">
+								<div
+									style="width:1350px; border-radius:30px ;padding: 30px; box-shadow: 0 0 20px 10px #eeeeee8f;">
+
+									<th:block th:each=" pic,index : ${product.productPisNos}">
+										<div style="display:flex;justify-content:center;align-items:center;">
+											<img th:src="'http://localhost:8080/HiCamp/product/pictures?picID='+${pic}"
+												style="width: 800px"><br>
+
+										</div>
+									</th:block>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end latest news -->
+
+		<!-- logo carousel -->
+		<div class="logo-carousel-section">
+			<div class="container">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="logo-carousel-inner">
+							<div class="single-logo-item">
+								<img src="assets/img/company-logos/1.png" alt="">
+							</div>
+							<div class="single-logo-item">
+								<img src="assets/img/company-logos/2.png" alt="">
+							</div>
+							<div class="single-logo-item">
+								<img src="assets/img/company-logos/3.png" alt="">
+							</div>
+							<div class="single-logo-item">
+								<img src="assets/img/company-logos/4.png" alt="">
+							</div>
+							<div class="single-logo-item">
+								<img src="assets/img/company-logos/5.png" alt="">
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- end logo carousel -->
+
+		<div th:replace="~{/layout/frontBottomBar}"></div>
+
+		<script>
+			//加入購物車
+			$('#shopping').click(function (e) {
+				e.preventDefault();
+				let cartform = document.getElementById('shoppingCartForm');
+				let cartData = new FormData(cartform);
+				addShoppingCart(cartData);
+			})
+			function addShoppingCart(cartData) {
+				axios({
+					url: 'http://localhost:8080/HiCamp/shoppingCart/addcart',
+					method: 'post',
+					data: cartData
+				})
+					.then(res => {
+						if (res.data !== 0) {
+							Swal.fire({
+								position: 'top-center',
+								icon: 'success',
+								title: '加入購物車',
+								showConfirmButton: false,
+								timer: 1500
+							})
+							$("#countCart").text(parseInt($("#countCart").text())+1);
+						} else {
+							window.location.href = "http://localhost:8080/HiCamp/projectmemberlogin"
+						}
+					})
+					.catch(err => {
+						console.log('addcart err' + err);
+					})
+			}
+			//轉跳到購物車 立即購買
+			$('#shoppingCart').click(function (e) {
+				e.preventDefault();
+				let cartform = document.getElementById('shoppingCartForm');
+				let cartData = new FormData(cartform);
+				goTomemberCart(cartData);
+			})
+			function goTomemberCart(cartData) {
+				axios({
+					url: 'http://localhost:8080/HiCamp/shoppingCart/addcart',
+					method: 'post',
+					data: cartData
+				})
+					.then(res => {
+						console.log('addcart gooddddd');
+						window.location.href = 'http://localhost:8080/HiCamp/shoppingCart/memberCart'
+					})
+					.catch(err => {
+						console.log('addcart err' + err);
+					})
+			}
+		</script>
+		<script src="https://kit.fontawesome.com/a260a05f7c.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

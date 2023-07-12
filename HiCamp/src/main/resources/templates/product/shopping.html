@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+	<!-- title -->
+	<title>HiCamp 登露</title>
+	<style>
+		#scrollButton {
+			display: none;
+			position: fixed;
+			bottom: 20px;
+			right: 20px;
+			z-index: 99;
+			font-size: 10px;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			padding: 15px;
+			border-radius: 10px;
+		}
+
+		.nav a {
+
+			font-size: 18px;
+			color: black;
+		}
+
+		.nav {
+			background-color: #bcbcbc;
+		}
+	</style>
+</head>
+
+<body>
+	<button id="scrollButton">
+		<h1 class="animate__animated animate__bounce"><i class="fa-solid fa-arrow-up"></i></h1>
+	</button>
+
+	<div th:replace="~{/layout/frontTopBar}"></div>
+
+	<!-- hero area -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Wild Adventures</p>
+						<h1>Shopping</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- end hero area -->
+
+	<!-- features list section -->
+	<div class="list-section pt-80 pb-80">
+		<div class="container">
+			<div style="display:flex;justify-content:center;align-items:center;">
+				<div>
+					<div class="list-box d-flex align-items-center">
+						<div class="list-icon">
+							<i class="fas fa-shipping-fast"></i>
+						</div>
+						<div class="content">
+							<h4>Free Shipping</h4>
+							<p>滿 $3000 即免運</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end features list section -->
+
+	<!-- product section -->
+	<div class="product-section mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="section-title">
+						<h3><span class="orange-text">Our</span> Products</h3>
+						<p>用心愉快的購物</p>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row" id="productContent">
+				<nav class="nav">
+					<a class="nav-link active"
+						href="http://localhost:8080/HiCamp/shopping/getProducts?productType=服飾">服飾</a>
+					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=配件">配件</a>
+					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=露營">露營</a>
+					<select name="productTypeSelect" id="productTypeSelect">
+						<option value="排序">排序</option>
+						<option value="價格高到低">價格高到低</option>
+						<option value="價格低到高">價格低到高</option>
+					</select>
+
+
+				</nav>
+
+
+			</div>
+		</div>
+	</div>
+	<!-- end product section -->
+	<div th:replace="~{/layout/frontBottomBar}"></div>
+	<script>
+		console.log($("#productTypeSelect").val());
+		$(".nav #productTypeSelect").change(function () {
+			console.log('123')
+		})
+	</script>
+	<script>
+		$(document).ready(function () {
+
+
+			$('.aaaa').click(function () {
+				console.log('122333');
+			});
+			// 金額排序ajax
+			$(document).on('change', '#productTypeSelect', function() {
+				console.log($(this).val());
+				// 獲取所選擇的值
+				var selectedValue = $(this).val();
+
+				// 根據所選擇的值呼叫相應的方法
+				if (selectedValue === "價格低到高") {
+					orderByPrice();
+				} else if (selectedValue === "價格高到低") {
+					orderByPriceDESC();
+				}
+			});
+
+
+			// 金額小到大
+			function orderByPrice() {
+				$.ajax({
+					url: 'http://localhost:8080/HiCamp/shopping/allproducts',
+					type: 'get',
+					success: function (allProducts) {
+						allProducts.sort(compareByPrice);
+						htmlMaker(allProducts);
+						//加入購物車
+						addCartFun();
+						
+					}
+				})
+			}
+
+			function orderByPriceDESC() {
+				$.ajax({
+					url: 'http://localhost:8080/HiCamp/shopping/allproducts',
+					type: 'get',
+					success: function (allProducts) {
+						allProducts.sort(compareByPriceDESC);
+						htmlMaker(allProducts);
+						//加入購物車
+						addCartFun();
+					}
+				})
+			}
+
+
+
+
+			//取所有商品
+			function getAllproducts() {
+				$.ajax({
+					url: 'http://localhost:8080/HiCamp/shopping/allproducts',
+					type: 'get',
+					success: function (allProducts) {
+						//allProducts.sort(compareByPrice);
+						htmlMaker(allProducts);
+						//加入購物車
+						addCartFun();
+					}
+				})
+			}
+
+
+			//加入購物車
+			function addCartFun() {
+
+				$('.addCart').click(function (e) {
+					e.preventDefault();
+					let delCartID = $(this).attr('data-id');
+					console.log(delCartID);
+					let price = $(this).prev("input").val();
+					console.log(price);
+					let itemQuantity = 1;
+					let Data = {
+						"productNo": delCartID,
+						"productPrice": price,
+						"itemQuantity": itemQuantity
+					}
+					addShoppingCart(Data);
+				});
+				function addShoppingCart(cartData) {
+					$.ajax({
+						url: 'http://localhost:8080/HiCamp/shoppingCart/addcart',
+						type: "post",
+						data: cartData,
+						success: function (res) {
+							if (res !== "0") {
+								Swal.fire({
+									position: 'top-center',
+									icon: 'success',
+									title: '加入購物車',
+									showConfirmButton: false,
+									timer: 1500
+								})
+								$("#countCart").text(parseInt($("#countCart").text()) + 1);
+							} else {
+								window.location.href = "http://localhost:8080/HiCamp/projectmemberlogin"
+							}
+						}
+					})
+				};
+			};
+
+
+
+
+			$(document).on("click", "#scrollButton", function(){
+				scrollToTop();
+			});
+			
+
+			// 函式: 檢查滾動位置並顯示/隱藏回到頂部按鈕
+			window.onscroll = function () {
+				scrollFunction();
+			};
+
+			function scrollFunction() {
+				var scrollButton = document.getElementById("scrollButton");
+
+				if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+					scrollButton.style.display = "block";
+				} else {
+					scrollButton.style.display = "none";
+				}
+			}
+
+			// 函式: 滾動到頂部
+			function scrollToTop() {
+				document.body.scrollTop = 0; // For Safari
+				document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+			};
+
+			// 排序
+			function compareByPriceDESC(a, b) {
+				return b.productPrice - a.productPrice;
+			};
+			function compareByPrice(a, b) {
+				return a.productPrice - b.productPrice;
+			};
+
+			function htmlMaker(response) {
+				var output = document.getElementById('productContent');
+				let htmlString = '';
+				$(".col-lg-4.col-md-6.text-center").remove();
+				response.forEach(element => {
+
+					htmlString += `
+				<div class="col-lg-4 col-md-6 text-center">
+					<div class="single-product-item">
+						<div class="product-image">
+										<a
+										href="http://localhost:8080/HiCamp/shopping/shopProduct?productNo=`+ element.productNo + `"><img
+										src="http://localhost:8080/HiCamp/product/getBigPic?productNo=`+ element.productNo + `"></a>
+										</div>
+										<span text=`+ element.productType + `></span>
+										<h3 text=`+ element.productName + `></h3>
+										<p class="product-price">`+ element.productPrice + `</p>
+										
+									<input value="`+ element.productNo + `" id="productNo" type="hidden">
+									<input value="`+ element.productPrice + `" id="productPrice" type="hidden">
+									<button data-id="`+ element.productNo + `"
+									class="addCart btn btn-primary btn-lg cart-btn"
+									style="background-color: #ff8800; border-color: #ff8800; border-radius: 10px;"> <i
+									class="fas fa-shopping-cart"></i> Add to Cart</button>
+									</div>
+									</div>
+									
+									`
+				});
+				output.innerHTML += htmlString
+			};
+			getAllproducts();
+
+		})
+	</script>
+</body>
+
+</html>

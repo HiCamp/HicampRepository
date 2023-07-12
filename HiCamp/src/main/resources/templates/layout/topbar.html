@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<!-- basic -->
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!-- mobile metas -->
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+<!-- site icon -->
+<link rel="icon" th:href="@{/hicamp/images/fevicon.png}"
+	type="image/png" />
+<!-- bootstrap css -->
+<link rel="stylesheet" th:href="@{/hicamp/css/bootstrap.min.css}" />
+<!-- site css -->
+<link rel="stylesheet" th:href="@{/hicamp/style.css}" />
+<!-- responsive css -->
+<link rel="stylesheet" th:href="@{/hicamp/css/responsive.css}" />
+<!-- select bootstrap -->
+<link rel="stylesheet" th:href="@{/hicamp/css/bootstrap-select.css}" />
+<!-- scrollbar css -->
+<link rel="stylesheet"
+	th:href="@{/hicamp/css/perfect-scrollbar.css}" />
+<!-- custom css -->
+<link rel="stylesheet" th:href="@{/hicamp/css/custom.css}" />
+<!-- datatable -->
+<link rel="stylesheet"
+	href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.css" />
+<!-- bootstrap CSS only -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+<script th:src="@{/hicamp/js/jquery-3.7.0.min.js}"></script>
+<title>top bar</title>
+</head>
+<body>
+	<!-- topbar -->
+	<div class="topbar">
+		<nav class="navbar navbar-expand-lg navbar-light">
+			<div class="full">
+				<button type="button" id="sidebarCollapse" class="sidebar_toggle">
+					<i class="fa fa-bars"></i>
+				</button>
+				<div class="logo_section">
+					<a href="#"></a>
+				</div>
+				<div class="right_topbar">
+					<div class="icon_info">
+						<ul>
+							<li><a href="http://localhost:8080/HiCamp/projecthomepage"><i class="fa fa-desktop"></i><span
+									class="badge"></span></a></li>
+						</ul>
+						<ul class="user_profile_dd">
+							<li><a class="dropdown-toggle" data-toggle="dropdown"><span class="name_user" th:text="${session.name}"></span></a>
+								<div class="dropdown-menu">
+									<a class="dropdown-item" href="http://localhost:8080/HiCamp/logout"><span>Log Out</span>
+									<i class="fa fa-sign-out"></i></a>
+								</div></li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</div>
+	<!-- bootstrap JavaScript Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+	<!-- jQuery -->
+	
+	<script th:src="@{/hicamp/js/axios.min.js}"></script>
+	<script th:src="@{/hicamp/js/popper.min.js}"></script>
+	<script th:src="@{/hicamp/js/bootstrap.min.js}"></script>
+	<!-- wow animation -->
+	<script th:src="@{/hicamp/js/animate.js}"></script>
+	<!-- select country -->
+	<script th:src="@{/hicamp/js/bootstrap-select.js}"></script>
+	<!-- owl carousel -->
+	<script th:src="@{/hicamp/js/owl.carousel.js}"></script>
+	<!-- chart js -->
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<!-- nice scrollbar -->
+	<script th:src="@{/hicamp/js/perfect-scrollbar.min.js}"></script>
+	<script>
+   		var ps = new PerfectScrollbar('#sidebar');
+	</script>
+	<!-- custom js -->
+	<script th:src="@{/hicamp/js/custom.js}"></script>
+	<script th:src="@{/hicamp/js/chart_custom_style1.js}"></script>
+	<!-- sweetalert -->
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+	<!-- icon -->
+	<script src="https://kit.fontawesome.com/a260a05f7c.js" crossorigin="anonymous"></script>
+	
+</body>
+</html>

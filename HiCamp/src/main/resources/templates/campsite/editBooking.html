@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    <!-- SweetAlert2 CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.css">
+
+    <!-- SweetAlert2 JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.min.js"></script>
+
+    <title>登露HiCamp</title>
+    <style>
+        .header {
+            display: flex;
+            align-items: center;
+        }
+
+        .delete-form {
+            margin-left: 20px;
+        }
+
+        .edit-input {
+            margin-left: auto;
+        }
+    </style>
+
+</head>
+
+<body class="dashboard dashboard_1">
+    <div class="full_container">
+        <div class="inner_container">
+            <!-- Sidebar  -->
+            <div th:replace="~{layout/leftbar}"></div>
+            <!-- right content -->
+            <div id="content">
+                <!-- topbar -->
+                <div th:replace="~{layout/topbar}"></div>
+                <!-- end topbar -->
+                <!-- dashboard inner -->
+                <div class="midde_cont">
+                    <div class="container-fluid">
+                        <div class="row column_title">
+                            <div class="col-md-12">
+                                <div class="page_title">
+                                    <div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <h2>訂單管理</h2>
+                                                <form
+                                                    th:action="@{/campsite/bookingEdit/{bookingNo}(bookingNo=${booking.bookingNo})}"
+                                                    method="post" enctype="multipart/form-data">
+                                                    <input type="hidden" name="_method" value="PUT" />
+                                                    <input th:field="${booking.bookingNo}" type="hidden" />
+                                                    <input th:field="${booking.campsite.campsiteNo}" type="hidden" />
+                                                    <input th:field="${booking.campspace.campspaceNo}" type="hidden" />
+
+                                                    <div class="input-group flex-nowrap mb-3">
+                                                        <span class="input-group-text" id="bookingNo-addon">訂單編號</span>
+                                                        <input th:field="${booking.bookingNo}" type="text"
+                                                            class="form-control" aria-label="訂單編號"
+                                                            aria-describedby="bookingNo-addon" readonly>
+                                                    </div>
+
+                                                    <div class="input-group flex-nowrap mb-3">
+                                                        <span class="input-group-text"
+                                                            id="campsiteName-addon">營區名稱</span>
+                                                        <input th:field="${booking.campsite.campsiteName}" type="text"
+                                                            class="form-control" aria-label="營位編號"
+                                                            aria-describedby="campsiteName-addon" readonly>
+                                                    </div>
+
+                                                    <div class="input-group flex-nowrap mb-3">
+                                                        <span class="input-group-text"
+                                                            id="campspaceArea-addon">營位名稱</span>
+                                                        <input th:field="${booking.campspace.campspaceArea}" type="text"
+                                                            class="form-control" aria-label="營位名稱"
+                                                            aria-describedby="campspaceArea-addon" readonly>
+                                                    </div>
+
+                                                    <div class="input-group flex-nowrap mb-3">
+                                                        <span class="input-group-text" id="booker-addon">訂購人</span>
+                                                        <input th:field="${booking.booker}" type="text"
+                                                            class="form-control" aria-label="訂購人"
+                                                            aria-describedby="booker-addon">
+                                                    </div>
+                                                    <div class="input-group flex-nowrap mb-3">
+                                                        <span class="input-group-text"
+                                                            id="bookerPhone-addon">連絡電話</span>
+                                                        <input th:field="${booking.bookerPhone}" type="text"
+                                                            class="form-control" aria-label="連絡電話"
+                                                            aria-describedby="bookerPhone-addon">
+                                                    </div>
+
+                                                    <div class="input-group flex-nowrap mb-3">
+                                                        <span class="input-group-text"
+                                                            id="bookingDate-addon">訂購日期</span>
+                                                        <input th:field="${booking.bookingDate}" type="text"
+                                                            class="form-control" aria-label="訂購日期"
+                                                            aria-describedby="bookingDate-addon" readonly>
+                                                    </div>
+
+                                                    <div class="input-group flex-nowrap mb-3">
+                                                        <span class="input-group-text"
+                                                            id="checkinDate-addon">開始日期</span>
+                                                        <input th:field="${booking.checkinDate}" type="text"
+                                                            class="form-control" aria-label="開始日期"
+                                                            aria-describedby="checkinDate-addon">
+                                                    </div>
+
+                                                    <div class="input-group flex-nowrap mb-3">
+                                                        <span class="input-group-text"
+                                                            id="checkoutDate-addon">結束日期</span>
+                                                        <input th:field="${booking.checkoutDate}" type="text"
+                                                            class="form-control" aria-label="結束日期"
+                                                            aria-describedby="checkoutDate-addon">
+                                                    </div>
+
+                                                    <div class="input-group flex-nowrap mb-3">
+                                                        <span class="input-group-text"
+                                                            id="bookingCampspaceQuantity-addon">訂購營位數量</span>
+                                                        <input th:field="${booking.bookingCampspaceQuantity}"
+                                                            type="text" class="form-control" aria-label="訂購營位數量"
+                                                            aria-describedby="bookingCampspaceQuantity-addon">
+                                                    </div>
+
+                                                    <div class="input-group flex-nowrap mb-3">
+                                                        <span class="input-group-text"
+                                                            id="bookingAmount-addon">總共金額</span>
+                                                        <input th:field="${booking.bookingAmount}" type="text"
+                                                            class="form-control" aria-label="總共金額"
+                                                            aria-describedby="bookingAmount-addon">
+                                                    </div>
+
+                                                    <div class="text-end">
+                                                        <a href="http://localhost:8080/HiCamp/campsite/bookingShow"
+                                                            class="btn btn-secondary">返回主頁</a>
+                                                        <input type="submit" value="編輯"
+                                                            class="edit-input btn btn-primary" />
+                                                    </div>
+                                                </form>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- JavaScript Bundle with Popper -->
+                            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+                                integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+                                crossorigin="anonymous"></script>
+</body>
+
+</html>

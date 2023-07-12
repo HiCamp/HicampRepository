@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>Activity FrontPage</title>
+
+	<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<!-- owl carousel -->
+	<link rel="stylesheet" href="assets/css/owl.carousel.css">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<!-- animate css -->
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+	<!-- main style -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="assets/css/responsive.css">
+
+<link th:href="@{/css/bootstrap.min.css}" rel="stylesheet">
+<script src="https://unpkg.com/bootstrap@5.3.0/dist/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	
+	<div th:replace="~{/layout/frontTopBar}"></div>
+
+	<!-- search area -->
+	<div class="search-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<span class="close-btn"><i class="fas fa-window-close"></i></span>
+					<div class="search-bar">
+						<div class="search-bar-tablecell">
+							<h3>Search For:</h3>
+							<input type="text" placeholder="Keywords">
+							<button type="submit">Search <i class="fas fa-search"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end search arewa -->
+	
+	<!-- TopBar  breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg" >
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Adventure tours at our best</p>
+						<h1>Hiking & Camping Tours</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end  TopBar breadcrumb section -->
+
+<!-- Activity Information -->
+  <nav aria-label="breadcrumb" style=" font-size:1.5em;display: block; ">
+    <ol class="breadcrumb" style="background-color:#fff; margin-left:310px; margin-top:10px; display: flex; flex-wrap: wrap;  " >
+      <li class="breadcrumb-item" ><a href="http://localhost:8080/HiCamp/activity/alldata" >活動首頁</a></li>
+      <li class="breadcrumb-item active" aria-current="page">活動資訊</li>
+    </ol>
+ </nav>
+ 
+ <div class="single-product mt-150 mb-150" style="margin-top:5px">
+ 
+  <div class="container">
+   <div class="row">
+			
+<!-- ======================================輪播照片======================================-->						
+<div class="col-md-5" style="width:700px;height:450px;">
+				
+	<div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel" style="max-width:700px;">
+
+  <div class="carousel-indicators" >
+     <th:block th:each="activityPicture, activityPictureIndex : ${activityPictures}">
+                <button type="button" data-bs-target="#carouselExampleIndicators" th:data-bs-slide-to="${activityPictureIndex.index}" 
+                th:classappend="${activityPictureIndex.index == 0} ? 'active' : ''" th:aria-label="'Slide ' + ${activityPictureIndex.index + 1}"></button>
+            </th:block>
+  </div>
+  
+  <div class="carousel-inner" style="height: 450px;">
+     <th:block th:each="activityPicture, activityPictureIndex : ${activityPictures}">
+       <div class="carousel-item" th:classappend="${activityPictureIndex.index == 0} ? 'active' : ''">
+        <img style="width: 700px;" th:src="@{'/activity/showPictures?activityPictureNo=' + ${activityPicture.activityPictureNo}}" alt="活動照片">
+       </div>
+     </th:block>
+  </div>
+  
+  <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Previous</span>
+  </button>
+  <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="visually-hidden">Next</span>
+  </button>
+	</div>
+</div>
+
+<!-- ======================================活動摘要======================================-->
+				
+				<div class="col-md-7" style="width:600px" >
+					<div class="single-product-content" style="font-family:monospace; color:#374b56; margin:5px">
+						<h3 th:text="${activity.activityName}" style="font-family:monospace; color:#374b56; font-size:2.5em;"></h3>
+						<h5>🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌🦌</h5>
+						
+						<h5 style="font-family:monospace; color:#3b5d92;"> 活動日期:　2023/06-06~2023-06/08 </h5>
+						<h5 th:text=" '活動地點:　' +${activity.activityLocation}" style="font-family:monospace; color:#3b5d92;"></h5>
+						<h5 th:text=" '活動簡介:　' +${activity.activityInfo}" style="font-family:monospace; color:#3b5d92; display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden;text-overflow: ellipsis;"></h5>
+						<h5 th:text=" '活動費用:　$' + ${activity.activityPrice}" style="font-family:monospace; color:#3b5d92; " class="single-product-pricing" ></h5>
+						<h5 th:text=" '活動名額:　' + ${activity.activityQuota}" style="font-family:monospace; color:#3b5d92; " class="single-product-pricing" ></h5>
+						
+						<div class="single-product-form" style=" display: flex; justify-content: space-between; align-items: center;">
+							<form action="index.html" style="display: flex; align-items: center;justify-content: space-between;">
+								<h5 style="font-family:monospace; color:#3b5d92; margin-right: 10px;align-items:center;" class="single-product-pricing" >選擇數量:</h5>
+								<input type="number" placeholder="0" value="1" min="1" th:max="${activity.activityQuota}"> 
+							</form>
+							<br>
+							<a href="cart.html" class="cart-btn" style="background-color:#3b5d92; float:right;"><i class="fas fa-shopping-cart" ></i> 報名參加 </a>
+						</div>
+						
+						<ul class="product-share" style="display:flex;float:right">
+							<li style=" display: flex; justify-content: space-between; align-items: center;"> <h5>Share:　</h5> </li>
+							<li><a href=""><i class="fab fa-facebook-f" style="font-size: 15px;"></i></a></li>
+							<li><a href=""><i class="fab fa-twitter" style="font-size: 15px;"></i></a></li>
+							<li><a href=""><i class="fab fa-google-plus-g" style="font-size: 15px;"></i></a></li>
+							<li><a href=""><i class="fab fa-linkedin" style="font-size: 15px;"></i></a></li>
+						</ul>
+						
+					</div>
+				</div>
+				
+				<div style="font-family:monospace; color:#374b56; margin:50px 10px; padding:5px;">
+					<h3 style="font-family:monospace; color:#374b56;">詳細資訊:</h3>
+					<h5 th:text=" ${activity.activityInfo}" style="font-family:monospace; color:#3b5d92;" ></h5>
+					<h5 th:text=" ${activity.activityInfo}" style="font-family:monospace; color:#3b5d92;" ></h5>
+					<h5 th:text=" ${activity.activityInfo}" style="font-family:monospace; color:#3b5d92;" ></h5>
+					<h5 th:text=" ${activity.activityInfo}" style="font-family:monospace; color:#3b5d92;" ></h5>
+					
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	
+	<!-- end single product -->
+
+	<!-- more products -->
+	<div class="more-products mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="section-title">	
+						<h3><span class="orange-text">Related</span> Activities</h3>
+						<p>"In nature, nothing is perfect and everything is perfect. Trees can be contorted, bent in weird ways, and they’re still beautiful." — Alice Walker</p>
+					</div>
+				</div>
+			</div>
+			
+			
+		<!-- <div class="row">
+				<div class="col-lg-4 col-md-6 text-center">
+					<div class="single-product-item">
+						<div class="product-image">
+							<a href="single-product.html"><img src="assets/img/products/product-img-1.jpg" alt=""></a>
+						</div>
+						<h3>Strawberry</h3>
+						<p class="product-price"><span>Per Kg</span> 85$ </p>
+						<a href="cart.html" class="cart-btn"><i class="fas fa-shopping-cart"></i> Add to Cart</a>
+					</div>
+				</div>
+			</div>
+		 -->	
+			
+		</div>
+	</div>
+	<!-- end more products -->
+
+	<!-- logo carousel -->
+	<div class="logo-carousel-section">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<div class="logo-carousel-inner">
+						<div class="single-logo-item">
+							<img src="assets/img/company-logos/1.png" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="assets/img/company-logos/2.png" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="assets/img/company-logos/3.png" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="assets/img/company-logos/4.png" alt="">
+						</div>
+						<div class="single-logo-item">
+							<img src="assets/img/company-logos/5.png" alt="">
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end logo carousel -->
+
+<div th:replace="~{/layout/frontBottomBar}"></div>
+
+    <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+    <script src="https://kit.fontawesome.com/c919345bd6.js" crossorigin="anonymous"></script>
+
+	<script th:src="@{/activity/jquery-3.7.0.min.js}"></script>
+	<script th:src="@{/activity/bootstrap.bundle.min.js}"></script>
+	
+	
+	
+</body>
+</html>

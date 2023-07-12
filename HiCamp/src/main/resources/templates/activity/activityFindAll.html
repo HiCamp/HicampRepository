@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- basic -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- mobile metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+ <title>顯示所有活動列表(後台管理)</title>
+
+ <style>
+    /* */
+    th {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    td {
+      white-space: nowrap;
+      /* 不換行 */
+      overflow: hidden;
+      /* 超出部分隱藏 */
+      text-overflow: ellipsis;
+      /* 顯示省略號 */
+    }
+ </style>
+
+</head>
+
+<body class="dashboard dashboard_1">
+  <div class="full_container">
+    <div class="inner_container">
+      <!-- Sidebar  -->
+      <div th:replace="~{layout/leftbar}"></div>
+      <!-- right content -->
+      <div id="content">
+        <!-- topbar -->
+        <div th:replace="~{layout/topbar}"></div>
+        <!-- end topbar -->
+        
+        <!-- dashboard inner -->
+        <div class="midde_cont">
+          <div class="container-fluid">
+            <div class="row column_title">
+              <div class="col-md-12">
+                <div class="page_title" style="display: flex; align-items: center;">
+                  <h2>活動列表</h2>
+
+<!-----新增活動按鈕------>
+                  <button type="button" class="create btn btn-outline-danger btn-lg" style="margin-left: 50px"
+                    data-bs-toggle="modal" data-bs-target="#exampleModal">新增活動</button>
+
+                </div>
+              </div>
+            </div>
+
+<!------------------------------------------活動列表-------------------------------------------->
+            <div class="table" style="width: 90%; margin: 0 auto;">
+              <table id="example" class="hover" style="width: 100%; font-size: 20px;">
+                <thead>
+                  <tr>
+                    <th style="width: 100px;">活動編號</th>
+                    <th style="width: 100px;">活動類型</th>
+                    <th style="width: 100px;">活動名稱</th>
+                    <th style="width: 100px;">活動地點</th>
+                    <th style="width: 300px;">活動資訊</th>
+                    <th style="width: 100px;">活動名額</th>
+                    <th style="width: 100px;">活動價格</th>
+                    <th style="width: 100px;">編輯資料</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <th:block th:each="activity : ${activity}">
+                    <tr>
+                      <td th:text="${activity.activityNo}"></td>
+                      <td th:text="${activity.activityType}"></td>
+                      <td th:text="${activity.activityName}"
+                        style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 120px">
+                      </td>
+                      <td th:text="${activity.activityLocation}"></td>
+                      <td th:text="${activity.activityInfo}"
+                        style="display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 320px">
+                      </td>
+                      <td th:text="${activity.activityQuota}"></td>
+                      <td th:text="${activity.activityPrice}"></td>
+                      <td><button class="edit-btn btn btn-sm" th:data-actId="${activity.activityNo}">編輯</button></td>
+
+                    </tr>
+                  </th:block>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>活動編號</th>
+                    <th>活動類型</th>
+                    <th>活動名稱</th>
+                    <th>活動地點</th>
+                    <th>活動資訊</th>
+                    <th>活動名額</th>
+                    <th>活動價格</th>
+                    <th>編輯資料</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+<!------------------------------------------活動列表END-------------------------------------------->            
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  
+  	<!------------新增活動彈跳視窗內容------------->
+                  <div class="modal fade" id="exampleModal" data-bs-backdrop="static" tabindex="-1"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="exampleModalLabel">新增活動(請輸入資料)</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+
+                        <form th:action="@{/activity/insertData}" method="post" enctype="multipart/form-data"
+                          id="insertForm">
+
+                          <div class="modal-body" style="display: flex; flex-wrap: wrap;">
+                       
+          <!------圖片(左上)------>
+                            <div style="width: 600px; float: left;">
+                              <p>活動照片:</p>
+                              <div>
+                                <img id="imgPreview" src="#"
+                                  style="max-width: 600px; max-height: 400px; display: none" />
+                                <input type="file" name="activityPicture" id="imgInput" multiple></input>
+                              </div>
+                            </div>
+
+          <!------摘要(右上)------>
+                            <div style="width: 450px; float: right; margin-left: 30px;">
+                              <p>活動摘要:</p>
+                              <div>
+                                <label for="" class="col-form-label">活動類型:</label>
+                                <input type="text" class="form-control" id="activityType" name="activityType"
+                                  list="typelist" placeholder="請輸入類型">
+                                <datalist id="typelist">
+                                  <option value="新手專區"></option>
+                                  <option value="百岳入門"></option>
+                                  <option value="百岳進階"></option>
+                                  <option value="長天數縱走"></option>
+                                  <option value="中級山野營"></option>
+                                </datalist>
+                              </div>
+
+                              <div>
+                                <label for="" class="col-form-label">活動名稱:</label>
+                                <input type="text" class="form-control" id="activityName" name="activityName"
+                                  list="namelist" placeholder="請輸入名稱">
+                                <datalist id="namelist">
+                                  <option value="帝王之山~南湖群峰五天四夜"></option>
+                                  <option value="寶島第一尖~中央尖山四天三夜"></option>
+                                  <option value="步步驚心~北二段縱走四天三夜"></option>
+                                  <option value="一生必朝聖: 水鹿大軍圍繞的北三段(能高安東軍)縱走六天五夜">
+                                  </option>
+                                  <option value="野外求生體驗營"></option>
+                                  <option value="新手入門: 七星山"></option>
+                                  <option value="台版富士山: 苗栗加里山一日單攻"></option>
+                                </datalist>
+                              </div>
+
+                              <div>
+                                <label for="" class="col-form-label">活動地點:</label>
+                                <input type="text" class="form-control" id="activityLocation" name="activityLocation"
+                                  list="locationlist" placeholder="請輸入地點">
+                                <datalist id="locationlist">
+                                  <option value="太魯閣國家公園"></option>
+                                  <option value="玉山國家公園"></option>
+                                  <option value="雪山國家公園"></option>
+                                  <option value="陽明山國家公園"></option>
+                                  <option value="奧萬大國家森林遊樂區"></option>
+                                  <option value="新北市山區"></option>
+                                </datalist>
+                              </div>
+
+
+                              <div>
+                                <label for="" class="col-form-label">活動名額:</label>
+                                <input type="text" class="form-control" id="activityQuota" name="activityQuota"
+                                  list="quotalist" placeholder="請輸入名額">
+                                <datalist id="quotalist">
+                                  <option value="30"></option>
+                                  <option value="40"></option>
+                                  <option value="50"></option>
+                                </datalist>
+                              </div>
+
+                              <div>
+                                <label for="" class="col-form-label">活動價格(NT$):</label>
+                                <input type="number" class="form-control" id="activityPrice" name="activityPrice"
+                                  list="Pricelist" placeholder="請輸入價格">
+                                <datalist id="Pricelist">
+                                  <option value="6500"></option>
+                                  <option value="1600"></option>
+                                  <option value="12000"></option>
+                                  <option value="500"></option>
+                                  <option value="3200"></option>
+                                  <option value="5000"></option>
+                                </datalist>
+                              </div>
+                            </div>
+
+
+       <!------ 詳細介紹(下方) ------>
+                            <div style="width: 97.7%;">
+                              <label for="" class="col-form-label">活動資訊:</label>
+                              <textarea class="form-control" id="activityInfo" name="activityInfo" placeholder="請輸入資訊"
+                                style="height: 300px"></textarea>
+                            </div>
+
+                          </div>
+
+       <!-------- 按鈕 -------->
+                          <div class="modal-footer">
+                            <button type="submit" class="btn btn-outline-primary">確定</button>
+                            <button type="reset" class="my-reset-data-btn btn btn-outline-primary">清除</button>
+                            <button type="button" id="fillData"
+                              class="my-filldata-data-btn btn btn-outline-primary">一鍵輸入</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  
+<!------------------------------------------新增活動END------------------------------------------>
+  
+  <script th:src="@{/activity/jquery-3.6.4.min.js}"></script>
+  <script th:src="@{/activity/bootstrap.bundle.min.js}"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+<!--   一鍵輸入 -->
+  <script>
+    const url = "http://localhost:8080/HiCamp/activity/inserttest";
+    const btnPreview = document.querySelector(".my-preview-data-btn")
+
+    const btnFilldata = document.querySelector(".my-filldata-data-btn");
+
+    function fillData() {
+      document.getElementById("fillData").addEventListener("click", function () {
+        document.getElementById("activityType").value = "長天數縱走";
+        document.getElementById("activityName").value =
+          "一生必朝聖: 水鹿大軍圍繞的北三段(能高安東軍)縱走六天五夜";
+        document.getElementById("activityLocation").value = "太魯閣國家公園";
+        document.getElementById("activityInfo").value =
+          "雖然說玉山、雪山是台灣最高的山峰，但是在許多台灣山岳人的心目中，「帝王之山」的封號，恐怕得頒給中央山脈北一段的「南湖大山」，而南湖大山甚至還不是中央山脈最高峰呢。而「南湖大山」能夠有這樣的稱號，得自於其威儀厚重、氣勢偉岸的山型，不管從任何角度、任何距離看過去，南湖大山皆是一派端凝莊嚴之氣象。除此之外，南湖山區並不只有南湖大山這一座山，還有數座高低不等、有著各自獨特性格的山峰，有如眾星拱月般護衛著南湖大山主峰，因此更具帝王之相的意義啦！而除了數座高聳入雲的百岳名峰之外，南湖山區有著台灣最完整多變的冰河地形（如壯麗的上、下圈谷）、台灣唯一的「寒漠」地質、台灣最長的冰封雪季、還有一些世界獨有的原生物種....甚至南湖山區似乎帶著某種鍾靈毓秀的天地靈氣，讓南湖大山成為許多愛山人魂牽夢縈的高山美地，總是一而再、再而三地多次拜訪，有些人認為必須春夏秋冬四季都走過一遍，才算是完整的登過南湖大山。";
+        document.getElementById("activityQuota").value = "35";
+        document.getElementById("activityPrice").value = "12000";
+      });
+    }
+    document.getElementById("fillData").addEventListener("click", fillData);
+  </script>
+
+
+  <script>
+    var editBtn = document.getElementsByClassName("edit-btn");
+
+    for (i = 0; i < editBtn.length; i++) {
+      editBtn[i].addEventListener('click', function (e) {
+        const actId = this.getAttribute('data-actId');
+        console.log('actId:' + actId);
+        window.location.href = "http://localhost:8080/HiCamp/activity/findByNo?activityNo=" + actId;
+
+      });
+    }
+  </script>
+
+  <script>
+    $("#imgInput").change(function () {
+      readURL(this);
+    })
+
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        var reader = new FileReader();
+        reader.onload = function (e) {
+          $("#imgPreview").attr('src', e.target.result).css({ "display": "block" });
+        }
+        reader.readAsDataURL(input.files[0]);
+      }
+    }
+
+  </script>
+
+  <script>
+    $('form').on('submit', function (e) {
+      e.preventDefault();
+      swal({
+        title: '是否確認送出?',
+        text: "",
+        icon: 'info',
+        buttons: ['取消', '確定'],
+        dangerMode: false,
+      })
+        .then((confirmed) => {
+          if (confirmed) {
+            swal('新增成功', '新增成功')
+              .then(() => {
+                this.submit();
+              });
+          }
+        });
+    });
+
+  </script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+	<script>
+      $(document).ready(function () {
+         $('#example').DataTable();
+      });
+   </script>
+
+</body>
+
+</html>

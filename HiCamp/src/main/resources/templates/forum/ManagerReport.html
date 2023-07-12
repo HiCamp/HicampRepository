@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- basic -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!-- mobile metas -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+    <title>HiCamp</title>
+</head>
+
+<body class="dashboard dashboard_1">
+    <div class="full_container">
+        <div class="inner_container">
+            <!-- Sidebar  -->
+            <div th:replace="~{layout/leftbar}"></div>
+            <!-- right content -->
+            <div id="content">
+                <!-- topbar -->
+                <div th:replace="~{layout/topbar}"></div>
+                <!-- end topbar -->
+                <!-- dashboard inner -->
+                <div class="midde_cont">
+                    <div class="container-fluid">
+                        <div class="row column_title">
+                            <div class="col-md-12">
+                                <div class="page_title" style="display: flex; align-items: center">
+                                    <h2>論壇後台</h2>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="table" style="width:90%;margin: 0 auto;">
+                            <table id="example" class="hover" style="width:100%;font-size: 20px;">
+                                <thead>
+                                    <tr>
+                                        <th>檢舉編號</th>
+                                        <th>文章編號</th>
+                                        <th>檢舉原因</th>
+                                        <th>檢舉者</th>
+                                        <th>文章狀態</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr th:each="report : ${reports}">
+                                        <td th:text="${report.postReportNo}"></td>
+                                        <td th:text="${report.post.postNo}"></td>
+                                        <td th:text="${report.postReportReason}"></td>
+                                        <td th:text="${report.member.memberName}"></td>
+                                        <td th:text="${report.post.postStatus}"></td>
+                                        <td>
+                                            <a th:data-postNo="${report.post.postNo}" style="color:whitesmoke"
+                                                class="btn btn-warning hide-btn">隱藏</a>
+                                            <a th:data-postNo="${report.post.postNo}" style="color:whitesmoke"
+                                                class="btn btn-secondary ignore-btn">忽略</a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    <script>
+        $(".hide-btn").click(function () {
+            let postNo = $(this).attr("data-postNo");
+            Swal.fire({
+                title: '確定要隱藏文章?',
+                text: "",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: '確認',
+                cancelButtonText: '取消',
+            })
+                .then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            url: "/HiCamp/forum/hide/" + postNo,
+                            type: 'POST',
+                            success: function () {
+                                Swal.fire({
+                                    title: '隱藏成功',
+                                    text: '此文章已成功隱藏！',
+                                    icon: 'success',
+                                    confirmButtonText: '回首頁'
+                                })
+                                    .then(() => {
+                                        window.location.href = "/HiCamp/forum/showreports";
+                                    })
+                            },
+                            error: function () {
+                                Swal.fire({
+                                    title: '操作失敗',
+                                    text: '請稍後再試',
+                                    icon: 'error'
+                                })
+                            }
+                        });
+                    }
+                })
+        });
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+    </script>
+</body>
+
+</html>

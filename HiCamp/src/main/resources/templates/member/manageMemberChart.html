@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- basic -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- mobile metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<style>
+	</style>
+	<title>HiCamp 登露</title>
+</head>
+
+<body class="dashboard dashboard_1">
+	<div class="full_container">
+		<div class="inner_container">
+			<!-- Sidebar  -->
+			<div th:replace="~{layout/leftbar}"></div>
+			<!-- right content -->
+			<div id="content">
+				<!-- topbar -->
+				<div th:replace="~{layout/topbar}"></div>
+				<!-- end topbar -->
+				<!-- dashboard inner -->
+				<div class="midde_cont">
+					<div class="container-fluid">
+						<div class="row column_title">
+							<div class="col-md-12">
+								<div class="page_title" style="display: flex; align-items: center;">
+									<h2>會員註冊狀況</h2>
+								</div>
+							</div>
+						</div>
+
+						<div class="table" style="width: 90%; margin: 0 auto;">
+							<div style="display: flex; justify-content: space-between;">
+								<select name="year" id="year">
+									<option value="2023">2023</option>
+									<option value="2022">2022</option>
+								</select>
+								<div>
+									<span>輸出檔案</span>
+									<button class="btn btn-outline-secondary btn-sm picture">圖表</button>
+									<button class="btn btn-outline-secondary btn-sm csv">CSV</button>
+									<button class="btn btn-outline-secondary btn-sm json">JSON</button>
+								</div>
+							</div>
+							<canvas id="myChart"></canvas>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	
+	<script>
+		charjs(2023);
+
+		$("#year").change(function () {
+		    let year = $("#year").val();
+		    console.log(year);
+		    charjs(year);
+		});
+		
+		function charjs(year) {
+		    $.ajax({
+		        url: "http://localhost:8080/HiCamp/findbysignupdate",
+		        type: "get",
+		        data: {
+		            "year": year
+		        },
+		        success: function (response) {
+		            let month = [];
+		            let count = [];
+		
+		            console.log(response[0].month)
+		            response.forEach(function (data) {
+		                month.push(data.month + "月");
+		                count.push(data.count);
+		            });
+		            console.log(month);
+		            console.log(count);
+		
+		            // 如果之前的圖表存在，則移除它
+		            if (window.myChart && window.myChart instanceof Chart) {
+				        window.myChart.destroy();
+				    }
+		
+		            const ctx = $("#myChart");
+		
+		            // 創建一個新的圖表
+		            window.myChart = new Chart(ctx, {
+		                data: {
+		                    datasets: [{
+		                        type: 'bar',
+		                        label: '每月會員註冊量',
+		                        data: count
+		                    },
+		                    {
+		                        type: 'line',
+		                        label: 'Line',
+		                        data: count
+		                    }],
+		                    labels: month
+		                },
+		                options: {
+		                    scales: {
+		                        y: {
+		                            beginAtZero: true
+		                        }
+		                    }
+		                }
+		            });
+		        }
+		    });
+		}
+
+		$(".csv").click(function(){
+			Swal.fire({
+			  title: '確定要輸出CSV檔案嗎?',
+			  icon: 'question',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: '確定'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+			    Swal.fire(
+			      '成功輸出'
+			    )
+			  }
+			})
+		});
+		$(".json").click(function(){
+			Swal.fire({
+			  title: '確定要輸出JSON檔案嗎?',
+			  icon: 'question',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: '確定'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+			    Swal.fire(
+			      '成功輸出'
+			    )
+			  }
+			})
+		});
+		
+		$(".picture").click(function(){
+			let imgData = $("#myChart")[0].toDataURL("image/png");
+			console.log(imgData);
+			Swal.fire({
+			  title: '確定要輸出圖表嗎?',
+			  icon: 'question',
+			  showCancelButton: true,
+			  confirmButtonColor: '#3085d6',
+			  cancelButtonColor: '#d33',
+			  confirmButtonText: '確定'
+			}).then((result) => {
+			  if (result.isConfirmed) {
+				$.ajax({
+					url: "http://localhost:8080/HiCamp/getchartjspicture",
+					type: "post",
+					data: JSON.stringify({"img":imgData}),
+					contentType: "application/json",
+					success: function(response){
+						console.log(response);
+					}
+				});
+			    Swal.fire(
+			      '成功輸出'
+			    )
+			  }
+			})
+		});
+		
+	</script>
+</body>
+
+</html>

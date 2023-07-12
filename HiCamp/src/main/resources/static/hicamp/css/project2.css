@@ -1,0 +1,471 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+:root {
+    --text_color: #D08856;
+    --footer_color: #41403C;
+    --bgc_color: #d5f3f5;
+    --cach_color: #aa210f;
+}
+
+body {
+    background-color: var(--bgc_color);
+}
+
+.wrap {
+    width: 100%;
+    margin: 0 auto;
+    font-family: 微軟正黑體;
+}
+
+
+/* 頁首 */
+header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    background-color: #fff;
+    z-index: 99;
+    box-sizing: border-box;
+}
+
+header div {
+    display: flex;
+    justify-content: space-between;
+    padding: 0 200px;
+    /* border: 1px solid black; */
+    box-shadow: 1px 1px 20px lightgray;
+}
+
+.logo img {
+    width: 400px;
+    /* border: 1px solid black; */
+}
+
+.list {
+    display: flex;
+}
+
+li {
+    list-style-type: none;
+    width: 7em;
+    background-color: #fff;
+}
+
+.list a {
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    padding: 25px 0px;
+    font-size: 20px;
+    color: var(--text_color);
+    transition: 0.3s;
+}
+
+header li a:hover {
+    background-color: var(--text_color);
+    color: white;
+    transition: 0.3s;
+}
+
+.shop,
+.discussion,
+.member {
+    position: relative;
+}
+
+.shop ul,
+.discussion ul,
+.member ul {
+    position: absolute;
+    bottom: -200%;
+    left: 0;
+    display: none;
+    z-index: 10;
+}
+
+.list .shop:hover>ul,
+.list .discussion:hover>ul,
+.list .member:hover>ul {
+    display: block;
+}
+
+
+/* 內容 */
+
+.content {
+    width: 100%;
+    /* display: flex; */
+    
+}
+
+aside{
+    width: 10%;
+    top: 0;
+    bottom: 0;
+    margin: 200px 0 200px 3%;
+    position: fixed;
+    left: 0;
+}
+
+.content_list li {
+    list-style-type: none;
+    width: 100%;
+}
+
+.content_list li a {
+    text-decoration: none;
+    font-weight: bold;
+    text-align: center;
+    display: block;
+    font-size: 20px;
+    background-color: var(--bgc_color);
+    color: var(--text_color);
+    transition: 0.3s;
+    padding: 15px 0px;
+}
+
+.content_list li a:hover {
+    color: white;
+    background-color: var(--text_color);
+    transition: 0.3s;
+}
+
+.content_member,
+.content_forum {
+    position: relative;
+}
+
+.content_member ul,
+.content_forum ul {
+    display: none;
+    width: 100%;
+    position: absolute;
+    right: -100%;
+    top: 0;
+}
+
+.content_member:hover>ul,
+.content_forum:hover>ul {
+    display: block;
+}
+
+/* slide畫面 */
+.slide {
+    width: 100%;
+    height: 100vh;
+    overflow: hidden;
+    margin: 0 auto;
+    position: relative;
+}
+
+.slide-img {
+    display: flex;
+    margin-top: 80px;
+    width: 303%;
+    height: 100vh;
+    position: absolute;
+    right: 0;
+    transition: 0.5s;
+}
+
+.slide-img li {
+    width: 100%;
+    /* 由 100% 改成 33.33% */
+    height: 100vh;
+}
+
+.slide-img li img {
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
+    /* 加入這行 */
+}
+
+.slide-dot {
+    position: absolute;
+    display: flex;
+    bottom: 20px;
+    width: 100%;
+    justify-content: center;
+}
+
+.slide-dot li {
+    width: 15px;
+    height: 15px;
+    background-color: #bababa;
+    border-radius: 50%;
+    margin: 0 10px;
+    opacity: 0.5;
+    cursor: pointer;
+    /* 加入這行 */
+}
+
+.slide-dot li.active {
+    background-color: white;
+    /* 加入這行 */
+    opacity: 1;
+    /* 加入這行 */
+}
+
+/* 課程行程簡介 */
+.course,
+.forum,
+.camp {
+    width: 100%;
+    text-align: center;
+}
+
+.course h2,
+.forum h2,
+.camp h2 {
+    font-size: 36px;
+    color: var(--cach_color);
+    margin: 30px 0 50px 0;
+}
+
+.course-list {
+    width: 80%;
+    margin: 0 auto 50px auto;
+    display: flex;
+    justify-content: space-around;
+}
+
+.course-item {
+    width: 35%;
+    text-align: left;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 40px;
+    transition: 0.3s;
+    cursor: pointer;
+}
+
+.course-item:hover {
+    box-shadow: 0 0 20px rgb(186, 185, 185);
+    transition: 0.3s;
+}
+
+.course-item img {
+    width: 100%;
+}
+
+.course-item h3,
+.forum-content h3 {
+    font-size: 22px;
+    margin: 5px 0;
+}
+
+.course-item p {
+    font-size: 18px;
+    line-height: 1.5;
+}
+
+/* 文章列表 */
+.forum {
+    background-color: #fff;
+    padding: 40px 0 20px 0;
+}
+
+.forum-list {
+    width: 70%;
+    margin: 0 auto 100px auto;
+}
+
+.forum-list li {
+    display: flex;
+    width: 100%;
+    text-align: left;
+    position: relative;
+    border-radius: 5px;
+    transition: 0.3s;
+    margin-bottom: 20px;
+}
+
+.forum-list li:hover {
+    box-shadow: 0 0 20px rgb(186, 185, 185);
+    transition: 0.3s;
+}
+
+.forum-content {
+    padding: 10px;
+}
+
+.forum-list li img {
+    width: 300px;
+    display: block;
+    object-fit: cover;
+}
+
+.forum-list li a {
+    position: absolute;
+    right: 15px;
+    bottom: 7px;
+    color: var(--cach_color);
+}
+
+/* 營區 */
+.camp {
+    width: 100%;
+    margin: 50px 0 100px 0;
+}
+
+#calendar {
+    width: 400px;
+    height: 100%;
+}
+
+.camp-content {
+    display: flex;
+    justify-content: space-between;
+    width: 60%;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 30px 50px;
+    border-radius: 10px;
+    position: relative;
+}
+
+.camp-list {
+    margin: auto 0;
+}
+
+.camp-list li {
+    font-size: 30px;
+    color: var(--text_color);
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.camp-list li:hover {
+    color: var(--cach_color);
+    transition: 0.3s;
+}
+
+.camp-img {
+    width: 400px;
+}
+
+.camp-img img {
+    width: 400px;
+    margin-top: 30px;
+    height: 300px;
+}
+
+.camp-content button {
+    position: absolute;
+    border: none;
+    background-color: var(--text_color);
+    color: white;
+    bottom: 40px;
+    left: calc(50% - 60px);
+    font-size: 20px;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.camp-content button:hover{
+    background-color: var(--cach_color);
+    transition: 0.3s;
+}
+
+.fc-icon:after, .fc-toolbar button{
+    top: 10px;
+}
+
+.bar {
+    margin: 300px auto;
+    width: 60%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.bar li {
+    margin: 0 30px;
+    padding: 0 5px;
+    background-color: rgb(222, 222, 222);
+    width: 150px;
+    border-radius: 10px;
+    text-align: center;
+    transition: 0.3s;
+}
+
+.bar li:hover {
+    background-color: rgb(204, 202, 202);
+    transition: 0.3s;
+    box-shadow: 0 0 10px rgb(158, 156, 156);
+}
+
+.bar a{
+    padding: 10px 0;
+    display: block;
+    height: 100%;
+    text-decoration: none;
+    color: var(--footer_color);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.bar img {
+    /* width: 150px; */
+    height: 150px;
+}
+
+
+/* 頁尾 */
+footer {
+    width: 100%;
+
+}
+
+.infomation {
+    box-shadow: -1px -1px 20px lightgray;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    padding: 0 15%;
+}
+
+.infomation img {
+    width: 400px;
+    /* border: 1px solid black; */
+}
+
+.infomation ul {
+    /* border: 1px solid black; */
+    margin-right: 46%;
+}
+
+.infomation ul li {
+    list-style-type: none;
+    color: var(--text_color);
+    /* list-style-image: url(../images/login.png); */
+}
+
+.infomation ul li a {
+    text-decoration: none;
+    color: var(--text_color);
+    transition: 0.3s;
+}
+
+.infomation ul li a:hover {
+    color: var(--footer_color);
+    transition: 0.3s;
+}
+
+.bottom {
+    background-color: var(--footer_color);
+    padding: 30px 0 80px 0;
+}
+
+.bottom p {
+    text-align: center;
+    color: #fff;
+    font-family: 微軟正黑體;
+}

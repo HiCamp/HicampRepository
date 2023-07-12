@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+   <!-- basic -->
+   <meta charset="utf-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <!-- mobile metas -->
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+   <title>HiCamp</title>
+</head>
+
+<body class="dashboard dashboard_1">
+   <div class="full_container">
+      <div class="inner_container">
+         <!-- Sidebar  -->
+         <div th:replace="~{layout/leftbar}"></div>
+         <!-- right content -->
+         <div id="content">
+            <!-- topbar -->
+            <div th:replace="~{layout/topbar}"></div>
+            <!-- end topbar -->
+            <!-- dashboard inner -->
+            <div class="midde_cont">
+               <div class="container-fluid">
+                  <div class="row column_title">
+                     <div class="col-md-12">
+                        <div class="page_title" style="display: flex; align-items: center">
+                           <h2>論壇後台</h2>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="table" style="width:90%;margin: 0 auto;">
+                     <table id="example" class="hover" style="width:100%;font-size: 20px;">
+                        <thead>
+                           <tr>
+                              <th>編號</th>
+                              <th>類別</th>
+                              <th>標題</th>
+                              <th>按讚</th>
+                              <th>留言</th>
+                              <th>瀏覽次數</th>
+                              <th>文章狀態</th>
+                              <th>作者</th>
+                              <th>最後編輯日期</th>
+                              <th>操作</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr th:each="detail : ${postDetails}">
+                              <td th:text="${detail.post.postNo}"></td>
+                              <td th:text="${detail.post.postType}"></td>
+                              <td th:text="${detail.post.postTitle}"></td>
+                              <td th:text="${detail.likesCount}"></td>
+                              <td th:text="${detail.commentsCount}"></td>
+                              <td th:text="${detail.viewsCount}"></td>
+                              <td th:text="${detail.post.postStatus}"></td>
+                              <td th:text="${detail.post.member.memberName}"></td>
+                              <td th:text="${#dates.format(detail.post.postDate, 'yyyy/MM/dd HH:mm:ss')}"></td>
+                              <td>
+                                 <a th:href="@{/forum/update/{postNo}(postNo=${detail.post.postNo})}"
+                                    class="btn btn-success">修改</a>
+                                 <a th:data-postNo="${detail.post.postNo}" class="btn btn-danger"
+                                    style="color:whitesmoke">刪除</a>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+   <script>
+      $(".btn-danger").click(function () {
+         let postNo = $(this).attr("data-postNo");
+         Swal.fire({
+            title: '確定要刪除文章?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '確認',
+            cancelButtonText: '取消',
+         })
+            .then((result) => {
+               if (result.isConfirmed) {
+                  Swal.fire({
+                     title: '刪除成功',
+                     text: '此文章已成功刪除！',
+                     icon: 'success',
+                     confirmButtonText: '回首頁'
+                  })
+                     .then(() => {
+                        window.location.href = "/HiCamp/forum/delete/" + postNo;
+                     })
+               }
+            })
+      });
+      $(document).ready(function () {
+         $('#example').DataTable();
+      });
+   </script>
+</body>
+
+</html>

@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+   <meta name="description"
+      content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+   <!-- title -->
+   <title>登山EZ</title>
+
+   <style>
+      .quick {
+         background-color: #F28123;
+         color: #051922;
+         font-weight: 700;
+         text-transform: uppercase;
+         font-size: 15px;
+         border: none !important;
+         cursor: pointer;
+         padding: 15px 25px;
+         border-radius: 50px;
+      }
+
+      .quick:hover {
+         background-color: #051922;
+         color: #F28123;
+         transition: 0.3s;
+      }
+   </style>
+
+</head>
+
+<body>
+   <div th:replace="~{layout/frontTopBar}"></div>
+
+   <!-- breadcrumb-section -->
+   <div class="breadcrumb-section breadcrumb-bg">
+      <div class="container">
+         <div class="row">
+            <div class="col-lg-8 offset-lg-2 text-center">
+               <div class="breadcrumb-text">
+                  <p>大自然的秘密，在你探索中揭示</p>
+                  <h1>探索者之家</h1>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <!-- end breadcrumb section -->
+
+   <!-- latest news -->
+   <div class="container">
+      <h2 class="text-center mt-3 mb-5">發表文章</h2>
+      <form th:action="@{/forum/added}" th:object="${post}" method="post">
+         <div class="form-group">
+            <label for="postType">文章類別:</label>
+            <select th:field="*{postType}" id="postType" class="form-control">
+               <option value="">請選擇文章類別</option>
+               <option value="閒聊">閒聊</option>
+               <option value="心得">心得</option>
+               <option value="登山">登山</option>
+               <option value="露營">露營</option>
+               <option value="其他">其他</option>
+            </select>
+         </div>
+         <div class="form-group">
+            <label for="postTitle">請輸入標題：</label>
+            <input th:field="*{postTitle}" id="postTitle" class="form-control" autocomplete="off" />
+         </div>
+         <div class="form-group">
+            <label for="postAlbum">插入封面照片：</label>
+            <input th:field="*{postAlbum}" id="postAlbum" type="hidden" />
+            <input type="file" class="form-control-file" id="postAlbumFile" onchange="convertImageToBase64(this)" />
+         </div>
+         <div class="form-group">
+            <label for="postContent">請輸入內容：</label>
+            <textarea th:field="*{postContent}" id="postContent" class="form-control" rows="10"
+               autocomplete="off"></textarea>
+         </div>
+         <div class="form-group">
+            <input type="submit" class="quick" value="發文">
+            <input type="button" class="ml-1 quick" id="fillData" value="一鍵輸入">
+         </div>
+      </form>
+   </div>
+
+   <!-- end latest news -->
+
+   <div th:replace="~{layout/frontBottomBar}"></div>
+   <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+   <script src="https://cdn.ckeditor.com/ckeditor5/38.1.0/super-build/ckeditor.js"></script>
+   <script>
+      function convertImageToBase64(input) {
+         if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+               document.getElementById('postAlbum').value = e.target.result;
+            }
+
+            reader.readAsDataURL(input.files[0]);
+         }
+      }
+   </script>
+   <script>
+      $('form').on('submit', function (e) {
+         e.preventDefault();
+         Swal.fire({
+            title: '確定要發表文章?',
+            text: "",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: '確認',
+            cancelButtonText: '取消',
+         })
+            .then((result) => {
+               if (result.isConfirmed) {
+                  Swal.fire({
+                     title: '新增成功',
+                     text: '你的文章已經成功發布！',
+                     icon: 'success',
+                     confirmButtonText: '回首頁'
+                  })
+                     .then(() => {
+                        this.submit();
+                     })
+               }
+            })
+      });
+   </script>
+   <script>
+      // This sample still does not showcase all CKEditor 5 features (!)
+      // Visit https://ckeditor.com/docs/ckeditor5/latest/features/index.html to browse all the features.
+      CKEDITOR.ClassicEditor.create(document.getElementById("postContent"), {
+         // https://ckeditor.com/docs/ckeditor5/latest/features/toolbar/toolbar.html#extended-toolbar-configuration-format
+         toolbar: {
+            items: [
+               'exportPDF', 'exportWord', '|',
+               'findAndReplace', 'selectAll', '|',
+               'heading', '|',
+               'bold', 'italic', 'strikethrough', 'underline', 'code', 'subscript', 'superscript', 'removeFormat', '|',
+               'bulletedList', 'numberedList', 'todoList', '|',
+               'outdent', 'indent', '|',
+               'undo', 'redo',
+               '-',
+               'fontSize', 'fontFamily', 'fontColor', 'fontBackgroundColor', 'highlight', '|',
+               'alignment', '|',
+               'link', 'insertImage', 'blockQuote', 'insertTable', 'mediaEmbed', 'codeBlock', 'htmlEmbed', '|',
+               'specialCharacters', 'horizontalLine', 'pageBreak', '|',
+               'textPartLanguage', '|',
+               'sourceEditing'
+            ],
+            shouldNotGroupWhenFull: true
+         },
+         // Changing the language of the interface requires loading the language file using the <script> tag.
+         // language: 'es',
+         list: {
+            properties: {
+               styles: true,
+               startIndex: true,
+               reversed: true
+            }
+         },
+         // https://ckeditor.com/docs/ckeditor5/latest/features/headings.html#configuration
+         heading: {
+            options: [
+               { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+               { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+               { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' },
+               { model: 'heading3', view: 'h3', title: 'Heading 3', class: 'ck-heading_heading3' },
+               { model: 'heading4', view: 'h4', title: 'Heading 4', class: 'ck-heading_heading4' },
+               { model: 'heading5', view: 'h5', title: 'Heading 5', class: 'ck-heading_heading5' },
+               { model: 'heading6', view: 'h6', title: 'Heading 6', class: 'ck-heading_heading6' }
+            ]
+         },
+         // https://ckeditor.com/docs/ckeditor5/latest/features/editor-placeholder.html#using-the-editor-configuration
+         placeholder: '',
+         // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-family-feature
+         fontFamily: {
+            options: [
+               'default',
+               'Arial, Helvetica, sans-serif',
+               'Courier New, Courier, monospace',
+               'Georgia, serif',
+               'Lucida Sans Unicode, Lucida Grande, sans-serif',
+               'Tahoma, Geneva, sans-serif',
+               'Times New Roman, Times, serif',
+               'Trebuchet MS, Helvetica, sans-serif',
+               'Verdana, Geneva, sans-serif'
+            ],
+            supportAllValues: true
+         },
+         // https://ckeditor.com/docs/ckeditor5/latest/features/font.html#configuring-the-font-size-feature
+         fontSize: {
+            options: [10, 12, 14, 'default', 18, 20, 22],
+            supportAllValues: true
+         },
+         // Be careful with the setting below. It instructs CKEditor to accept ALL HTML markup.
+         // https://ckeditor.com/docs/ckeditor5/latest/features/general-html-support.html#enabling-all-html-features
+         htmlSupport: {
+            allow: [
+               {
+                  name: /.*/,
+                  attributes: true,
+                  classes: true,
+                  styles: true
+               }
+            ]
+         },
+         // Be careful with enabling previews
+         // https://ckeditor.com/docs/ckeditor5/latest/features/html-embed.html#content-previews
+         htmlEmbed: {
+            showPreviews: true
+         },
+         // https://ckeditor.com/docs/ckeditor5/latest/features/link.html#custom-link-attributes-decorators
+         link: {
+            decorators: {
+               addTargetToExternalLinks: true,
+               defaultProtocol: 'https://',
+               toggleDownloadable: {
+                  mode: 'manual',
+                  label: 'Downloadable',
+                  attributes: {
+                     download: 'file'
+                  }
+               }
+            }
+         },
+         // https://ckeditor.com/docs/ckeditor5/latest/features/mentions.html#configuration
+         mention: {
+            feeds: [
+               {
+                  marker: '@',
+                  feed: [
+                     '@apple', '@bears', '@brownie', '@cake', '@cake', '@candy', '@canes', '@chocolate', '@cookie', '@cotton', '@cream',
+                     '@cupcake', '@danish', '@donut', '@dragée', '@fruitcake', '@gingerbread', '@gummi', '@ice', '@jelly-o',
+                     '@liquorice', '@macaroon', '@marzipan', '@oat', '@pie', '@plum', '@pudding', '@sesame', '@snaps', '@soufflé',
+                     '@sugar', '@sweet', '@topping', '@wafer'
+                  ],
+                  minimumCharacters: 1
+               }
+            ]
+         },
+         // The "super-build" contains more premium features that require additional configuration, disable them below.
+         // Do not turn them on unless you read the documentation and know how to configure them and setup the editor.
+         removePlugins: [
+            // These two are commercial, but you can try them out without registering to a trial.
+            // 'ExportPdf',
+            // 'ExportWord',
+            'CKBox',
+            'CKFinder',
+            'EasyImage',
+            // This sample uses the Base64UploadAdapter to handle image uploads as it requires no configuration.
+            // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/base64-upload-adapter.html
+            // Storing images as Base64 is usually a very bad idea.
+            // Replace it on production website with other solutions:
+            // https://ckeditor.com/docs/ckeditor5/latest/features/images/image-upload/image-upload.html
+            // 'Base64UploadAdapter',
+            'RealTimeCollaborativeComments',
+            'RealTimeCollaborativeTrackChanges',
+            'RealTimeCollaborativeRevisionHistory',
+            'PresenceList',
+            'Comments',
+            'TrackChanges',
+            'TrackChangesData',
+            'RevisionHistory',
+            'Pagination',
+            'WProofreader',
+            // Careful, with the Mathtype plugin CKEditor will not load when loading this sample
+            // from a local file system (file://) - load this site via HTTP server if you enable MathType.
+            'MathType',
+            // The following features are part of the Productivity Pack and require additional license.
+            'SlashCommand',
+            'Template',
+            'DocumentOutline',
+            'FormatPainter',
+            'TableOfContents'
+         ]
+      })
+         .then(ed => {
+            editor = ed;
+         })
+         .catch(error => {
+            console.error(error);
+         });
+
+      document.getElementById('fillData').addEventListener('click', function () {
+         document.getElementById('postType').value = "登山";
+         document.getElementById('postTitle').value = "想召喚愛山的你，一起讓中央山脈躍上大銀幕！";
+         editor.model.change(writer => {
+            const paragraph1 = writer.createElement('paragraph');
+            writer.appendText("有「台灣屋脊」之稱的中央山脈，已靜靜守護台灣數百萬年。我們都曾在地理課本中，與中央山脈有過紙本圖片上的一面之緣，卻未曾走入中央山脈深處、登上遙遠高處，一窺那幅員廣闊卻鮮少為人所見的珍貴山林景象。", paragraph1);
+            const paragraph2 = writer.createElement('paragraph');
+            writer.appendText("深耕自然生態保育 20 多年的楊守義導演，秉持用台灣人視角記錄下「中央山脈」完整面貌的精神，耗時三年、花費千萬元、出動八支補給隊伍、近百位山友的支援，跟著兩位台灣知名越野跑者──周青、古明政，以越野型態完成縱貫 332 公里長的「中央山脈大縱走」挑戰。並將這段台灣人與中央山脈的動人挑戰故事，拍攝成紀錄片《赤心巔峰》，希望能讓大眾在戲院中一同深入體會走在「台灣屋脊」上的震撼與感動！", paragraph2);
+            const paragraph3 = writer.createElement('paragraph');
+            writer.appendText("然而，後期製作與上映發行等龐大支出，是製作團隊獨自努力卻難以翻越的山頭。為讓民眾有機會看到這部嘔心瀝血的作品，製作團隊於 4/26 發起《赤心巔峰》紀錄片後製暨上映集資計畫，希望能夠透過群眾力量，讓更多人看見這難得的挑戰故事、以及中央山脈的絕美山色！", paragraph3);
+            const paragraph4 = writer.createElement('paragraph');
+            writer.appendText("超過兩年籌備、號召近百位山友協力  促成近年台灣山岳史上最大行動《赤心巔峰》計畫自 2020 年開始籌畫，由「山頂狼」古明政與「越野一哥」周青所發起，目標不只是完成中央山脈主稜縱走，更挑戰用最快的速度完成任務。於此一明確目標設定下，兩位訓練精良並擁有豐富越野經驗的專業跑者，選擇以「越野」模式來進行本次挑戰。有別於一般登山多選擇緩步健行以細品山林之美，越野快速前進則是在具備體能與技術的前提下，以速度換取更遠的活動距離，除了是另外一種登山方式，更是一種勇敢挑戰極限、超越自我實踐的運動精神。", paragraph4);
+            const paragraph5 = writer.createElement('paragraph');
+            writer.appendText("創舉背後，是耗時兩年多的籌備與路線探勘。高山主脊山徑複雜多樣，需頻繁地入山勘查、綁標誌布條、建立 GPS 軌跡，甚至需提前入山鋸下有刺植物，避免跑者刺傷。在 9 天挑戰中，更出動了超過 80 位的山友與跑友，組成 8 支補給隊伍，分別從西部與東部上山支援。補給夥伴們不僅需各自進行事前訓練，更需背著不輕的數種補給品與裝備，提前在兩位越野跑者抵達營地前，準備好當日伙食，讓大家能元氣滿滿地繼續接下來的挑戰。此外，更有夥伴在山下留守，運用衛星追蹤通訊裝置，全程看顧跑者即時動態，才得以促成這近年來台灣山岳史上最大行動之一。", paragraph5);           
+            writer.append(paragraph1, editor.model.document.getRoot());
+            writer.append(paragraph2, editor.model.document.getRoot());
+            writer.append(paragraph3, editor.model.document.getRoot());
+            writer.append(paragraph4, editor.model.document.getRoot());
+            writer.append(paragraph5, editor.model.document.getRoot());
+         });
+      });
+
+   </script>
+</body>
+
+</html>

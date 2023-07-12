@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>登露HiCamp</title>
+
+	<!-- favicon -->
+	<link rel="shortcut icon" type="image/png" href="assets/img/favicon.png">
+	<!-- google font -->
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Poppins:400,700&display=swap" rel="stylesheet">
+	<!-- fontawesome -->
+	<link rel="stylesheet" href="assets/css/all.min.css">
+	<!-- bootstrap -->
+	<link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
+	<!-- owl carousel -->
+	<link rel="stylesheet" href="assets/css/owl.carousel.css">
+	<!-- magnific popup -->
+	<link rel="stylesheet" href="assets/css/magnific-popup.css">
+	<!-- animate css -->
+	<link rel="stylesheet" href="assets/css/animate.css">
+	<!-- mean menu css -->
+	<link rel="stylesheet" href="assets/css/meanmenu.min.css">
+	<!-- main style -->
+	<link rel="stylesheet" href="assets/css/main.css">
+	<!-- responsive -->
+	<link rel="stylesheet" href="assets/css/responsive.css">
+
+</head>
+
+<body>
+
+	<div th:replace="~{/layout/frontTopBar}"></div>
+
+	<!--PreLoader-->
+	<div class="loader">
+		<div class="loader-inner">
+			<div class="circle"></div>
+		</div>
+	</div>
+	<!--PreLoader Ends-->
+
+
+	<!-- search area -->
+	<div class="search-area">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-12">
+					<span class="close-btn"><i class="fas fa-window-close"></i></span>
+					<div class="search-bar">
+						<div class="search-bar-tablecell">
+							<h3>Search For:</h3>
+							<input type="text" placeholder="Keywords">
+							<button type="submit">Search <i class="fas fa-search"></i></button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end search arewa -->
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>登露HiCamp</p>
+						<h1>營區訂位</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- check out section -->
+	<div class="checkout-section mt-150 mb-150 d-flex justify-content-center">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 mx-auto">
+					<div class="checkout-accordion-wrap">
+						<div class="accordion" id="accordionExample">
+							<div class="card single-accordion">
+								<div class="card-header" id="headingOne">
+									<h5 class="mb-0">
+										<button class="btn btn-link" type="button" data-toggle="collapse"
+											data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+											<h2 class="d-flex align-items-center">訂購資訊</h2>
+										</button>
+									</h5>
+								</div>
+
+								<div id="collapseOne" class="collapse show" aria-labelledby="headingOne"
+									data-parent="#accordionExample">
+									<div class="card-body">
+										<div class="billing-address-form">
+											<form id="myForm" style="font-size: 1.2em;">
+
+												<span id="campsiteNo" class="font-weight-normal"
+													th:text="${campsite.campsiteNo}" hidden></span>
+												<span id="campspaceNo" class="font-weight-normal"
+													th:text="${campspace.campspaceNo}" hidden></span>
+
+
+												<div class="form-group">
+													<label for="booker">訂購人:</label>
+													<input type="text" id="booker" name="booker" class="form-control">
+												</div>
+												<div class="form-group">
+													<label for="bookerPhone">連絡電話:</label>
+													<input type="text" id="bookerPhone" name="bookerPhone"
+														class="form-control">
+												</div>
+
+												<div class="mb-3">
+													<h5>營區名字: <span class="font-weight-normal"
+															th:text="${campsite.campsiteName}"></span></h5>
+												</div>
+
+												<div class="mb-3">
+													<h5>營區地址: <span class="font-weight-normal"
+															th:text="${campsite.campsiteLocation}"></span></h5>
+												</div>
+
+												<div class="mb-3">
+													<h5>營位名字: <span class="font-weight-normal"
+															th:text="${campspace.campspaceArea}"></span></h5>
+												</div>
+
+												<div class="mb-3">
+													<h5>營位單價: <span id="campspacePrice" class="font-weight-normal"
+															th:text="${campspace.campspacePrice}"></span></h5>
+												</div>
+
+
+												<div class="mb-3">
+													<h5>還剩 <span th:text="${campspace.campspaceQuantity}"></span>個營位
+													</h5>
+												</div>
+
+
+												<div class="form-group">
+													<label for="checkinDate" style="font-size: 1.3em;">入住日期:</label>
+													<input type="date" id="checkinDate" name="checkinDate"
+														class="form-control" style="font-size: 1.2em;">
+												</div>
+												<div class="form-group">
+													<label for="checkoutDate" style="font-size: 1.3em;">結束日期:</label>
+													<input type="date" id="checkoutDate" name="checkoutDate"
+														class="form-control" style="font-size: 1.2em;">
+												</div>
+
+												<div class="form-group">
+													<label for="bookingCampspaceQuantity">請輸入訂購營位的數量:</label>
+													<input type="number" id="bookingCampspaceQuantity"
+														name="bookingCampspaceQuantity" class="form-control">
+												</div>
+												總共金額:<span id="bookingAmountDisplay"
+													style="font-size: 1.5em; color: red;"></span>
+
+												<input type="hidden" id="bookingAmount" name="bookingAmount">
+
+
+
+
+
+												<h2>『登露』露營訂位服務條款</h2>
+												<hr>
+												<div
+													style="width: 100%; height: 500px; overflow: auto; border: 1px solid black; padding: 10px;">
+													<p>『登露』露營訂位服務條款</p>
+
+													<p>認知與接受條款</p>
+
+													<p>本網站「登露」係指由「出去走走股份有限公司」所提供之營區訂位相關服務(下稱本服務)，當您開始使用本服務時，即表示已閱讀、瞭解並同意接受如后條款內容：
+													</p>
+
+													<p>第一條（訂位方式）
+														當您以網際網路或電話方式，成功完成訂位下單，本網站「登露」依您提供會員資料，發送簡訊、電子郵件或電話通知您。</p>
+
+													<p>第二條（訂位內容）
+														當您完成訂位下單，即表示同意預定營區之露營期間、營位型態、食材、數量、服務、價格、訂金、付款方式，及提供聯絡方式等內容。
+													</p>
+
+													<p>第三條（訂金收取）
+														當您於本網站訂營位，每筆訂單之收取訂金比例，皆【依照您所訂的營區收費規範為標準】，並選擇欲付款方式，即可完成訂位服務。提醒您：於入住1天~15天內訂位之付款期限為1天；於入住16天以上訂位之付款期限為3天，逾期未付訂單將自動作廢不另行通知。
+													</p>
+
+													<p> 第四條（訂位異動及注意事項）
+														1. 下單完成須在繳款期限內完成付款動作，方可保留營位。若未於期限內完成，則視為無效訂單。
+														2.
+														訂單交易完成，尚未付款狀況下欲取消訂位，可點『取消訂單』功能，客服將於上班時間依序盡速處理，如遇聯絡困難將以簡訊/郵件通知。
+														3. 已完成訂金或全額付款之訂單,
+														若需更改訂位日期、數量或服務，可點『取消訂單』功能，客服將於上班時間依序盡速處理，如遇聯絡困難將以簡訊/郵件通知。
+														4. 露營紮營/拔營時間、營區規範等內容，依您訂購之營區準則與服務為主。
+														5. 露營紮營前，請出示『訂位成功清單或本站發送簡訊』，利於營主確認您的身份。
+														6. 倘您未付清本訂單尾款，必須紮營前與營主現場結清款項。
+														7. 露營期間您與營主之其他交易如買食材或用品等，如不在本訂單清單項目，所發生費用自行與營主結清。
+														8.
+														於露營當日，因故無法於「最晚保留時間」前辦理紮營手續時，您必須提前告知營主。如未與營主協議紮營時間又超過保留時間，則視無條件放棄訂單。
+														9. 經營主與您確認露營登記手續包括尾款給付、服務項目等，本訂單才視為結案。
+														10. 露營當日遇颱風、地震等不可抗拒因素時，以致無法順利紮營，您可洽本站客服人員變更露營日期或退費處理之。</p>
+
+													<p>第五條（訂金退還）
+
+														依照各個營區網頁內"相關說明"頁面之「訂單異動暨退費標準」即有公告人為因素&天候因素之退訂比例相關辦法。</p>
+
+													<p>第六條（訂金退還方式）
+
+														​如您當初下單選擇信用卡付款，​訂金退還即已退刷方式退還，並另扣處理費30元。​如您當初下單選擇ATM或IBON付款，​訂金退還即已匯款方式退還，並另扣處理費30元。
+													</p>
+
+													<p>第七條（發票處理）
+														本網站發票，分為如下方式開立電子發票：
+														一,營區發票：本網站皆【依照您線上所訂營區之開立發票規則】為開立電子發票之依據，請注意如下說明：
+														1.
+														如您所訂購的營區，於結帳流程有顯示『請選擇發票種類』，即表示本訂單係由營區委託露營樂代銷。露營樂將依據您在本網站上的實際付款金額(不包含營區現場收尾款金額)，開立電子發票給您。如您所需開立本訂單之總額發票，請於結帳『選擇付款型態』欄位中，選擇『總金額』付款，露營樂將開立本訂單總額電子發票。電子發票開立時間點為營區按壓本訂單入住後約3~5個工作天。
+
+														您可登入本網站【會員中心】->【訂單查詢】->查看發票開立資料，為響應環保，個人(二聯式)電子發票證明聯將不直接提供紙本，待財政部公佈之統一發票中獎號碼進行電腦對獎後，本站會將中獎者電子發票證明聯印出直接為您郵寄至訂單內所填寫之地址。
+
+														2.
+														如您所訂購的營區，於結帳流程沒有顯示『請選擇發票種類』，即表示本訂單露營樂僅提供代收轉付服務，恕無法開立電子發票給您。如您需要報帳，可於露營當日向營主索取。
+
+														二. 設備及食材發票：本網站依相關法令規訂，開立電子發票給消費者。
+
+														(1)您可登入本網站【會員中心】->【訂單查詢】->查看發票開立資料
+														(2)為響應環保，個人(二聯式)電子發票證明聯將不直接提供紙本，待財政部公佈之統一發票中獎號碼進行電腦對獎後，本站會將中獎者電子發票證明聯印出直接為您郵寄至訂單內所填寫之地址。
+
+														三. 依統一發票使用辦法規定：個人(二聯式)發票一經開立，無法更改或改開公司戶(三聯式)發票。</p>
+
+													第八條 (隱私權條款)
+													本網站「露營樂」提供安全的交易環境，在進行訂購前，需請您先填寫個人資料。您的權益及隱私權，是本網站「露營樂」依法保護的資料，您的個人資料都僅供本網站「登露」與您所預定的營區營主使用，除非事先取得同意，否則依法不會將資料提供給第三人或移作其他目的使用。
+													</p>
+
+													<p>第九條（個人資料之保護）
+														本網站「露營樂」對您個人資料之蒐集、處理及利用，應依個人資料保護法規定，並負有保密義務，非經您方書面同意，本站不得對外揭露或為契約目的範圍外之利用。契約關係消滅後，亦同。
+													</p>
+
+													<p>第十條 (其他)
+														您與營區營主之其他協議，或與營區營主於露營期間產生糾紛，不為本網站「登露」責任範圍內。</p>
+
+													<p>第十一條（補充規範）
+														本契約如有其他未約定事項，依民法、消費者保護法及其他相關法規規定辦理。</p></textarea>
+												</div>
+												<div class="mb-3 form-check">
+													<input type="checkbox" class="form-check-input" id="exampleCheck1">
+													<label class="form-check-label"
+														for="exampleCheck1">我已閱讀並同意訂位規則</label>
+												</div>
+												<button type="submit" class="btn btn-primary campsiteBooking-data-btn"
+													style="font-size: 1.3em;">確認訂位</button>
+											</form>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end check out section -->
+	<div th:replace="~{/layout/frontBottomBar}"></div>
+
+	<!-- jquery -->
+	<script src="assets/js/jquery-1.11.3.min.js"></script>
+	<!-- bootstrap -->
+	<script src="assets/bootstrap/js/bootstrap.min.js"></script>
+	<!-- count down -->
+	<script src="assets/js/jquery.countdown.js"></script>
+	<!-- isotope -->
+	<script src="assets/js/jquery.isotope-3.0.6.min.js"></script>
+	<!-- waypoints -->
+	<script src="assets/js/waypoints.js"></script>
+	<!-- owl carousel -->
+	<script src="assets/js/owl.carousel.min.js"></script>
+	<!-- magnific popup -->
+	<script src="assets/js/jquery.magnific-popup.min.js"></script>
+	<!-- mean menu -->
+	<script src="assets/js/jquery.meanmenu.min.js"></script>
+	<!-- sticker js -->
+	<script src="assets/js/sticker.js"></script>
+	<!-- main js -->
+	<script src="assets/js/main.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+	<script>
+		document.getElementById("myForm").addEventListener("submit", function (event) {
+			event.preventDefault(); // 阻止表單的默認提交行為
+
+			// 獲取表單中的值
+			var campsiteNo = document.getElementById("campsiteNo").textContent;
+			var campspaceNo = document.getElementById("campspaceNo").textContent;
+			var booker = document.getElementById("booker").value;
+			var bookerPhone = document.getElementById("bookerPhone").value;
+			var checkinDate = document.getElementById("checkinDate").value;
+			var checkoutDate = document.getElementById("checkoutDate").value;
+			var bookingCampspaceQuantity = document.getElementById("bookingCampspaceQuantity").value;
+			var bookingAmount = document.getElementById("bookingAmount").value;
+
+			// 建立一個包含資料的物件
+			var data = {
+				"campsiteNo": campsiteNo,
+				"campspaceNo": campspaceNo,
+				"booker": booker,
+				"bookerPhone": bookerPhone,
+				"checkinDate": checkinDate,
+				"checkoutDate": checkoutDate,
+				"bookingCampspaceQuantity": bookingCampspaceQuantity,
+				"bookingAmount": bookingAmount
+			};
+
+			// 發送POST請求到後端
+			axios.post("http://localhost:8080/HiCamp/campsite/campsiteBooking", data)
+				.then(response => {
+					// 在這裡處理後端返回的回應
+					console.log(response.data);
+				})
+				.catch(error => {
+					// 在這裡處理錯誤
+					console.error(error);
+				});
+		});
+	</script>
+	<script>
+		document.getElementById('bookingCampspaceQuantity').addEventListener('input', function () {
+			// Get the values from the price and quantity input fields
+			var price = Number(document.getElementById('campspacePrice').innerText);
+
+			var quantity = this.value;
+
+			// Calculate the total amount
+			var totalAmount = price * quantity;
+
+			// Update the total amount display
+			document.getElementById('bookingAmountDisplay').innerText = totalAmount;
+
+			// Update the hidden input field
+			document.getElementById('bookingAmount').value = totalAmount;
+		});
+	</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script>
+		document.getElementById('myForm').onsubmit = function (e) {
+			e.preventDefault(); // 防止表單的預設提交行為
+			Swal.fire({
+				title: '訂單已建立',
+				text: '你的訂單已成功建立！',
+				icon: 'success',
+				showCancelButton: true,
+				confirmButtonText: '查看訂單',
+				cancelButtonText: '返回主頁'
+			}).then((result) => {
+				if (result.isConfirmed) {
+					window.location.href = "http://localhost:8080/HiCamp/campsite/getBooking";
+				} else {
+					window.location.href = "http://localhost:8080/HiCamp/campsite/frontCampsite";
+				}
+			});
+		}
+	</script>
+
+
+
+
+
+
+</body>
+
+</html>

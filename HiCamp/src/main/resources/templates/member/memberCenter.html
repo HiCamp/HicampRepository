@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>HiCamp 登露</title>
+	<style>
+		.contact-form {
+			width: 100%;
+		}
+
+		.form-title h2 {
+			margin-right: 40px;
+			font-size: 25px;
+			color: #565656;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+
+		.form-title h2:hover{
+			color: #F28123;
+			transition: 0.3s;
+		}
+		
+		.card-body {
+			display: flex;
+		}
+		
+		.accordion-item h2 {
+			line-height: inherit;
+		}
+		
+	</style>
+</head>
+
+<body>
+
+	<div th:replace="~{layout/frontTopBar}"></div>
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>hicamp</p>
+						<h1>會員中心</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- contact form -->
+	<div class="contact-from-section mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+			
+				<div class="col-lg-12 mb-5 mb-lg-0">
+					<div class="form-title" style="display: flex;">
+						<nav>
+						  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+						    <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#nav-productOrder" type="button" role="tab" aria-controls="nav-home" aria-selected="true">訂單查詢</button>
+						    <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</button>
+						    <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+						  </div>
+						</nav>
+					</div>
+					
+					<div class="contact-form">
+						<div class="tab-content" id="nav-tabContent">
+						  <div class="tab-pane fade show active" id="nav-productOrder" role="tabpanel" aria-labelledby="nav-home-tab">
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<th scope="col">訂單編號</th>
+										<th scope="col">訂單時間</th>
+										<th scope="col">訂單狀態</th>
+									</tr>
+								</thead>
+							</table>
+							<div class="accordion" id="accordionPanelsStayOpenExample">
+						  	</div>
+						  	
+						  </div>
+						  
+						  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">2</div>
+						  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">3</div>
+						</div>
+					</div>
+
+				</div>
+				
+			</div>
+		</div>
+	</div>
+
+	<!-- end contact form -->
+
+	<div th:replace="~{layout/frontBottomBar}"></div>
+
+	<script>
+		orderDetail();
+		//取得訂單內容
+		function orderDetail(){
+			$.ajax({
+				url: "http://localhost:8080/HiCamp/orders/memberOrders",
+				type: "get",
+				success: function(response){
+					let accordion = $(".accordion");
+					
+					response.sort(function(a, b){
+						return b.orderNo - a.orderNo;
+					})
+					
+					response.forEach(function(order, index){
+						let item = order.orderItemDTO.map(item => "購買商品："+item.productName+"，購買數量："+item.itemQuantity).join('<br>');
+						
+						if(order.orderStatus === "未付款"){
+						let accordionItem = `<div class="accordion-item"> 
+										    <h2 class="accordion-header" id="panelsStayOpen-headingOne`+index+`">
+										      <button class="accordion-button" style="background-color: #e5e5e5; color: black; box-shadow: none;" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne`+index+`" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne`+index+`">
+										        <span class="col-4">` + order.orderNo + `</span>
+										        <span class="col-4">` + order.orderDate + `</span>
+										        <span class="col-3">` + order.orderStatus + `</span>
+										      </button>
+										    </h2>
+										    <div id="panelsStayOpen-collapseOne`+index+`" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne`+index+`">
+										      <div class="accordion-body">
+										        ` + item + `<br>訂單金額：` + order.orderTotalPrice + `<br>配送地址：` + order.orderShipAddress + `<br><button class="btn btn-secondary">付款</button>` + `
+										      </div>
+										    </div>
+										  </div>`;
+						accordion.append(accordionItem);
+						} else {
+						let accordionItem = `<div class="accordion-item"> 
+										    <h2 class="accordion-header" id="panelsStayOpen-headingOne`+index+`">
+										      <button class="accordion-button" style="background-color: #e5e5e5; color: black; box-shadow: none;" type="button" data-bs-toggle="collapse" data-bs-target="#panelsStayOpen-collapseOne`+index+`" aria-expanded="true" aria-controls="panelsStayOpen-collapseOne`+index+`">
+										        <span class="col-4">` + order.orderNo + `</span>
+										        <span class="col-4">` + order.orderDate + `</span>
+										        <span class="col-3">` + order.orderStatus + `</span>
+										      </button>
+										    </h2>
+										    <div id="panelsStayOpen-collapseOne`+index+`" class="accordion-collapse collapse" aria-labelledby="panelsStayOpen-headingOne`+index+`">
+										      <div class="accordion-body">
+										        ` + item + `<br>訂單金額：` + order.orderTotalPrice + `<br>配送地址：` + order.orderShipAddress +  `
+										      </div>
+										    </div>
+										  </div>`;
+						accordion.append(accordionItem);
+						}
+						
+					});
+				}
+			});
+		}
+	
+	
+	</script>
+</body>
+
+</html>

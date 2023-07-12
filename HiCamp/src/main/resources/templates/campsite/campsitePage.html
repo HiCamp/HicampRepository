@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<!-- basic -->
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<!-- mobile metas -->
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="viewport" content="initial-scale=1, maximum-scale=1">
+	<!-- CSS only -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+	<title>登露HiCamp</title>
+	<style>
+		th,
+		td {
+			width: 200px;
+			overflow: hidden;
+			white-space: nowrap;
+		}
+
+		td {
+			max-width: 100px;
+			overflow: hidden;
+			white-space: nowrap;
+			text-overflow: ellipsis;
+		}
+
+		.new-input {
+			margin-left: 20px;
+		}
+	</style>
+</head>
+
+<body class="dashboard dashboard_1">
+	<div class="full_container">
+		<div class="inner_container">
+			<!-- Sidebar  -->
+			<div th:replace="~{layout/leftbar}"></div>
+			<!-- right content -->
+			<div id="content">
+				<!-- topbar -->
+				<div th:replace="~{layout/topbar}"></div>
+				<!-- end topbar -->
+				<!-- dashboard inner -->
+				<div class="midde_cont">
+					<div class="container-fluid">
+						<div class="row column_title">
+							<div class="col-md-12">
+								<div class="page_title">
+									<div class="d-flex align-items-center">
+										<h2>露營管理</h2>
+										<button type="button" class="new-input btn btn-outline-danger btn-lg"
+											data-bs-toggle="modal" data-bs-target="#staticBackdrop"
+											style="margin-left: 50px">
+											新增營區
+										</button>
+									</div>
+									<!-- Modal -->
+									<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static"
+										data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+										aria-hidden="true">
+										<div class="modal-dialog modal-xl">
+											<div class="modal-content">
+												<div class="modal-header">
+													<h5 class="modal-title" id="staticBackdropLabel">新增營區</h5>
+													<button type="button" class="btn-close" data-bs-dismiss="modal"
+														aria-label="Close"></button>
+												</div>
+												<form id="myForm" enctype="multipart/form-data">
+													<div class="modal-body">
+														<div class="row">
+															<div class="col-md-6">
+																<!-- left column for existing form -->
+																<div class="input-group flex-nowrap mb-3">
+																	<span class="input-group-text"
+																		id="campsitePicture-addon">營區圖片</span>
+																	<input name="files" type="file"
+																		id="campsitePicture_input" multiple
+																		class="form-control" placeholder="請上傳營區圖片"
+																		aria-label="營區圖片"
+																		aria-describedby="campsitePicture-addon">
+																</div>
+																<!-- other form groups here... -->
+
+
+																<div class="input-group flex-nowrap mb-3">
+																	<span class="input-group-text"
+																		id="addon-wrapping">營區名字</span>
+																	<input name="campsiteName" type="text"
+																		id="campsiteName_input" class="form-control"
+																		placeholder="請輸入營區名字" aria-label="營區名字"
+																		aria-describedby="addon-wrapping">
+																</div>
+																<div class="input-group flex-nowrap mb-3">
+																	<span class="input-group-text"
+																		id="addon-wrapping">營區數量</span>
+																	<input name="campsiteQuantity" type="text"
+																		id="campsiteQuantity_input" class="form-control"
+																		placeholder="請輸入營區數量" aria-label="營區數量"
+																		aria-describedby="addon-wrapping">
+																</div>
+																<div class="input-group flex-nowrap mb-3">
+																	<span class="input-group-text"
+																		id="addon-wrapping">營區地點</span>
+																	<input name="campsiteLocation" type="text"
+																		id="campsiteLocation_input" class="form-control"
+																		placeholder="請輸入營區地點" aria-label="營區地點"
+																		aria-describedby="addon-wrapping">
+																</div>
+																<div class="input-group flex-nowrap mb-3">
+																	<span class="input-group-text"
+																		id="addon-wrapping">營區資訊</span>
+																	<textarea name="campsiteInfo" style="height: 200px;"
+																		id="campsiteInfo_input" class="form-control"
+																		placeholder="請輸入營區資訊" aria-label="營區資訊"
+																		aria-describedby="addon-wrapping"></textarea>
+																</div>
+															</div>
+															<div class="col-md-6">
+																<!-- right column for camp space details -->
+																<div class="card mb-3">
+																	<div class="card-body">
+																		<div class="input-group flex-nowrap mb-3">
+																			<span class="input-group-text"
+																				id="addon-wrapping">營位名字</span>
+																			<input name="campspaceArea" type="text"
+																				id="campspaceArea_input"
+																				class="form-control"
+																				placeholder="請輸入營位名字" aria-label="營位名字"
+																				aria-describedby="addon-wrapping">
+																		</div>
+																		<div class="input-group flex-nowrap mb-3">
+																			<span class="input-group-text"
+																				id="addon-wrapping">營位金額</span>
+																			<input name="campspacePrice" type="text"
+																				id="campspacePrice_input"
+																				class="form-control"
+																				placeholder="請輸入營位金額" aria-label="營位金額"
+																				aria-describedby="addon-wrapping">
+																		</div>
+																		<div class="input-group flex-nowrap mb-3">
+																			<span class="input-group-text"
+																				id="addon-wrapping">營位數量</span>
+																			<input name="campspaceQuantity" type="text"
+																				id="campspaceQuantity_input"
+																				class="form-control"
+																				placeholder="請輸入營位數量" aria-label="營位數量"
+																				aria-describedby="addon-wrapping">
+																		</div>
+																		<div class="input-group mb-3">
+																			<label class="input-group-text"
+																				for="inputGroupSelect01">營區狀態</label>
+																			<select class="form-select"
+																				id="inputGroupSelect01" name="status">
+																				<option selected>請選擇營區狀態</option>
+																				<option value="上架">上架</option>
+																				<option value="下架">下架</option>
+																				<option value="已售出">已售出</option>
+																			</select>
+																		</div>
+																	</div>
+																</div>
+
+																<div id="campsiteContainer"></div>
+																<button id="addCampsiteButton"
+																	class="btn btn-primary">新增一個營位</button>
+															</div>
+														</div>
+														<div id="upload_result"></div>
+													</div>
+													<div class="modal-footer">
+														<button type="submit"
+															class="my-campsite-data-btn btn btn-primary">新增</button>
+														<button type="button"
+															class="submitBtn btn btn-primary btn btn-success">返回主頁</button>
+													</div>
+												</form>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="table" style="width: 90%; margin: 0 auto;">
+							<table id="example" class="hover" style="width: 100%; font-size: 20px;">
+								<thead>
+									<tr>
+										<th style="width: 50px">營區編號</th>
+										<th>營區名字</th>
+										<th style="width: 50px">營區數量</th>
+										<th>營區地點</th>
+										<th>營區資訊</th>
+										<th>編輯</th>
+									</tr>
+								</thead>
+								<tbody>
+									<th:block th:each="campsite : ${campsite}">
+										<tr>
+											<td th:text="${campsite.campsiteNo}"></td>
+											<td th:text="${campsite.campsiteName}"></td>
+											<td th:text="${campsite.campsiteQuantity}"></td>
+											<td th:text="${campsite.campsiteLocation}"></td>
+											<td th:text="${campsite.campsiteInfo}"></td>
+											<td>
+												<form th:action="@{/campsite/edit}" method="get">
+													<input name="campsiteNo" th:value="${campsite.campsiteNo}"
+														type="hidden" />
+													<input type="submit" value="編輯" class="btn btn-sm edit">
+												</form>
+											</td>
+										</tr>
+									</th:block>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- JavaScript Bundle with Popper -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+	<script>
+		$(document).ready(function () {
+			$('#example').DataTable();
+		});
+	</script>
+	<script>
+		// Grab the button and container elements
+		var addButton = document.getElementById('addCampsiteButton');
+		var container = document.getElementById('campsiteContainer');
+
+		// Add an event listener for the button click
+		addButton.addEventListener('click', (e) => {
+			e.preventDefault();
+			// Define the new campsite group HTML
+			var newCampsiteHTML = `
+				<div class="campsiteGroup card mb-3">
+					<div class="card-body">
+    <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text" id="addon-wrapping">營位名字</span>
+        <input name="campspaceArea" type="text" id="campspaceArea_input" class="form-control" placeholder="請輸入營位名字" aria-label="營位名字" aria-describedby="addon-wrapping">
+    </div>
+    <div class="input-group flex-nowrap mb-3">
+        <span class="input-group-text" id="addon-wrapping">營位金額</span>
+        <input name="campspacePrice" type="text" id="campspacePrice_input" class="form-control" placeholder="請輸入營位金額" aria-label="營位金額" aria-describedby="addon-wrapping">
+    </div>
+	<div class="input-group flex-nowrap mb-3">
+																			<span class="input-group-text"
+																				id="addon-wrapping">營位數量</span>
+																			<input name="campspaceQuantity" type="text"
+																				id="campspaceQuantity_input"
+																				class="form-control"
+																				placeholder="請輸入營位數量" aria-label="營位數量"
+																				aria-describedby="addon-wrapping">
+																		</div>
+    <div class="input-group mb-3">
+        <label class="input-group-text" for="inputGroupSelect01">營區狀態</label>
+        <select class="form-select" id="inputGroupSelect01" name="status">
+            <option selected>請選擇營區狀態</option>
+            <option value="上架">上架</option>
+            <option value="下架">下架</option>
+            <option value="已售出">已售出</option>
+        </select>
+    </div>
+</div>
+
+				</div>`;
+
+
+			// Create a new div and set its innerHTML to the new campsite group
+			var newDiv = document.createElement('div');
+			newDiv.innerHTML = newCampsiteHTML;
+
+			// Add the new div to the container
+			container.appendChild(newDiv);
+		});
+	</script>
+	<script>
+		const uploadBtn = document.querySelector('.my-campsite-data-btn');
+		const submitBtn = document.querySelector('.submitBtn');
+
+		uploadBtn.addEventListener('click', (e) => {
+			e.preventDefault();
+			console.log("click");
+
+			let form = document.getElementById('myForm');
+			let formdataObject = new FormData(form);
+			sendPostRequest(formdataObject);
+		})
+		submitBtn.addEventListener('click', (e) => {
+			e.preventDefault();
+			window.location.href = 'http://localhost:8080/HiCamp/campsite/show';
+		});
+
+
+		function sendPostRequest(formData) {
+			axios({
+				method: 'post',
+				url: 'http://localhost:8080/HiCamp/campsite/new',
+				data: formData
+				// headers:{"Content-Type":"multipart/form-data"} // axios 會自動做這件事，但是 fetch, XMLHttpRequest 不會自動做，要記得加
+			})
+				.then(response => {
+					let resultBlock = document.getElementById('upload_result');
+					if (response.data && response.data.campsiteNo) {  // 檢查返回的數據是否包含campsiteNo欄位
+						resultBlock.innerHTML = '新增成功';
+						resultBlock.style.color = 'green';
+					} else {
+						resultBlock.innerHTML = '新增失敗，請重新再試';
+						resultBlock.style.color = 'red';
+					}
+				})
+				.catch(err => {
+					console.log('err: ' + err)
+					let resultBlock = document.getElementById('upload_result');
+					resultBlock.innerHTML = '新增失敗，請重新再試'
+					resultBlock.style.color = 'red';
+				})
+				.finally(function () {
+					document.getElementById('myForm').reset();
+				})
+		}
+
+	</script>
+</body>
+
+</html>

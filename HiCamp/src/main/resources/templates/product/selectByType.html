@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>HiCamp 登露</title>
+
+</head>
+
+<body>
+
+	<div th:replace="~{/layout/frontTopBar}"></div>
+
+	<!-- hero area -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>Wild Adventures</p>
+						<h1>Shopping</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- end hero area -->
+
+	<!-- features list section -->
+	<div class="list-section pt-80 pb-80">
+		<div class="container">
+			<div style="display:flex;justify-content:center;align-items:center;">
+				<div>
+					<div class="list-box d-flex align-items-center">
+						<div class="list-icon">
+							<i class="fas fa-shipping-fast"></i>
+						</div>
+						<div class="content">
+							<h4>Free Shipping</h4>
+							<p>滿 $3000 即免運</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end features list section -->
+
+	<!-- product section -->
+	<div class="product-section mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="section-title">
+						<h3><span class="orange-text">Our</span> Products</h3>
+						<p>用心愉快的購物</p>
+					</div>
+
+				</div>
+			</div>
+
+			<div class="row">
+				<nav class="nav" style="font-size: 18px;">
+					<a class="nav-link active"
+						href="http://localhost:8080/HiCamp/shopping/getProducts?productType=服飾">服飾</a>
+					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=配件">配件</a>
+					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=露營">露營</a>
+				</nav>
+				<th:block th:each="product : ${typePorductList}">
+					<div class="col-lg-4 col-md-6 text-center">
+						<div class="single-product-item">
+							<form id="addCartForm">
+								<div class="product-image">
+									<a
+										th:href="'http://localhost:8080/HiCamp/shopping/shopProduct?productNo='+${product.productNo}"><img
+											th:src="'http://localhost:8080/HiCamp/product/getBigPic?productNo='+${product.productNo}"></a>
+								</div>
+								<span th:text=${product.productType}></span>
+								<h3 th:text=${product.productName}></h3>
+								<p class="product-price" th:text=${product.productPrice}></p>
+
+								<input th:value="${product.productNo}" id="productNo" type="hidden">
+								<input th:value="${product.productPrice}" id="productPrice" type="hidden">
+								<input value="1" id="itemQuantity" type="hidden">
+								<button th:data-id="${product.productNo}"
+									class="addCart btn btn-primary btn-lg cart-btn"
+									style="background-color: #ff8800; border-color: #ff8800; border-radius: 10px;"> <i
+										class="fas fa-shopping-cart"></i> Add to Cart</button>
+							</form>
+						</div>
+					</div>
+
+				</th:block>
+
+			</div>
+		</div>
+	</div>
+	<!-- end product section -->
+	<div th:replace="~{/layout/frontBottomBar}"></div>
+	<script>
+		//加入購物車
+		$('.addCart').click(function (e) {
+			e.preventDefault();
+			let delCartID = $(this).attr('data-id');
+			console.log(delCartID);
+			let price = $('#productPrice').val();
+			console.log(price);
+			let itemQuantity = 1;
+			let Data = {
+				"productNo": delCartID,
+				"productPrice": price,
+				"itemQuantity": itemQuantity
+			}
+			addShoppingCart(Data);
+		})
+		function addShoppingCart(cartData) {
+			$.ajax({
+				url: 'http://localhost:8080/HiCamp/shoppingCart/addcart',
+				type: "post",
+				data: cartData,
+				success: function () {
+					Swal.fire({
+						position: 'top-center',
+						icon: 'success',
+						title: '加入購物車',
+						showConfirmButton: false,
+						timer: 1500
+					})
+				}
+
+			})
+		}
+	</script>
+</body>
+
+</html>

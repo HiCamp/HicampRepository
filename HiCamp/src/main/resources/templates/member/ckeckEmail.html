@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>HiCamp 登露</title>
+	<style>
+		.breadcrumb-text {
+			width: 100%;
+			height: 100%;
+			position: relative;
+			display: flex;
+			justify-content: center;
+		}
+
+		.login-area {
+			background-color: #fff;
+			width: 70%;
+			border-radius: 20px;
+			background-color: #ffffff;
+			box-shadow: 0 0 10px rgb(151, 151, 151);
+			padding: 45px 30px 45px 30px;
+			position: absolute;
+		}
+
+		.login-area h2 {
+			color: #F28123;
+			margin-bottom: 10px;
+			font-size: 2.5rem;
+		}
+		
+		.login-area p {
+			font-size: 20px;
+		}
+	</style>
+
+</head>
+
+<body>
+
+	<div th:replace="~{layout/frontTopBar}"></div>
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<div class="login-area">
+							<h2>信箱驗證</h2>
+							<br>
+							<p th:text="${emailStatus}"></p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- featured section -->
+	<div class="feature-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-7">
+					<div class="featured-text">
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end featured section -->
+</body>
+
+</html>

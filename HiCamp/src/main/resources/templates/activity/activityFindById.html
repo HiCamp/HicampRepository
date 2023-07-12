@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <!-- basic -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- mobile metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+
+  <link th:href="@{/activity/bootstrap.min.css}" rel="stylesheet">
+  <link rel="stylesheet" href="https://unpkg.com/sweetalert/dist/sweetalert.css" />
+
+
+  <style>
+    input,
+    textarea {
+      border: 1px solid #ccc;
+      margin-top: 3%;
+      border-radius: 4px;
+      font-size: 16px;
+      outline: none;
+      padding: 10px;
+      text-size-adjust: auto;
+      width: 700px;
+      font-size: 100%;
+    }
+
+    .editDiv {
+      position: relative;
+    }
+
+    .editBtn {
+      position: absolute;
+      right: 0;
+      top: 0;
+      z-index: 99;
+    }
+
+    .photo-output {
+      z-index: 1;
+    }
+  </style>
+</head>
+
+<body class="dashboard dashboard_1">
+  <div class="full_container">
+    <div class="inner_container">
+      <!-- Sidebar  -->
+      <div th:replace="~{layout/leftbar}"></div>
+      <!-- right content -->
+      <div id="content">
+        <!-- topbar -->
+        <div th:replace="~{layout/topbar}"></div>
+        <!-- end topbar -->
+        <!-- dashboard inner -->
+
+        <h2>更新活動資料</h2>
+        <div class="page_title" style="display: flex; align-items: center;">
+          <!-- 這裡不要忘了換 -->
+
+          <div style="justify-content: center; display: flex;">
+
+
+            <div>
+<!-- ====================================== 編輯活動資料(右)====================================== -->
+
+              <div style="float: right; position: relative; margin-left: 50px;">
+                <form id="formData" th:object="${activity}">
+
+                  <button type="button" class="cancelBtn btn btn-outline-dark btn-lg"
+                    style="margin-left: 670px;">回到活動列表</button>
+
+ 	<!-- ------查詢&顯示活動資料------ -->
+                  <h2 style="font-weight: bold;">活動資料:</h2>
+                  <br>
+                  <h2>
+                    活動編號:　<input type="number" th:field="*{activityNo}" readonly></input>
+                  </h2>
+                  <h2>
+                    活動類型:　<input type="text" th:field="*{activityType}"></input>
+                  </h2>
+                  <h2>
+                    活動名稱:　<input type="text" th:field="*{activityName}"></input>
+                  </h2>
+                  <h2>
+                    活動地點:　<input type="text" th:field="*{activityLocation}"></input>
+                  </h2>
+                  <h2>
+                    活動名額:　<input type="text" th:field="*{activityQuota}"></input>
+                  </h2>
+                  <h2>
+                    活動價格:＄<input type="text" th:field="*{activityPrice}"></input>
+                  </h2>
+                  <h2 style="  display: flex;">
+                    <br>活動資訊:　
+                    <textarea type="text" th:field="*{activityInfo}" style="height: 600px"></textarea>
+                  </h2>
+
+                  <br>
+                  
+                  <button type="submit" class="submitBtn btn btn-outline-dark btn-lg">送出</button>
+                  <button type="reset" class="cancelBtn btn btn-outline-dark btn-lg" id="cancelBtn">取消</button>
+
+                </form>
+              </div>
+
+<!-- ====================================== 編輯照片(左) ======================================-->
+
+              <div style="float: left; width: 600px;" class="editDiv">
+
+                <button type="button" class="editBtn btn-outline-success btn-lg" style="margin-left: 50px;"
+                  data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">編輯照片</button>
+
+     <!-- ------查詢&顯示照片------ -->
+
+                <h2>活動照片:</h2>
+                <div class="photo-output">
+                  <div th:each="activityPicture : ${activityPictures}">
+                    <h2>
+                      照片編號: <span th:text="${activityPicture.activityPictureNo}"></span>
+                    </h2>
+                    <h2>
+                      照片名稱: <span th:text="${activityPicture.activityFileName}"></span>
+                    </h2>
+                    <img width="600px"
+                      th:src="@{'/activity/showPictures?activityPictureNo=' + ${activityPicture.activityPictureNo}}"
+                      alt="活動照片">
+                  </div>
+                </div>
+              </div>
+
+ <!-- ======================================編輯照片彈跳視窗====================================== -->
+
+              <div class="modal fade" id="exampleModal" data-bs-backdrop="static" tabindex="-1"
+                aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-xl">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">請上傳檔案</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+        <!-- 彈跳視窗-照片預覽 -->
+                    <div style="padding: 10px 20px;">
+                      <div>
+                        <form id="uploadForm" th:action="@{/activity/insertpic}" method="post"
+                          enctype="multipart/form-data">
+                          <input type="hidden" name="activityNo" th:value="${activity.activityNo}" id="data-actId" />
+                          <h2>照片預覽:</h2>
+                          <div id="imgPreview"></div>
+
+                          <input type="file" name="activityPicture" id="imgInput" multiple
+                            style="display: inline-block;border: none;"></input>
+
+                          <br>
+                          <button type="submit" class="submitPicture btn btn-outline-primary">確定</button>
+                          <button type="button" class="my-submit-data-btn btn btn-outline-primary"
+                            data-bs-dismiss="modal" aria-label="Close">取消</button>
+                        </form>
+                        <br>
+                      </div>
+
+        <!-- 彈跳視窗-顯示活動照片 -->
+                      <h2>活動照片:</h2>
+                      <div class="photo-output">
+                        <div th:each="activityPicture : ${activityPictures}">
+                          <h2>
+                            活動編號: <span th:text="${activityPicture.activityNo}">
+                          </h2>
+                          <h2>
+                            照片編號: <span th:text="${activityPicture.activityPictureNo}"></span>
+                          </h2>
+                          <h2>
+                            照片名稱: <span th:text="${activityPicture.activityFileName}"></span>
+                          </h2>
+                          <img style="max-width: 600px; max-height: 400px;"
+                            th:src="@{'/activity/showPictures?activityPictureNo=' + ${activityPicture.activityPictureNo}}"
+                            alt="活動照片">
+                          <h2><button type="button" class="deletePic btn btn-outline-primary" id="deletePicture"
+                              th:data-actPicId="${activityPicture.activityPictureNo}">刪除照片
+                            </button></h2>
+                          <br>
+                        </div>
+                      </div>
+                      
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              
+<!-- ======================================編輯照片彈跳視窗END====================================== -->
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script th:src="@{/activity/bootstrap.bundle.min.js}"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+  
+
+<!-- JS -->
+
+<!-------------編輯活動資料(不含照片)----------------------------------->
+  <script>
+    $(".submitBtn").click(function (e) {
+
+      e.preventDefault();
+      let activityNo = $("#activityNo").val();
+      let activityType = $("#activityType").val();
+      let activityName = $("#activityName").val();
+      let activityLocation = $("#activityLocation").val();
+      let activityInfo = $("#activityInfo").val();
+      let activityQuota = $("#activityQuota").val();
+      let activityPrice = $("#activityPrice").val();
+
+      let formData = {
+        "activityNo": activityNo,
+        "activityType": activityType,
+        "activityName": activityName,
+        "activityLocation": activityLocation,
+        "activityInfo": activityInfo,
+        "activityQuota": activityQuota,
+        "activityPrice": activityPrice
+      }
+
+      $.ajax({
+        url: "http://localhost:8080/HiCamp/activity/update",
+        type: "put",
+        data: JSON.stringify(formData),
+        contentType: "application/json",
+        success: function (response) {
+          console.log(response);
+          swal({
+            icon: 'success',
+            text: '編輯成功'
+          })
+            .then(() => {
+              // 重新載入頁面或執行其他操作
+              location.reload();
+            });
+
+        },
+        error: function (err) {
+          console.log(JSON.stringify(err));
+        }
+      });
+    })
+  </script>
+
+<!-------------更新資料:取消輸入的值(顯示原本資料)-------------------------->
+  <script>
+    var cancelBtn = document.getElementById("cancelBtn");
+    var formData = document.getElementById("formData");
+    var originalFormData = new FormData(formData);
+
+    cancelBtn.addEventListener("click", function () {
+      var inputs = formData.getElementsByTagName("input");
+
+      for (var i = 0; i < inputs.length; i++) {
+        var fieldName = inputs[i].getAttribute("th:field");
+        if (fieldName) {
+          inputs[i].value = originalFormData.get(fieldName);
+        }
+      }
+
+      var textarea = formData.getElementsByTagName("textarea")[0];
+      var fieldName = textarea.getAttribute("th:field");
+      if (fieldName) {
+        textarea.value = originalFormData.get(fieldName);
+      }
+    });
+
+  </script>
+
+<!-------------編輯照片:預覽要上傳的圖片-------------------------->
+  <script>
+    $("#imgInput").change(function () {
+      $("#imgPreview").html("");
+      readURL(this);
+    })
+
+    function readURL(input) {
+      if (input.files && input.files[0]) {
+        for (let i = 0; i < input.files.length; i++) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            var img = $("<img width='300' height='200'>").attr('src', e.target.result);
+            $("#imgPreview").append(img);
+          }
+          reader.readAsDataURL(input.files[i]);
+        }
+      } else {
+        var noPictures = $("<p>目前沒有圖片</p>");
+        $("#imgPreview").append(noPictures);
+      }
+    }
+
+  </script>
+
+<!-------------刪除照片-------------------------------------->
+  <script>
+    const deleteBtns = document.querySelectorAll("#deletePicture");
+
+    deleteBtns.forEach(deleteBtn => {
+      deleteBtn.addEventListener('click', function (e) {
+        e.preventDefault();
+        console.log($(this))
+        let actPicId = this.getAttribute('data-actPicId');
+        swal({
+          title: '是否確認刪除照片?',
+          text: "",
+          icon: 'info',
+          buttons: ['取消', '確定'],
+          dangerMode: false,
+        })
+          .then((confirmed) => {
+            if (confirmed) {
+              deletePic(actPicId);
+              $(this).parent().parent("div").remove();
+              swal('刪除成功', '刪除成功')
+                .then(() => {
+                  document.getElementById("deletePicture").submit();
+                  location.reload();
+                });
+            }
+          });
+      });
+    });
+
+    function deletePic(actPicId) {
+      axios({
+        url: "http://localhost:8080/HiCamp/activity/deletepic",
+        method: "delete",
+        params: {
+          activityPictureNo: actPicId
+        },
+        responseType: 'document',
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+      })
+        .then(res => {
+          console.log(res);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }
+
+  </script>
+
+<!-------------回到活動列表------------------------------------>
+  <script>
+    var cancelBtn = document.querySelector(".cancelBtn");
+
+    cancelBtn.addEventListener('click', function () {
+      window.location.href = "http://localhost:8080/HiCamp/activity/showdata";
+    });
+
+  </script>
+
+</body>
+</html>

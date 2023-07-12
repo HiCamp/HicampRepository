@@ -1,0 +1,142 @@
+:root {
+    --text_color: #D08856;
+    --footer_color: #41403C;
+    --bgc_color: #d5f3f5;
+}
+
+.content{
+    width: 100%;
+}
+
+.member ul {
+    position: absolute;
+    bottom: -200%;
+    left: 0;
+    display: none;
+}
+
+body {
+    background-color: #d5f3f5;
+}
+.content{
+    width: 100%;
+}
+article {
+    margin: 0 0 0 300px;
+    font-weight: bold;
+    width: 70%;
+}
+
+.content h4 {
+    font-size: 28px;
+    margin-bottom: 20px;
+}
+
+article form{
+    margin: 130px auto;
+    display: flex;
+    flex-direction: column;
+    background-color: #fff;
+    width: 50%;
+    padding: 40px 80px;
+    border-radius: 10px;
+    font-size: 20px;
+    color: var(--text_color);
+    font-weight: bold;
+    position: relative;
+}
+
+form input,
+form select{
+	width: 18em;
+    border: 1px solid var(--text_color);
+    font-size: 20px;
+    margin: 5px 0;
+    border-radius: 5px;
+    padding: 5px;
+}
+
+form input:focus{
+    outline: 1px solid var(--text_color);
+}
+
+input:-webkit-autofill {
+    box-shadow: 0 0 0 1000px #ffffff inset;
+    -webkit-text-fill-color: var(--footer_color);
+}
+
+form .cancel{
+    position: absolute;
+    right: 30px;
+    border: none;
+    background-color: #fff;
+}
+
+form .submit,
+form .delete{
+    position: absolute;
+    right: 40px;
+    bottom: 40px;
+    cursor: pointer;
+    border: none;
+    background-color: var(--text_color);
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 18px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+form .submit:hover{
+    background-color: #b56c37;
+    box-shadow: 0 0 20px lightgray;
+    transition: 0.3s;
+}
+
+form .delete{
+	bottom: 100px;
+	text-decoration: none;
+	background-color: var(--footer_color);
+	transition: 0.3s;
+}
+
+form .delete:hover{
+	box-shadow: 0 0 25px lightgray;
+	background-color: black;
+    transition: 0.3s;
+}
+
+.deleteConfirm {
+    width: 450px;
+    height: 100px;
+    background-color: rgb(206, 190, 190);
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    text-align: center;
+    border: 1px solid rgb(72, 71, 71);
+    border-radius: 10px;
+    display: none;
+    transform: translate(-50%, -90%);
+    padding: 30px 0;
+}
+
+.deleteConfirm h3 {
+    color: white;
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.deleteConfirm a {
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    text-decoration: none;
+    margin: 0 30px;
+    cursor: pointer;
+}
+
+footer{
+    position: relative;
+}

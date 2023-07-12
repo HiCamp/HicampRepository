@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!-- basic -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- mobile metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+    
+
+  <title>HiCamp</title>
+  <style>
+    .edTable {
+      font-size: 15px;
+      /* background-color: #de1919; */
+      width: 600px;
+    }
+
+    input {
+      width: 300px;
+      border: transparent;
+      background-color: transparent;
+    }
+  </style>
+</head>
+
+<body class="dashboard dashboard_1">
+  <div class="full_container">
+    <div class="inner_container">
+      <!-- Sidebar  -->
+      <div th:replace="~{layout/leftbar}"></div>
+      <!-- right content -->
+      <div id="content">
+        <!-- topbar -->
+        <div th:replace="~{layout/topbar}"></div>
+        <!-- end topbar -->
+        <!-- dashboard inner -->
+        <div class="midde_cont">
+          <div class="container-fluid">
+            <div class="row column_title">
+              <div class="col-md-12">
+                <div class="page_title" style="display: flex; align-items: center;">
+                  <h2>訂單管理</h2><!-- 這裡不要忘了換 -->
+                  <!-- <button class="create btn btn-outline-danger btn-lg" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal" style="margin-left: 50px">
+                    新增商品</button> -->
+                </div>
+              </div>
+            </div>
+
+            <!-- 從這裡開始改喔 -->
+            <div class="table" style="width: 90%; margin: 0 auto;">
+              <table id="example" class="hover" style="width: 100%; font-size: 20px;">
+                <thead>
+                  <tr>
+                    <th>訂單編號</th>
+                    <th>訂購人</th>
+                    <th>訂單日期</th>
+                    <th>訂單金額</th>
+                    <th>付款狀態</th>
+                    <th>查看</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <th:block th:each="order : ${orderDTOs}">
+                    <tr>
+                      <td th:text="${order.orderNo}"></td>
+                      <td th:text="${order.memberName}"></td>
+                      <td th:text="${order.orderDate}"></td>
+                      <td th:text="${order.orderTotalPrice}"></td>
+                      <td th:text="${order.orderStatus}"></td>
+                      <td><button th:data-id="${order.orderNo}" data-toggle="modal" data-target=".bd-example-modal-lg"
+                          class="editBtn btn btn-sm edit" style="font-size: 20px;"><i
+                            class="fa-regular fa-pen-to-square" style="color: #3d3d3d;"></i></button></td>
+                    </tr>
+                  </th:block>
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <th>訂單編號</th>
+                    <th>訂購人</th>
+                    <th>訂單日期</th>
+                    <th>訂單金額</th>
+                    <th>付款狀態</th>
+                    <th>查看</th>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+            <!-- 只能到這裡喔 -->
+            <!-- 查看彈跳視窗 -->
+            <div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+              aria-hidden="true">
+              <div class="modal-dialog modal-lg">
+                <div class="modal-content" style="width: 800px; text-align:center">
+                  <div class="modal-header">
+                    <h5 class="modal-title">查看訂單資訊</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <form id="editForm">
+                      <input type="hidden" id="orderNo" name="orderNo">
+                      <table
+                        style="margin: 0 auto; font-size: 15px;  text-align: left; box-shadow: 0 0 5px 5px #c5c2c2;">
+                        <tr>
+                          <td>收件者姓名</td>
+                          <td>：</td>
+                          <td><input type="text" id="orderName" name="orderName" style="border-bottom:1px solid gray ;"></td>
+                        </tr>
+                        <tr>
+                          <td>收件者電話</td>
+                          <td>：</td>
+                          <td><input type="text" id="orderPhone" name="orderPhone" style="border-bottom:1px solid gray ;"></td>
+                        </tr>
+                        <tr>
+                          <td>送貨方式</td>
+                          <td>：</td>
+                          <td><input type="text" id="orderShipping" name="orderShipping" readonly></td>
+                        </tr>
+                        <tr>
+                          <td>送貨地址</td>
+                          <td>：</td>
+                          <td><input type="text" id="orderShipAddress" name="orderShipAddress" style="width: 100%;border-bottom:1px solid gray ;">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td>訂單金額</td>
+                          <td>：</td>
+                          <td><input type="text" id="orderTotalPrice" name="orderTotalPrice" readonly></td>
+                        </tr>
+                        <tr>
+                          <td>付款方式</td>
+                          <td>：</td>
+                          <td><input type="text" id="orderPayWay" name="orderPayWay" readonly></td>
+                        </tr>
+                        <tr>
+                          <td>訂單備註</td>
+                          <td>：</td>
+                          <td><input type="text" id="orderMessage" name="orderMessage" readonly> </td>
+                        </tr>
+                        <tr>
+                          <td>付款狀態</td>
+                          <td>：</td>
+                          <td><select id="orderStatus" name="orderStatus" class="form-select"
+                              style="width: 100px; height: 30px;">
+                              <option value="已付款">已付款</option>
+                              <option value="未付款">未付款</option>
+                              <option value="取消">取消</option>
+                            </select>
+                          </td>
+                        </tr>
+                      </table>
+                    </form>
+
+                    <div id="productNameContainer" style="margin-top: 16px;"></div>
+                  </div>
+                  <div class="modal-footer">
+                    <button id="editormBtn" type="submit" class="btn btn-dark">送出</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+    crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.js"></script>
+    
+  <script>
+    // Data Table
+    $(document).ready(function () {
+      $('#example').DataTable();
+    });
+    // 送出更改
+    let editormBtn = document.getElementById('editormBtn');
+    editormBtn.addEventListener('click', (e) => {
+      e.preventDefault(); // 移除原本form表單功能(送出)
+      let editForm = document.getElementById('editForm');
+      let editFormData = new FormData(editForm);
+      // editFormData.append('orderNo', 123);
+      sendEditData(editFormData);
+    })
+    function sendEditData(editFormData) {
+      axios.post('http://localhost:8080/HiCamp/orders/setOrder', editFormData)
+        .then(function (response) {
+          console.log(response.data);
+          location.reload();
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+
+
+
+
+    // 取訂單詳細資訊
+    let editBtn = document.getElementsByClassName('editBtn');
+    for (i = 0; i < editBtn.length; i++) {
+      editBtn[i].addEventListener('click', function (e) {
+        let orderID = this.getAttribute('data-id');
+        getMemberOrder(orderID);
+      })
+    }
+
+    function getMemberOrder(orderID) {
+      $.ajax({
+        url: 'http://localhost:8080/HiCamp/orders/editOrder?orderNo=' + orderID,
+        type: 'get',
+        success: function (response) {
+          console.log(response.orderName);
+          $('#orderName').val(response.orderName);
+          $('#orderPhone').val(response.orderPhone);
+          $('#orderShipping').val(response.orderShipping);
+          $('#orderShipAddress').val(response.orderShipAddress);
+          $('#orderTotalPrice').val(response.orderTotalPrice);
+          $('#orderPayWay').val(response.orderPayWay);
+          $('#orderMessage').val(response.orderMessage);
+          $('#orderStatus').val(response.orderStatus);
+          $('#orderNo').val(response.orderNo);
+
+
+          var output = document.getElementById('productNameContainer');
+          let htmlString = '';
+          htmlString = `<table class="edTable" style="font-size: 16px;margin: 0 auto;">
+                        <thead>
+                          <tr>
+                            <th>商品名稱</th>
+                            <th>優惠</th>
+                            <th>商品數量</th>
+                            <th>單價</th>
+                            <th>小計</th>
+                            <th></th>
+                          </tr>
+                        <thead> `
+          response.orderItemDTO.forEach(function (data, index) {
+            console.log(data.itemQuantity);
+            console.log(data.unitPrice);
+            let productName = data.productName;
+            let itemQuantity = data.itemQuantity;
+            let unitPrice = data.unitPrice;
+            let subtotal = data.itemQuantity * data.unitPrice;
+
+            htmlString += `<tbody>
+                            <tr>
+                              <td>${productName}</td>
+                              <td>None</td>
+                              <td>${itemQuantity}</td>
+                              <td>${unitPrice}</td>
+                              <td>${subtotal}</td>
+                            </tr>
+                          <tbody>`;
+          });
+          htmlString += '</table>';
+          output.innerHTML = htmlString
+
+        },
+        error: function (err) {
+          console.log('errrrrr' + err.data);
+        }
+
+      })
+    }
+
+
+  </script>
+</body>
+
+</html>

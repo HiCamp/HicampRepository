@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+  <!-- basic -->
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <!-- mobile metas -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+
+  <title>HiCamp</title>
+  <style>
+    tr {
+      display: flex;
+      margin: 10px 0px;
+    }
+
+    td {
+      display: block;
+      margin: 0px 10px;
+    }
+  </style>
+</head>
+
+<body class="dashboard dashboard_1">
+  <div class="full_container">
+    <div class="inner_container">
+      <!-- Sidebar  -->
+      <div th:replace="~{layout/leftbar}"></div>
+      <!-- right content -->
+      <div id="content">
+        <!-- topbar -->
+        <div th:replace="~{layout/topbar}"></div>
+        <!-- end topbar -->
+        <!-- dashboard inner -->
+        <div class="midde_cont">
+          <div class="container-fluid">
+            <div class="row column_title">
+              <div class="col-md-12">
+                <div class="page_title" style="display: flex; align-items: center;">
+                  <h2>編輯商品</h2><!-- 這裡不要忘了換 -->
+                  <a href="http://localhost:8080/HiCamp/productHome"><button class="create btn btn-outline-dark btn lg"
+                      data-bs-toggle="modal" data-bs-target="#exampleModal" style="margin-left: 50px">
+                      返回商品管理</button></a>
+                </div>
+              </div>
+            </div>
+
+            <!-- 從這裡開始改喔 -->
+            <div style="display: flex; justify-content: space-around; width: 1600px;">
+              <!-- 商品首圖 -->
+              <div id="firstPic" style="width: 100px;">
+                <img th:src="'http://localhost:8080/HiCamp/product/getBigPic?productNo='+${product.productNo}"
+                  style="width: 200px"><br>
+                <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal" data-bs-target="#bigpicModal">
+                  編輯照片 </button>
+              </div>
+              <div class="modal fade" id="bigpicModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">更新首圖</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <form id="editBigPic">
+                        <input th:field="${product.productNo}" type="hidden">
+                        <input type="file" id="bigPic" name="bigPic" class="form-control" />
+                      </form>
+                      <div id="preview_bigPic"> </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                      <button type="button" id="savebigPic" class="btn btn-primary" data-bs-dismiss="modal">更新</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div>
+                <form id="editTable">
+                  <table style="width: 100%; font-size: 20px;">
+
+                    <tr>
+                      <td>商品編號</td>
+                      <input th:field="${product.productNo}" type="hidden">
+                      <td th:text="${product.productNo}"></td>
+                    </tr>
+                    <tr>
+                      <td>商品類型</td>
+                      <td>
+                        <select th:field="${product.productType}" name="productType" class="form-select">
+                          <option value="服飾">服飾</option>
+                          <option value="配件">配件</option>
+                          <option value="露營">露營</option>
+                          <option value="登山健行">登山健行</option>
+                        </select>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>商品名稱</td>
+                      <td><input class="form-control" th:field="${product.productName}"></td>
+                    </tr>
+                    <tr>
+                      <td>商品金額</td>
+                      <td><input class="form-control" th:field="${product.productPrice}"></td>
+                    </tr>
+                    <tr>
+                      <td>庫存數量</td>
+                      <td><input class="form-control" th:field="${product.productQuantity}" type="number"></td>
+                    </tr>
+                    <tr>
+                      <td>商品介紹</td>
+                      <td><textarea class="form-control" row="5" cols="23" th:field="${product.productInfo}"></textarea>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>商品狀態</td>
+                      <td><select th:field="${product.productStutas}" class="form-select">
+                          <option value="上架">上架</option>
+                          <option value="未上架">未上架</option>
+                          <option value="下架">下架</option>
+                        </select></td>
+                    </tr>
+
+                  </table>
+                  <button class="btn btn-outline-dark" id="editTableBtn">儲存商品資訊</button>
+                </form>
+
+              </div>
+
+              <!-- 商品介紹圖片 -->
+              <div style="width:300px;">
+                圖片預覽 <button type="button" class="btn btn-outline-dark" data-bs-toggle="modal"
+                  data-bs-target="#exampleModal"> 新增照片 </button><br>
+                <th:block th:each="pic,index : ${product.productPisNos}">
+                  <div class="imgBlock" th:id="${pic}">
+                    <img th:src="'http://localhost:8080/HiCamp/product/pictures?picID='+${pic}"
+                      style="width: 300px"><br>
+                    <button class="delBtn btn btn-outline-dark" th:data-id="${pic}">刪除照片</button>
+                  </div>
+                </th:block>
+
+              </div>
+
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">加入介紹圖片:</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      <div>
+                        <form id="addImage" enctype="multipart/form-data">
+                          <input th:field="${product.productNo}" type="hidden">
+                          <div class="col">
+                            <input type="file" id="pics" name="resetPics" class="form-control" multiple />
+                            <div id="preview_pics"> </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">取消</button>
+                      <button type="button" class="btn btn-primary" id="savePic">儲存照片</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+            </div>
+            <!-- 只能到這裡喔 -->
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.4.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ"
+    crossorigin="anonymous"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      //更新資料
+      $('#editTableBtn').click(function (e) {
+        e.preventDefault();
+        console.log('editTableBtn');
+        let editTable = document.getElementById('editTable');
+        let formDataObject = new FormData(editTable);
+        editDataRequest(formDataObject);
+      })
+      function editDataRequest(formDataObject) {
+        axios({
+          url: 'http://localhost:8080/HiCamp/product/updateProduct',
+          method: 'post',
+          data: formDataObject
+        })
+          .then(response => {
+            Swal.fire({
+              position: 'top-center',
+              icon: 'success',
+              title: '更新成功',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            console.log('editTable okkkkkkk');
+          })
+          .catch(err => {
+            console.log('wrongggggggg --err: ' + err);
+          })
+      }
+
+      //更新首圖
+      $('#savebigPic').click(function (e) {
+        e.preventDefault();
+        console.log('savebigPic');
+        let editPic = document.getElementById('editBigPic');
+        let formBigPic = new FormData(editPic);
+        updateBigPic(formBigPic);
+      })
+      function updateBigPic(formBigPic) {
+        axios({
+          url: 'http://localhost:8080/HiCamp/product/updateBigPic',
+          method: 'post',
+          data: formBigPic
+        })
+          .then(res => {
+            Swal.fire({
+              position: 'top-center',
+              icon: 'success',
+              title: '更新成功',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            $('#firstPic img').attr({ "src": $(".prev").attr("src") })
+          })
+          .catch(err => {
+            console.log('savebigPic err: ' + err);
+          })
+      }
+
+
+      //刪除照片
+      $('.delBtn').click(function () {
+        let delPicID = $(this).attr('data-id');
+        console.log(delPicID);
+        delPicture(delPicID);
+
+      })
+
+      function delPicture(pictureID) {
+        axios({
+          url: 'http://localhost:8080/HiCamp/product/delPicture',
+          method: 'get',
+          params: { picID: pictureID }
+        })
+          .then(res => {
+            console.log(res.data);
+            Swal.fire({
+              position: 'top-center',
+              icon: 'success',
+              title: '刪除',
+              showConfirmButton: false,
+              timer: 1500
+            })
+            $("#" + pictureID).remove();
+          })
+          .catch(err => {
+            console.log('err: ' + err);
+          })
+      }
+      // 加入新的照片
+      $('#savePic').click(function (e) {
+        e.preventDefault();
+        console.log('加入新的照片');
+        let addImg = document.getElementById('addImage');
+        let formimgObject = new FormData(addImg);
+        if (formimgObject !== null) {
+
+          sendDataRequest(formimgObject);
+        }
+      })
+
+      function sendDataRequest(formaddObject) {
+        axios({
+          url: 'http://localhost:8080/HiCamp/product/resetPic',
+          method: 'post',
+          data: formaddObject
+        })
+          .then(response => {
+            console.log('add product okkkkkkk');
+            location.reload();
+          })
+          .catch(err => {
+            console.log('wrongggggggg --err: ' + err);
+          })
+      }
+      //圖片預覽
+      $("#bigPic").change(function () {
+        console.log('123')
+        readURL(this);
+      });
+      function readURL(input) {
+
+        if (input.files && input.files[0]) {
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            var img = $("<br><img class='prev' width='200'>").attr('src', e.target.result);
+            $('#preview_bigPic').empty();
+            $('#preview_bigPic').append(img);
+          }
+          reader.readAsDataURL(input.files[0]);
+
+        }
+      }
+      $("#pics").change(function () {
+        $("#preview_pics").html();
+        readURLs(this);
+      });
+      function readURLs(input) {
+        if (input.files && input.files.length >= 0 && input.files.length <= 5) {
+          for (let i = 0; i < input.files.length; i++) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+              var img = $("<br><img width='200'>").attr('src', e.target.result);
+              $('#preview_pics').append(img);
+            }
+            reader.readAsDataURL(input.files[i]);
+          }
+        }
+      }
+
+
+
+    });
+  </script>
+</body>
+
+</html>
