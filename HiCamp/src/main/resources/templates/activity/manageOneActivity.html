@@ -483,12 +483,12 @@
 //<!-----------------------新增期別:一鍵輸入-------------------------->
 	$("#quickinsert").click(function(){
 		console.log($("#activityNo").val())
-		$("#newActivityDepartureDate").val("2023/01/20");
-		$("#newActivityReturnDate").val("2023/01/21");
-		$("#newSignupDeadline").val("2023/01/21");
-		$("#newSignupQuantity").val("10");
-		$("#newActivityPeriodQuota").val("10");
-		$("#newActivityPeriodPrice").val("1000");
+		$("#newActivityDepartureDate").val("2023/11/20");
+		$("#newActivityReturnDate").val("2023/11/24");
+		$("#newSignupDeadline").val("2023/09/15");
+		$("#newSignupQuantity").val("0");
+		$("#newActivityPeriodQuota").val("25");
+		$("#newActivityPeriodPrice").val("12000");
 	})
 	
 	 $(".submitInsertBtn").click(function (e) {
@@ -527,7 +527,7 @@
 			    "</div>";
 			
 			  console.log(newPeriodHtml)
-			  $("#periodformData").append(newPeriodHtml);
+			  $("#periodformData").prepend(newPeriodHtml);
       
 				swal({
 		            icon: 'success',

@@ -36,7 +36,7 @@ public class ActivityPeriodController {
 //	新增期別
 	@PostMapping("/activity/insertNewPeriod")
 	@ResponseBody
-	public String insertNewPeriod(@RequestParam("activityNo")Integer activityNo,
+	public ActivityPeriod insertNewPeriod(@RequestParam("activityNo")Integer activityNo,
 								@RequestParam("activityDepartureDate") Date activityDepartureDate,
 								@RequestParam("activityReturnDate") Date activityReturnDate,
 								@RequestParam("signupDeadline") Date signupDeadline, 
@@ -56,7 +56,7 @@ public class ActivityPeriodController {
 		activityPeriod.setActivityPeriodPrice(activityPeriodPrice);
 		
 		actPeriodService.insertOnePeriod(activityPeriod);
-		return "新增成功";
+		return activityPeriod;
 	}
 
 //	查詢單筆期別

@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description"
+		content="Responsive Bootstrap4 Shop Template, Created by Imran Hossain from https://imransdesign.com/">
+
+	<!-- title -->
+	<title>登山EZ</title>
+
+	<style>
+		.comment-user-avater img {
+			height: 60px;
+		}
+
+		.save-comment-btn,
+		.cancel-edit-btn {
+			margin-right: 10px;
+		}
+
+		.buttons-row {
+			display: flex;
+			justify-content: space-between;
+			width: 200px;
+			margin-bottom: 20px;
+		}
+
+		.like-section,
+		.dislike-section {
+			display: flex;
+			flex-direction: row;
+			align-items: center;
+		}
+
+		.like-section span,
+		.dislike-section p {
+			display: inline-block;
+			vertical-align: middle;
+			margin-left: 3px;
+		}
+
+		.title-and-share {
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+		}
+	</style>
+</head>
+
+<body>
+	<div th:replace="~{layout/frontTopBar}"></div>
+	<!--PreLoader-->
+	<div class="loader">
+		<div class="loader-inner">
+			<div class="circle"></div>
+		</div>
+	</div>
+	<!--PreLoader Ends-->
+
+	<!-- breadcrumb-section -->
+	<div class="breadcrumb-section breadcrumb-bg">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8 offset-lg-2 text-center">
+					<div class="breadcrumb-text">
+						<p>大自然的秘密，在你探索中揭示</p>
+						<h1>探索者之家</h1>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end breadcrumb section -->
+
+	<!-- single article section -->
+	<div class="mt-150 mb-150">
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-8">
+					<div class="single-article-section">
+						<div class="single-article-text">
+							<div class="single-artcile-bg"
+								th:style="'background-image: url(data:image/jpeg;base64,' + ${post.getPostAlbumBase64()} + ');'">
+							</div>
+							<p class="blog-meta">
+								<span class="author"><i class="fas fa-user"></i><span
+										th:text="${post.member.memberName}"></span></span>
+								<span class="date"><i class="fas fa-calendar"></i> <span
+										th:text="${#dates.format(post.postDate, 'yyyy/MM/dd HH:mm:ss')}"></span></span>
+							</p>
+							<div class="title-and-share">
+								<h3 th:text="${post.postTitle}"></h3>
+								<div class="line-it-button" data-lang="zh_Hant" data-type="share-a" data-env="REAL"
+									th:data-url="'http://localhost:8080/HiCamp/forum/showpostbyno/' + ${post.postNo}"
+									data-color="default" data-size="large" data-count="false" data-ver="3"
+									style="display: none;"></div>
+							</div>
+							<div class="content" th:utext="${post.postContent}">
+							</div>
+							<div class="buttons-row">
+								<div class="like-section">
+									<button class="btn btn-outline-primary" id="like-button">喜歡</button>
+									<p id="likes-count"><span th:text="${likesCount}"></span></p>
+								</div>
+								<div class="dislike-section">
+									<button class="btn btn-outline-primary" id="dislike-button">不喜歡</button>
+									<p id="dislikes-count">0<span th:text="${dislikesCount}"></span></p>
+								</div>
+							</div>
+							<div class="report-section">
+								<button class="btn btn-outline-danger" id="report-button" data-toggle="modal"
+									data-target="#reportModal">檢舉</button>
+							</div>
+						</div>
+						<div class="modal fade" id="reportModal" tabindex="-1" role="dialog"
+							aria-labelledby="reportModalLabel" aria-hidden="true">
+							<div class="modal-dialog" role="document">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h5 class="modal-title" id="reportModalLabel">檢舉文章</h5>
+										<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+											<span aria-hidden="true">&times;</span>
+										</button>
+									</div>
+									<div class="modal-body">
+										<p>請選擇檢舉原因：</p>
+										<select id="report-reason" class="form-control">
+											<option value="">請選擇檢舉原因</option>
+											<option value="垃圾訊息">垃圾訊息</option>
+											<option value="仇恨言論">仇恨言論</option>
+											<option value="不實資訊">不實資訊</option>
+											<option value="色情暴力">色情暴力</option>
+											<option value="騷擾">騷擾</option>
+										</select>
+									</div>
+									<div class="modal-footer">
+										<button type="button" class="btn btn-secondary" data-dismiss="modal">取消</button>
+										<button type="button" class="btn btn-primary" id="submit-report">提交檢舉</button>
+									</div>
+								</div>
+							</div>
+						</div>
+
+						<div class="comments-list-wrap">
+							<h4 class="comment-count-title" th:text="${#lists.size(comments)} + ' 則留言'"></h4>
+							<div class="comment-list" th:each="comment : ${comments}">
+								<div class="single-comment-body">
+									<div class="comment-user-avater">
+										<img th:src="'/HiCamp/getphoto?memberNo='+${comment.memberNo}" alt="">
+									</div>
+									<div class="comment-text-body">
+										<h4>
+											<span th:text="${comment.member.memberName}"></span>
+											<span class="comment-date"
+												th:text="${#dates.format(comment.postCommentDate, 'MM/dd HH:mm')}"></span>
+											<!--  
+											<a class="reply-btn" th:data-commentid="${comment.postCommentNo}">回覆</a>
+											-->
+											<a class="edit-comment-btn" th:data-commentid="${comment.postCommentNo}"
+												th:if="${currentMember != null && currentMember.memberNo == comment.member.memberNo}">修改</a>
+											<a class="delete-comment-btn" th:data-commentid="${comment.postCommentNo}"
+												th:if="${currentMember != null && currentMember.memberNo == comment.member.memberNo}">刪除</a>
+										</h4>
+										<p th:text="${comment.postComment}"></p>
+									</div>
+									<!-- <div class="single-comment-body child">
+										<div class="comment-user-avater">
+											<img th:src="'/HiCamp/getphoto?memberNo='+${comment.memberNo}" alt="">
+										</div>
+										<div class="comment-text-body">
+											<h4>
+												<span th:text="${comment.member.memberName}"></span>
+												<span class="comment-date"
+													th:text="${#dates.format(comment.postCommentDate, 'MM/dd HH:mm')}"></span>
+												<a class="reply-btn" th:data-commentid="${comment.postCommentNo}">回覆</a>
+												<a class="edit-comment-btn"
+													th:data-commentid="${comment.postCommentNo}">修改</a>
+												<a class="delete-comment-btn"
+													th:data-commentid="${comment.postCommentNo}">刪除</a>
+											</h4>
+											<p th:text="${comment.postComment}"></p>
+										</div>
+									</div> -->
+								</div>
+							</div>
+						</div>
+
+						<div class="comment-template">
+							<h4>留言</h4>
+							<form id="commentForm" action="#">
+								<input type="hidden" id="postNo" name="postNo" th:value="${post.postNo}">
+								<p><textarea name="postComment" id="postComment" style="width: 500px; height: 100px;"
+										placeholder="回覆.." required></textarea></p>
+								<p><input type="submit" value="送出" id="submitBtn"></p>
+							</form>
+						</div>
+					</div>
+				</div>
+				<div class="col-lg-4">
+					<div class="sidebar-section">
+						<div class="recent-posts">
+							<h4>熱門文章</h4>
+							<ul>
+								<li th:each="post : ${topPosts}">
+									<a th:href="@{/forum/showpostbyno/{postNo}(postNo=${post.postNo})}">
+										<span th:text="'【' + ${post.postType} + '】'"></span> <span
+											th:text="${post.postTitle}"></span>
+									</a>
+								</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!-- end single article section -->
+
+	<div th:replace="~{layout/frontBottomBar}"></div>
+	<script src="https://www.line-website.com/social-plugins/js/thirdparty/loader.min.js" async="async"
+		defer="defer"></script>
+	<script>
+		// 檢舉貼文
+		$(document).ready(function () {
+			$('#submit-report').click(function () {
+				var postNo = $('#postNo').val();
+				let reportReason = $('#report-reason').val();
+
+				$.ajax({
+					url: '/HiCamp/forum/addreport',
+					type: 'POST',
+					data: JSON.stringify({
+						postNo: postNo,
+						postReportReason: reportReason
+					}),
+					contentType: 'application/json',
+					success: function (response) {
+						alert('感謝您的檢舉，我們會儘快處理');
+						$('#reportModal').modal('hide');
+						$('#report-reason').val('');
+						$('#report-button').text('已提交檢舉');
+					},
+					error: function (jqXHR, textStatus, errorThrown) {
+						console.log(textStatus, errorThrown);
+						alert('發生錯誤，請稍後再試');
+					}
+				});
+			});
+		});
+
+		// 新增留言
+		document.getElementById('submitBtn').addEventListener('click', function (event) {
+			event.preventDefault();
+
+			const postNo = document.getElementById('postNo').value;
+			const postCommentText = document.getElementById('postComment').value;
+
+			const dtoJsObject = { postNo: postNo, postCommentText: postCommentText };
+			const dtoJsonString = JSON.stringify(dtoJsObject);
+			const url = 'http://localhost:8080/HiCamp/forum/addcomment';
+
+			fetch(url, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: dtoJsonString
+			})
+
+				.then((response) => {
+					return response.json();
+				})
+				.then((data) => {
+					console.log(data);
+
+					var date = new Date(data.postCommentDate);
+
+					var month = (date.getMonth() + 1).toString().padStart(2, '0');
+					var day = date.getDate().toString().padStart(2, '0');
+					var hour = date.getHours().toString().padStart(2, '0');
+					var minute = date.getMinutes().toString().padStart(2, '0');
+					var formattedDate = month + '/' + day + ' ' + hour + ':' + minute;
+
+					let commentList = `<div class="comment-list">
+							<div class="single-comment-body">
+								<div class="comment-user-avater">
+									<img src="http://localhost:8080/HiCamp/getphoto?memberNo=`+ data.member.memberNo + `" alt="">
+								</div>
+								<div class="comment-text-body">
+									<h4>
+										<span>`+ data.member.memberName + `</span>
+										<span class="comment-date">`+ formattedDate + `</span>										
+										<a href="#">修改</a>
+										<a class="delete-comment-btn" onclick="deleteCommentAjaxReq(`+ data.postCommentNo + `)">刪除</a>
+									</h4>
+									<p>`+ data.postComment + `</p>
+								</div>
+							</div>
+						</div>`;
+					console.log(commentList);
+					$(".comments-list-wrap").append(commentList);
+
+					document.getElementById('commentForm').reset();
+				})
+				.catch((error) => {
+					console.error('Error:', error);
+					window.alert('請登入會員！');
+				});
+			$(".delete-comment-btn").click(function () {
+				let commentId = $(this).attr("data-commentid");
+				deleteCommentAjaxReq(commentId);
+			})
+		});
+
+		// 刪除留言
+		document.addEventListener('DOMContentLoaded', (event) => {
+			addDeleteListeners();
+		});
+		function addDeleteListeners() {
+			const deleteCommentButtons = document.getElementsByClassName('delete-comment-btn');
+			Array.from(deleteCommentButtons).forEach(button => {
+				button.addEventListener('click', function (event) {
+					event.preventDefault();
+					const commentId = button.getAttribute("data-commentid");
+					deleteCommentAjaxReq(commentId);
+				});
+			});
+		}
+
+		function deleteCommentAjaxReq(commentId) {
+			if (window.confirm('確定要刪除嗎？')) {
+				axios.request({
+					method: 'DELETE',
+					url: 'http://localhost:8080/HiCamp/forum/deleteComment',
+					data: {
+						postCommentNo: Number(commentId)
+					},
+					headers: { 'Content-Type': 'application/json' }
+				})
+					.then(res => {
+						console.log('res: ' + JSON.stringify(res));
+						document.querySelector(`[data-commentid="${commentId}"]`).closest('.single-comment-body').remove();
+					})
+					.catch(err => {
+						console.error('Error:', err.response);
+					});
+			}
+		}
+		// 修改留言
+		document.addEventListener('DOMContentLoaded', (event) => {
+			addEditListeners();
+		});
+		function addEditListeners() {
+			const editCommentButtons = document.getElementsByClassName('edit-comment-btn');
+			Array.from(editCommentButtons).forEach(button => {
+				button.addEventListener('click', function (event) {
+					event.preventDefault();
+
+					let postNo = document.getElementById('postNo').value;
+					let commentBody = button.closest('.comment-text-body');
+					let commentTextElem = commentBody.querySelector('p');
+
+					let textarea = document.createElement('textarea');
+					textarea.textContent = commentTextElem.textContent;
+
+					let saveBtn = document.createElement('a');
+					saveBtn.textContent = '確認';
+					saveBtn.classList.add('save-comment-btn');
+
+					let cancelBtn = document.createElement('a');
+					cancelBtn.textContent = '取消';
+					cancelBtn.classList.add('cancel-edit-btn');
+
+					commentBody.replaceChild(textarea, commentTextElem);
+					commentBody.appendChild(saveBtn);
+					commentBody.appendChild(cancelBtn);
+
+					saveBtn.addEventListener('click', function (event) {
+						event.preventDefault();
+
+						let p = document.createElement('p');
+						p.textContent = textarea.value;
+						commentBody.replaceChild(p, textarea);
+
+						commentBody.removeChild(saveBtn);
+						commentBody.removeChild(cancelBtn);
+
+						let commentId = button.getAttribute("data-commentid");
+						const url = 'http://localhost:8080/HiCamp/forum/' + postNo + '/comments/' + commentId;
+						const updatedComment = { postComment: textarea.value }; // Ensure the property names match the backend object
+
+						axios.put(url, updatedComment)
+							.then(response => {
+								console.log(response.data);
+							})
+							.catch(error => {
+								console.error(error);
+							});
+					});
+
+					cancelBtn.addEventListener('click', function (event) {
+						event.preventDefault();
+
+						commentBody.replaceChild(commentTextElem, textarea);
+
+						commentBody.removeChild(saveBtn);
+						commentBody.removeChild(cancelBtn);
+					});
+
+				});
+			});
+		}
+		// 喜歡貼文
+		document.addEventListener('DOMContentLoaded', (event) => {
+			updateLikeCount();
+		});
+		document.getElementById('like-button').addEventListener('click', function () {
+			let postNo = document.getElementById('postNo').value;
+			let likeButton = document.getElementById('like-button');
+
+			let postLike = {
+				postNo: postNo
+			};
+
+			const url = 'http://localhost:8080/HiCamp/forum/addlike';
+
+			fetch(url, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify(postLike),
+			})
+				.then(response => {
+					return response.json();
+				})
+				.then(data => {
+					console.log('Success:', data);
+					if (data != null) {
+						likeButton.innerText = "收回";
+					} else {
+						likeButton.innerText = "喜歡";
+					}
+					updateLikeCount();
+				})
+				.catch((error) => {
+					console.error('Error:', error);
+				});
+		});
+
+		function updateLikeCount() {
+			let postNo = document.getElementById('postNo').value;
+
+			fetch(`http://localhost:8080/HiCamp/forum/post/${postNo}/likesCount`, {
+				method: 'GET',
+			})
+				.then(response => response.json())
+				.then(data => {
+					let likesCountElem = document.getElementById('likes-count').querySelector('span');;
+					likesCountElem.textContent = data.likesCount;
+				})
+				.catch((error) => {
+					console.error('Error:', error);
+				});
+		}
+	</script>
+</body>
+
+</html>

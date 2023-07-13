@@ -92,7 +92,7 @@
  	<th>訂單時間</th>
  	<td class="signupDate">
  		<input type="text" readonly class="Datepicker" value="" name="" id="signupDate" style="border-radius:3px">
- 		<button id="datesearchBtn " class="btn btn-outline-primary">查詢</button>
+ 		<button id="datesearchBtn" class="btn btn-outline-primary">查詢</button>
  		<button type="reset" class="datesearchBtn btn btn-outline-secondary">清除</button>
 		<span>可查詢一年內的訂單</span>
  	</td>
@@ -200,12 +200,12 @@ $(document).ready(function() {
         var activitySignupNo = $(this).val();
 
         $.ajax({
-            url: "http://localhost:8080/HiCamp/activity/memberCheckSignupOrder",
+            url: "http://localhost:8080/HiCamp/activity/memberCheckSignupOrderList",
             type: "get",
             data: { orderId: activitySignupNo },
             success: function(response) {
                 console.log(activitySignupNo);
-                window.location.href = "http://localhost:8080/HiCamp/activity/memberCheckSignupOrder?orderId=" + activitySignupNo;
+                window.location.href = "http://localhost:8080/HiCamp/activity/memberCheckSignupOrderList?orderId=" + activitySignupNo;
             }
         });
     });
@@ -257,8 +257,9 @@ $(document).ready(function() {
 
 <!-- 日期查詢 -->
 <script>
-$(document).ready(function() {
+$(function() {
   $("#datesearchBtn").click(function() {
+  console.log("123");
     var selectedDate = $("#signupDate").datepicker("getDate"); 
     selectedDate = $.datepicker.formatDate('yy-mm-dd', selectedDate);  
 
@@ -294,7 +295,7 @@ $(document).ready(function() {
         });
       },
       error: function() {
-        alert('查询失败');
+        alert('查詢失敗');
       }
     });
   });

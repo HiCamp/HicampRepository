@@ -96,9 +96,9 @@ td {
 												th:text="${#dates.format(activity.activityDepartureDate, 'yyyy-MM-dd')}"></td>
 											<td
 												th:text="${#dates.format(activity.activityReturnDate, 'yyyy-MM-dd')}"></td>
-											<td th:text="${activity.activityPeriodQuota}"></td>
 											<td th:text="${activity.activityPeriodPrice}"
 												id="formattedValue" style="text-align: right;"></td>
+											<td th:text="${activity.activityPeriodQuota}"></td>
 											<td th:text="${activity.signupQuantity}"></td>
 											<td><button class="edit-btn btn btn-outline-secondary"
 													th:data-actId="${activity.activityNo}">編輯</button></td>

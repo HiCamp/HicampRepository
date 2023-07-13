@@ -289,9 +289,9 @@ public class ActivitySignupController {
 		return activitySignup.getActivitySignupNo();
 	}
 
-//	查看訂單明細
+//	訂購成功跳轉訂單明細+寄信
 	@GetMapping("/activity/memberCheckSignupOrder")
-	public String testplaceorder(@RequestParam("orderId") Integer activitySignupNo, HttpSession session, Model model) {
+	public String memberCheckSignupOrder(@RequestParam("orderId") Integer activitySignupNo, HttpSession session, Model model) {
 		Integer memberNo = (Integer) session.getAttribute("memberNo");
 		Member member = memberService.findByNo(memberNo);
 		ActivitySignup activitySignup = actSignupService.findActivitySignupOrdersBySignupNo(activitySignupNo);
@@ -329,6 +329,26 @@ public class ActivitySignupController {
 		model.addAttribute("activitySignup", activitySignup);
 		model.addAttribute("activityPeriod", activitySignup.getActivityPeriod());
 
+		return "activity/memberCheckSignupOrder";
+	}
+	
+//	查訂單列表
+	@GetMapping("/activity/memberCheckSignupOrderList")
+	public String memberCheckSignupOrderList(@RequestParam("orderId") Integer activitySignupNo, HttpSession session, Model model) {
+		Integer memberNo = (Integer) session.getAttribute("memberNo");
+		Member member = memberService.findByNo(memberNo);
+		ActivitySignup activitySignup = actSignupService.findActivitySignupOrdersBySignupNo(activitySignupNo);
+		Activity activity = aService.findActivityById(activitySignup.getActivityPeriod().getActivityNo());
+		
+		Date departureDate = activitySignup.getActivityPeriod().getActivityDepartureDate();
+		Date returnDate = activitySignup.getActivityPeriod().getActivityReturnDate();
+		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+		
+		model.addAttribute("member", member);
+		model.addAttribute("activity", activity);
+		model.addAttribute("activitySignup", activitySignup);
+		model.addAttribute("activityPeriod", activitySignup.getActivityPeriod());
+		
 		return "activity/memberCheckSignupOrder";
 	}
 
