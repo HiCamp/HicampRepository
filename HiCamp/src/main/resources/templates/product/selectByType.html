@@ -96,8 +96,8 @@
 
 			<div class="row">
 				<nav class="nav">
-					<a class="nav-link active"
-						href="http://localhost:8080/HiCamp/shopping/getProducts?productType=服飾">服飾</a>
+					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping">全部商品></a>
+					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=服飾">服飾</a>
 					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=配件">配件</a>
 					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=露營">露營</a>
 					<select name="productTypeSelect" id="productTypeSelect">
@@ -140,31 +140,31 @@
 	<!-- end product section -->
 	<div th:replace="~{/layout/frontBottomBar}"></div>
 	<script>
-			$(document).on("click", "#scrollButton", function(){
-				scrollToTop();
-			});
-			
+		$(document).on("click", "#scrollButton", function () {
+			scrollToTop();
+		});
 
-			// 函式: 檢查滾動位置並顯示/隱藏回到頂部按鈕
-			window.onscroll = function () {
-				scrollFunction();
-			};
 
-			function scrollFunction() {
-				var scrollButton = document.getElementById("scrollButton");
+		// 函式: 檢查滾動位置並顯示/隱藏回到頂部按鈕
+		window.onscroll = function () {
+			scrollFunction();
+		};
 
-				if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
-					scrollButton.style.display = "block";
-				} else {
-					scrollButton.style.display = "none";
-				}
+		function scrollFunction() {
+			var scrollButton = document.getElementById("scrollButton");
+
+			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+				scrollButton.style.display = "block";
+			} else {
+				scrollButton.style.display = "none";
 			}
+		}
 
-			// 函式: 滾動到頂部
-			function scrollToTop() {
-				document.body.scrollTop = 0; // For Safari
-				document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
-			};
+		// 函式: 滾動到頂部
+		function scrollToTop() {
+			document.body.scrollTop = 0; // For Safari
+			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		};
 		//加入購物車
 		$('.addCart').click(function (e) {
 			e.preventDefault();
@@ -185,17 +185,22 @@
 				url: 'http://localhost:8080/HiCamp/shoppingCart/addcart',
 				type: "post",
 				data: cartData,
-				success: function () {
-					Swal.fire({
-						position: 'top-center',
-						icon: 'success',
-						title: '加入購物車',
-						showConfirmButton: false,
-						timer: 1500
-					})
+				success: function (res) {
+					if (res !== "0") {
+						Swal.fire({
+							position: 'top-center',
+							icon: 'success',
+							title: '加入購物車',
+							showConfirmButton: false,
+							timer: 1500
+						})
+						$("#countCart").text(parseInt($("#countCart").text()) + 1);
+					} else {
+						window.location.href = "http://localhost:8080/HiCamp/projectmemberlogin"
+					}
 				}
-
 			})
+
 		}
 	</script>
 </body>

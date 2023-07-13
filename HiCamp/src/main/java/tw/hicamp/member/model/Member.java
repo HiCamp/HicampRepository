@@ -63,7 +63,7 @@ public class Member {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Orders> orders = new ArrayList<>();
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true)
-	@JsonManagedReference
 	private List<ActivitySignup> activitySignup = new ArrayList<>();	
 }
