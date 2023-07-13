@@ -97,7 +97,10 @@
 										<h5 style="font-family:monospace; color:#3b5d92; margin-right: 10px;align-items:center;"
 											class="single-product-pricing">選購數量:</h5>
 										<input type="number" placeholder="1" value="1" min="1" name="itemQuantity"
-											th:max="${product.productQuantity}" style="margin-right: 200px;">
+											th:max="${product.productQuantity}" style="margin-right: 170px;">
+										<button id="addfavorites"
+											style="border: transparent; background-color: transparent;color: #f57077;font-size: 20px;"><i
+												id="icon" class="fa-regular fa-heart"></i></button>
 										<button id="shopping" class="btn btn-primary btn-lg cart-btn"
 											style="background-color: #3b5d92; border-color: #3b5d92; border-radius: 10px;"><i
 												class="fas fa-shopping-cart"></i>加入購物車</button>
@@ -182,6 +185,13 @@
 		<div th:replace="~{/layout/frontBottomBar}"></div>
 
 		<script>
+			//加入最愛
+			$('#addfavorites').click(function (e) {
+				e.preventDefault();
+				console.log('我的最愛+1');
+				$('#icon').removeClass().addClass('fa-solid fa-heart');
+			})
+
 			//加入購物車
 			$('#shopping').click(function (e) {
 				e.preventDefault();
@@ -204,7 +214,7 @@
 								showConfirmButton: false,
 								timer: 1500
 							})
-							$("#countCart").text(parseInt($("#countCart").text())+1);
+							$("#countCart").text(parseInt($("#countCart").text()) + 1);
 						} else {
 							window.location.href = "http://localhost:8080/HiCamp/projectmemberlogin"
 						}

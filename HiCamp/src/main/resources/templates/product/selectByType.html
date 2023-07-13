@@ -10,10 +10,38 @@
 
 	<!-- title -->
 	<title>HiCamp 登露</title>
+	<style>
+		#scrollButton {
+			display: none;
+			position: fixed;
+			bottom: 20px;
+			right: 20px;
+			z-index: 99;
+			font-size: 10px;
+			border: none;
+			outline: none;
+			cursor: pointer;
+			padding: 15px;
+			border-radius: 10px;
+		}
+
+		.nav a {
+
+			font-size: 18px;
+			color: black;
+		}
+
+		.nav {
+			background-color: #bcbcbc;
+		}
+	</style>
 
 </head>
 
 <body>
+	<button id="scrollButton">
+		<h1 class="animate__animated animate__bounce"><i class="fa-solid fa-arrow-up"></i></h1>
+	</button>
 
 	<div th:replace="~{/layout/frontTopBar}"></div>
 
@@ -112,6 +140,31 @@
 	<!-- end product section -->
 	<div th:replace="~{/layout/frontBottomBar}"></div>
 	<script>
+			$(document).on("click", "#scrollButton", function(){
+				scrollToTop();
+			});
+			
+
+			// 函式: 檢查滾動位置並顯示/隱藏回到頂部按鈕
+			window.onscroll = function () {
+				scrollFunction();
+			};
+
+			function scrollFunction() {
+				var scrollButton = document.getElementById("scrollButton");
+
+				if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+					scrollButton.style.display = "block";
+				} else {
+					scrollButton.style.display = "none";
+				}
+			}
+
+			// 函式: 滾動到頂部
+			function scrollToTop() {
+				document.body.scrollTop = 0; // For Safari
+				document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+			};
 		//加入購物車
 		$('.addCart').click(function (e) {
 			e.preventDefault();

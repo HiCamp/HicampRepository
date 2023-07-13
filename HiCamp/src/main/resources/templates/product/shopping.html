@@ -104,6 +104,7 @@
 						<option value="排序">排序</option>
 						<option value="價格高到低">價格高到低</option>
 						<option value="價格低到高">價格低到高</option>
+						<option value="新上架">新上架</option>
 					</select>
 
 
@@ -116,18 +117,9 @@
 	<!-- end product section -->
 	<div th:replace="~{/layout/frontBottomBar}"></div>
 	<script>
-		console.log($("#productTypeSelect").val());
-		$(".nav #productTypeSelect").change(function () {
-			console.log('123')
-		})
-	</script>
-	<script>
 		$(document).ready(function () {
 
 
-			$('.aaaa').click(function () {
-				console.log('122333');
-			});
 			// 金額排序ajax
 			$(document).on('change', '#productTypeSelect', function() {
 				console.log($(this).val());
@@ -139,6 +131,8 @@
 					orderByPrice();
 				} else if (selectedValue === "價格高到低") {
 					orderByPriceDESC();
+				} else if (selectedValue === "新上架"){
+					orderByDate();
 				}
 			});
 
@@ -164,6 +158,19 @@
 					type: 'get',
 					success: function (allProducts) {
 						allProducts.sort(compareByPriceDESC);
+						htmlMaker(allProducts);
+						//加入購物車
+						addCartFun();
+					}
+				})
+			}
+			
+			function orderByDate(){
+				$.ajax({
+					url: 'http://localhost:8080/HiCamp/shopping/allproducts',
+					type: 'get',
+					success: function (allProducts) {
+						allProducts.sort(compareByDate);
 						htmlMaker(allProducts);
 						//加入購物車
 						addCartFun();
@@ -265,6 +272,9 @@
 			function compareByPrice(a, b) {
 				return a.productPrice - b.productPrice;
 			};
+			function compareByDate(a, b) {
+				return b.productNo - a.productNo;
+			}
 
 			function htmlMaker(response) {
 				var output = document.getElementById('productContent');
