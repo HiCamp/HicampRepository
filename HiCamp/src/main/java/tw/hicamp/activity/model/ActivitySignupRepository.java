@@ -2,6 +2,7 @@ package tw.hicamp.activity.model;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -24,4 +25,10 @@ public interface ActivitySignupRepository extends JpaRepository<ActivitySignup, 
 	        "signupQuantity LIKE CONCAT('%', :keyword, '%') AND "
 	        + "memberNo =:memberNo", nativeQuery = true)
 	List<ActivitySignup> findByKeyword(@Param("keyword") String keyword, @Param("memberNo")int memberNo);
+	
+	@Query("SELECT new map(MONTH(a.signupDate) as month, COUNT(a) as signupCount, SUM(a.signupTotalAmount) as totalAmount) FROM ActivitySignup a GROUP BY MONTH(a.signupDate)")
+	List<Map<String, Object>> findSignupDataGroupByMonth();
+	
+	@Query("SELECT new map(a.activityPeriod.activity.activityType as type, COUNT(a) as count) FROM ActivitySignup a GROUP BY a.activityPeriod.activity.activityType")
+	List<Map<String, Object>> findSignupDataGroupByType();
 }

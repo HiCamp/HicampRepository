@@ -91,10 +91,12 @@
         
     <form id="formData" th:object="${signupOrderDto}">
     
+ 			   <h1 style="font-weight: bold;">訂單資訊:　</h1>
+ 			     <br>
                     <table class="table">
                        <tr>
                         <td class="title" style="width: 200px;">訂單編號:</td>
-                        <td><input type="number" th:field="*{activitySignupNo}" class="form-control" readonly></td>
+                        <td><input type="number" th:field="*{activitySignupNo}" readonly></td>
                     </tr>
                        <tr>
                         <td class="title" style="width: 200px;">報名日期:</td>

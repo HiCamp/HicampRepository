@@ -3,6 +3,7 @@ package tw.hicamp.activity.service;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,6 +63,7 @@ public class ActivitySignupService {
 		return null;
 	}
 
+//	透過期別查詢訂單
 	public int findTotalOrdersByActivityPeriodNo(Integer activityPeriodNo) {
 		List<ActivitySignup> activitySignupList = actSignupRepo.findByActivityPeriodNo(activityPeriodNo);
 
@@ -97,6 +99,21 @@ public class ActivitySignupService {
 	public List<ActivitySignup> findByKeyword(String keyword, int memberNo) {
 	    return actSignupRepo.findByKeyword("%" + keyword + "%", memberNo);
 	}
+	
+	
+	//chart
+    public List<Map<String, Object>> getSignupDataPerMonth() {
+        return actSignupRepo.findSignupDataGroupByMonth();
+    }
+    
+
+    public List<Map<String, Object>> getSignupDataByType() {
+        return actSignupRepo.findSignupDataGroupByType();
+    }
+	
+	
+	
+	
 
 	public ActivitySignupService() {
 	}

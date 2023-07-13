@@ -44,7 +44,10 @@ public class ActivityController {
 
 // ==管理者頁面==========================================================================================
 
-// 1. 新增活動資料(含照片&期別)  2.查詢全部活動資訊 3.查詢單筆活動資訊(透過活動編號) 4. 查詢單筆活動資料(透過期別編號)
+// 1.新增活動資料(含照片&期別)  http://localhost:8080/HiCamp/activity/insertActivity
+// 2.查詢所有活動資訊(含照片&期別) http://localhost:8080/HiCamp/activity/allDataInBackEndPage
+// 3.查詢單筆活動資訊(透過活動編號)  http://localhost:8080/HiCamp/activity/findActivityWithPicPeriodByActivityNo
+// 4.查詢單筆活動資料(透過期別編號) http://localhost:8080/HiCamp/activity/
 
 // --新增活動資訊 (含照片&期別) --------------------------------------------------------------------
 	@PostMapping("/activity/insertActivity")
