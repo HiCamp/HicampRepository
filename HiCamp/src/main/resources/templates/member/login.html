@@ -71,7 +71,7 @@
 			color: #F28123;
 			border: 1px solid #F28123;
 		}
-		
+
 		#captcha {
 			cursor: pointer;
 		}
@@ -94,26 +94,33 @@
 							<form action="http://localhost:8080/HiCamp/login" method="post">
 								<label>帳號: <span th:text="${statusError} ? ${statusError}" style="color:red;"></span>
 									<input type="text" name="memberEmail" id="memberEmail"></label><br>
-								<label>密碼: <span th:text="${passwordFalse} ? ${passwordFalse}" style="color:red;"></span>
+								<label>密碼: <span th:text="${passwordFalse} ? ${passwordFalse}"
+										style="color:red;"></span>
 									<input type="password" name="memberPassword" id="memberPassword"></label><br>
-									
-									<label style="border: none; width: 100%; margin: 20px 0 10px 100px;"><span id="captcha" th:text="${captchaCode}" style="background-color: #565656; color: white; padding: 5px 10px;"></span>
+
+								<label style="border: none; width: 100%; margin: 20px 0 10px 100px;"><span id="captcha"
+										th:text="${captchaCode}"
+										style="background-color: #565656; color: white; padding: 5px 10px;"></span>
 									<input type="text" name="captcha" placeholder="請輸入驗證碼" style="width: 130px;">
 									<button class="quickCaptcha btn" type="button">快速輸入</button>
 									<button class="quickCaptcha btn managerLogin" type="button">管理者登入</button></label>
-    								
-								<div style="display: flex; justify-content: space-around; margin: 20px 0 0 0; padding: 0 51px;">
+
+								<div
+									style="display: flex; justify-content: space-around; margin: 20px 0 0 0; padding: 0 51px;">
 									<button type="submit" class="loginBtn">登入</button>
-									<button id="google_login" class="googleLogin" style="width: 150px; margin-bottom: 25px" type="button">GOOGLE 登入</button>
+									<button id="google_login" class="googleLogin"
+										style="width: 206px; border: 1px solid lightgray; margin-bottom: 25px; background-image: url(https://www.drupal.org/files/issues/2020-01-19/google_logo.png);background-size: auto 45px;"
+										type="button"></button>
 								</div>
 							</form>
-							<p style="letter-spacing:1px;font-size: 16px;text-align: center;color: #F28123;float: left;margin-left: 105px;">
+							<p
+								style="letter-spacing:1px;font-size: 16px;text-align: center;color: #F28123;float: left;margin-left: 105px;">
 								<a href="http://localhost:8080/HiCamp/forgetpassword" style="color:#F28123;">忘記密碼</a>
 							</p>
 							<p style="letter-spacing:1px;font-size: 16px;text-align: center;color:#565656">沒有帳號嗎?
 								<a href="http://localhost:8080/HiCamp/register" style="color: #F28123;">點我註冊</a>
 							</p><br>
-							
+
 						</div>
 					</div>
 				</div>
@@ -135,147 +142,147 @@
 		</div>
 	</div>
 	<!-- end featured section -->
-<script>
-	$("#memberEmail").val("ms@gmail.com");
-	$("#memberPassword").val("asd");
-</script>
-<script>
-	var client_id = "821945112998-9c95usg9vlm821qrqea7tq15vn2sd7k8.apps.googleusercontent.com",
-		apiKey = "AIzaSyCphlEyxslMLZQHPhz3IDjZ4dfJatMEaco",
-		scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/user.gender.read https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.phonenumbers.read",
-		personFields = "names,emailAddresses,photos,genders,birthdays,phoneNumbers",
-		discovery_doc = "https://www.googleapis.com/discovery/v1/apis/people/v1/rest",
-		resourceName = "people/me",
-		$persoanl_info = $("#persoanl_info"),
-		tokenClient;
-	loadApi();
-	// 載入 google api
-	function loadApi() {
-		// 載入 gapi
-		$.getScript("https://apis.google.com/js/api.js", function() {
-			gapi.load("client", function() {
-				gapi.client.init({
-					apiKey: apiKey,
-					discoveryDocs: [discovery_doc],
+	<script>
+		$("#memberEmail").val("ms@gmail.com");
+		$("#memberPassword").val("asd");
+	</script>
+	<script>
+		var client_id = "821945112998-9c95usg9vlm821qrqea7tq15vn2sd7k8.apps.googleusercontent.com",
+			apiKey = "AIzaSyCphlEyxslMLZQHPhz3IDjZ4dfJatMEaco",
+			scope = "https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/user.gender.read https://www.googleapis.com/auth/user.birthday.read https://www.googleapis.com/auth/user.phonenumbers.read",
+			personFields = "names,emailAddresses,photos,genders,birthdays,phoneNumbers",
+			discovery_doc = "https://www.googleapis.com/discovery/v1/apis/people/v1/rest",
+			resourceName = "people/me",
+			$persoanl_info = $("#persoanl_info"),
+			tokenClient;
+		loadApi();
+		// 載入 google api
+		function loadApi() {
+			// 載入 gapi
+			$.getScript("https://apis.google.com/js/api.js", function () {
+				gapi.load("client", function () {
+					gapi.client.init({
+						apiKey: apiKey,
+						discoveryDocs: [discovery_doc],
+					});
 				});
 			});
-		});
-		// 載入 gsi
-		$.getScript("https://accounts.google.com/gsi/client", function() {
-			tokenClient = google.accounts.oauth2.initTokenClient({
-				client_id: client_id,
-				scope: scope,
-				callback: signIn_callback,
-				error_callback: error_callback
+			// 載入 gsi
+			$.getScript("https://accounts.google.com/gsi/client", function () {
+				tokenClient = google.accounts.oauth2.initTokenClient({
+					client_id: client_id,
+					scope: scope,
+					callback: signIn_callback,
+					error_callback: error_callback
+				});
 			});
-		});
-		// 登入後 callback
-		function signIn_callback(res) {
-			// 登入失敗時
-			if (res.error !== undefined) {
-				console.log(res.error);
-				$persoanl_info.html(res.error);
-			}
-			// 登入成功後
-			if (res && res.access_token) {
-				// 顯示帳號資訊
-				listAccountInfo();
-			}
-		}
-		// 捕捉非 OAuth 錯誤 或是在傳回 OAuth 回應前遭到關閉
-		function error_callback(res) {
-			console.log(res);
-			$persoanl_info.html(res.message);
-		}
-		// 顯示帳號資訊
-		function listAccountInfo() {
-			// 呼叫 people api 取得資料
-			gapi.client.people.people.get({
-				"resourceName": resourceName,
-				"personFields": personFields,
-			}).then(function(res) {
-				// 顯示資料
-				console.log(res.result);
-				var result = res.result,
-					errorMessage = "請重新登入, 並勾選生日及性別!",
-					html = "",
-					id, name, imgUrl, email, gender, birthday, birthdayStr, phoneNumber;
-				// 沒有勾選生日、性別時
-				if (!result.genders || !result.birthdays) {
-					alert(errorMessage);
-					$persoanl_info.html(errorMessage);
-					return;
+			// 登入後 callback
+			function signIn_callback(res) {
+				// 登入失敗時
+				if (res.error !== undefined) {
+					console.log(res.error);
+					$persoanl_info.html(res.error);
 				}
-				id = result.resourceName.split("/")[1];
-				name = result.names[0].displayName;
-				imgUrl = result.photos[0].url;
-				email = result.emailAddresses[0].value;
-				gender = result.genders[0].formattedValue;
-				birthday = result.birthdays[1].date;
-				birthdayStr = birthday.year + "-" + birthday.month + "-" + birthday.day;
-				html += "ID： " + id + "<br/>";
-				html += "暱稱： " + name + "<br/>";
-				html += "頭像：<img style='width: 40 px;' src='" + imgUrl + "'/><br/>";
-				html += "email：" + email + "<br/>";
-				html += "性別：" + gender + "<br/>";
-				html += "生日：" + birthdayStr + "<br/>";
-				$persoanl_info.html(html);
-				
-				memberData = {
-					"memberName": name,
-					"memberEmail": email,
-					"memberGender": gender,
-					"memberBirthday": birthdayStr
-				};
-				$.ajax({
-					url: "http://localhost:8080/HiCamp/googlelogin",
-					type: "post",
-					data: memberData,
-					success: function(response){
-						if(response){
-							window.location.href = "http://localhost:8080/HiCamp/projecthomepage";
-						} else {
-							window.location.href = "http://localhost:8080/HiCamp/googleAccount";
-						};
-					}
-				});
-			});
-		}
-	}
-	// 點擊登入按鈕
-	$("#google_login").click(function() {
-		// 進動畫
-		$persoanl_info.html("<img src='https://lh5.googleusercontent.com/-EyVZ0f8J0qQ/UCeEG7aa8nI/AAAAAAAADtY/9sXw53XkYXM/s512/indicator-light.gif' /> <span>請稍後...</span>");
-		if (gapi.client.getToken() === null) {
-			// 未登入則彈出登入視窗
-			tokenClient.requestAccessToken();
-		} else {
-			// 已登入則不彈出視窗
-			tokenClient.requestAccessToken({
-				prompt: ""
-			});
-		}
-	});
-	
-	
-	$("#captcha").click(function(){
-		$.ajax({
-			url: "http://localhost:8080/HiCamp/changecaptcha",
-			type: "get",
-			success: function(response){
-				$("#captcha").text(response);
+				// 登入成功後
+				if (res && res.access_token) {
+					// 顯示帳號資訊
+					listAccountInfo();
+				}
 			}
+			// 捕捉非 OAuth 錯誤 或是在傳回 OAuth 回應前遭到關閉
+			function error_callback(res) {
+				console.log(res);
+				$persoanl_info.html(res.message);
+			}
+			// 顯示帳號資訊
+			function listAccountInfo() {
+				// 呼叫 people api 取得資料
+				gapi.client.people.people.get({
+					"resourceName": resourceName,
+					"personFields": personFields,
+				}).then(function (res) {
+					// 顯示資料
+					console.log(res.result);
+					var result = res.result,
+						errorMessage = "請重新登入, 並勾選生日及性別!",
+						html = "",
+						id, name, imgUrl, email, gender, birthday, birthdayStr, phoneNumber;
+					// 沒有勾選生日、性別時
+					if (!result.genders || !result.birthdays) {
+						alert(errorMessage);
+						$persoanl_info.html(errorMessage);
+						return;
+					}
+					id = result.resourceName.split("/")[1];
+					name = result.names[0].displayName;
+					imgUrl = result.photos[0].url;
+					email = result.emailAddresses[0].value;
+					gender = result.genders[0].formattedValue;
+					birthday = result.birthdays[1].date;
+					birthdayStr = birthday.year + "-" + birthday.month + "-" + birthday.day;
+					html += "ID： " + id + "<br/>";
+					html += "暱稱： " + name + "<br/>";
+					html += "頭像：<img style='width: 40 px;' src='" + imgUrl + "'/><br/>";
+					html += "email：" + email + "<br/>";
+					html += "性別：" + gender + "<br/>";
+					html += "生日：" + birthdayStr + "<br/>";
+					$persoanl_info.html(html);
+
+					memberData = {
+						"memberName": name,
+						"memberEmail": email,
+						"memberGender": gender,
+						"memberBirthday": birthdayStr
+					};
+					$.ajax({
+						url: "http://localhost:8080/HiCamp/googlelogin",
+						type: "post",
+						data: memberData,
+						success: function (response) {
+							if (response) {
+								window.location.href = "http://localhost:8080/HiCamp/projecthomepage";
+							} else {
+								window.location.href = "http://localhost:8080/HiCamp/googleAccount";
+							};
+						}
+					});
+				});
+			}
+		}
+		// 點擊登入按鈕
+		$("#google_login").click(function () {
+			// 進動畫
+			$persoanl_info.html("<img src='https://lh5.googleusercontent.com/-EyVZ0f8J0qQ/UCeEG7aa8nI/AAAAAAAADtY/9sXw53XkYXM/s512/indicator-light.gif' /> <span>請稍後...</span>");
+			if (gapi.client.getToken() === null) {
+				// 未登入則彈出登入視窗
+				tokenClient.requestAccessToken();
+			} else {
+				// 已登入則不彈出視窗
+				tokenClient.requestAccessToken({
+					prompt: ""
+				});
+			}
+		});
+
+
+		$("#captcha").click(function () {
+			$.ajax({
+				url: "http://localhost:8080/HiCamp/changecaptcha",
+				type: "get",
+				success: function (response) {
+					$("#captcha").text(response);
+				}
+			})
+		});
+		$(".managerLogin").click(function () {
+			$("#memberEmail").val("aaa");
+			$("#memberPassword").val("bbb");
+		});
+
+		$(".quickCaptcha").click(function () {
+			$('input[name="captcha"]').val($("#captcha").text());
 		})
-	});
-	$(".managerLogin").click(function(){
-		$("#memberEmail").val("aaa");
-		$("#memberPassword").val("bbb");
-	});
-	
-	$(".quickCaptcha").click(function(){
-		$('input[name="captcha"]').val($("#captcha").text());
-	})
-</script>
+	</script>
 </body>
 
 </html>
