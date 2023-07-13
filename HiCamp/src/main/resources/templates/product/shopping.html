@@ -84,26 +84,44 @@
 	<!-- product section -->
 	<div class="product-section mt-150 mb-150">
 		<div class="container">
-			<div class="row">
-				<div class="col-lg-8 offset-lg-2 text-center">
-					<div class="section-title">
-						<h3><span class="orange-text">Our</span> Products</h3>
-						<p>用心愉快的購物</p>
+			<div class="logo-carousel-section">
+				<div class="container">
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="logo-carousel-inner">
+								<div class="single-logo-item">
+									<img th:src="@{/assets/img/company-logos/1.png}" alt="">
+								</div>
+								<div class="single-logo-item">
+									<img th:src="@{/assets/img/company-logos/2.png}" alt="">
+								</div>
+								<div class="single-logo-item">
+									<img th:src="@{/assets/img/company-logos/3.png}" alt="">
+								</div>
+								<div class="single-logo-item">
+									<img th:src="@{/assets/img/company-logos/4.png}" alt="">
+								</div>
+								<div class="single-logo-item">
+									<img th:src="@{/assets/img/company-logos/5.png}" alt="">
+								</div>
+							</div>
+						</div>
 					</div>
-
 				</div>
 			</div>
 
 			<div class="row" id="productContent">
 				<nav class="nav">
-					<a class="nav-link active"
-						href="http://localhost:8080/HiCamp/shopping/getProducts?productType=服飾">服飾</a>
+
+					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping">全部商品></a>
+					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=服飾">服飾</a>
 					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=配件">配件</a>
 					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=露營">露營</a>
 					<select name="productTypeSelect" id="productTypeSelect">
 						<option value="排序">排序</option>
 						<option value="價格高到低">價格高到低</option>
 						<option value="價格低到高">價格低到高</option>
+						<option value="新上架">新上架</option>
 					</select>
 
 
@@ -116,20 +134,11 @@
 	<!-- end product section -->
 	<div th:replace="~{/layout/frontBottomBar}"></div>
 	<script>
-		console.log($("#productTypeSelect").val());
-		$(".nav #productTypeSelect").change(function () {
-			console.log('123')
-		})
-	</script>
-	<script>
 		$(document).ready(function () {
 
 
-			$('.aaaa').click(function () {
-				console.log('122333');
-			});
 			// 金額排序ajax
-			$(document).on('change', '#productTypeSelect', function() {
+			$(document).on('change', '#productTypeSelect', function () {
 				console.log($(this).val());
 				// 獲取所選擇的值
 				var selectedValue = $(this).val();
@@ -139,6 +148,8 @@
 					orderByPrice();
 				} else if (selectedValue === "價格高到低") {
 					orderByPriceDESC();
+				} else if (selectedValue === "新上架") {
+					orderByDate();
 				}
 			});
 
@@ -153,7 +164,7 @@
 						htmlMaker(allProducts);
 						//加入購物車
 						addCartFun();
-						
+
 					}
 				})
 			}
@@ -164,6 +175,19 @@
 					type: 'get',
 					success: function (allProducts) {
 						allProducts.sort(compareByPriceDESC);
+						htmlMaker(allProducts);
+						//加入購物車
+						addCartFun();
+					}
+				})
+			}
+
+			function orderByDate() {
+				$.ajax({
+					url: 'http://localhost:8080/HiCamp/shopping/allproducts',
+					type: 'get',
+					success: function (allProducts) {
+						allProducts.sort(compareByDate);
 						htmlMaker(allProducts);
 						//加入購物車
 						addCartFun();
@@ -232,10 +256,10 @@
 
 
 
-			$(document).on("click", "#scrollButton", function(){
+			$(document).on("click", "#scrollButton", function () {
 				scrollToTop();
 			});
-			
+
 
 			// 函式: 檢查滾動位置並顯示/隱藏回到頂部按鈕
 			window.onscroll = function () {
@@ -265,6 +289,9 @@
 			function compareByPrice(a, b) {
 				return a.productPrice - b.productPrice;
 			};
+			function compareByDate(a, b) {
+				return b.productNo - a.productNo;
+			}
 
 			function htmlMaker(response) {
 				var output = document.getElementById('productContent');

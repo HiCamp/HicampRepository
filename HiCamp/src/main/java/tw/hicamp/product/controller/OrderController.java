@@ -116,6 +116,7 @@ public class OrderController {
 			newitem.setUnitPrice(shoppingCart.getProductPrice());
 			newitem.setItemQuantity(shoppingCart.getItemQuantity());
 			newitem.setProductNo(shoppingCart.getProductNo());
+			pService.updatePointByNo(shoppingCart.getProductNo(), 5);
 			newitem.setOrders(neworder);
 			newItemList.add(newitem);
 		}
