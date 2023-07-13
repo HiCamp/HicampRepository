@@ -58,6 +58,11 @@ public class ProductService {
 		System.out.println("no update data");
 		return null;
 	}
+	@Transactional
+	public void updatePointByNo(int productNo,int point) {
+		  Product product = pRepo.findById(productNo).get();
+		  product.setPoint(product.getPoint()+point);
+	}
 	
 	//分頁功能
 	public Page<Product> findByPage(Integer pageNumber) {

@@ -238,6 +238,8 @@ public class ProductController {
 		Product product = pService.getProduct(productNo);
 
 		List<Integer> productPic = pPicService.getProductPic(productNo);
+		
+		pService.updatePointByNo(productNo, 1);
 
 		ProductDTO productDTO = new ProductDTO();
 		productDTO.setProductNo(product.getProductNo());

@@ -39,6 +39,7 @@ public class ShoppingCartController {
 	public String addCart(HttpSession session, @RequestParam("productNo") int productNo,
 			@RequestParam("productPrice") int productPrice, @RequestParam("itemQuantity") int itemQuantity) {
 //		int memberNo = 11;
+		pService.updatePointByNo(productNo, 3);
 		Object memberNoObj = session.getAttribute("memberNo");
 		if (memberNoObj != null) {
 			int memberNo = (int)memberNoObj;
