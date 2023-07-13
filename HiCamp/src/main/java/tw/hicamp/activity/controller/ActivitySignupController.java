@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -165,13 +166,13 @@ public class ActivitySignupController {
 		return "activity/manageOneSingupOrder";
 	}
 
-//	查詢會員資料
+//	查詢所有會員資料
 	@ResponseBody
 	@GetMapping("/activity/searchMemberInfo")
-	public String findAllMemberInfo(Model model) {
+	public List<Member> findAllMemberInfo(Model model) {
 		List<Member> member = memberService.findAllMember();
 		model.addAttribute("member", member);
-		return "memberInfo";
+		return member;
 	}
 
 //	更新訂單資料
@@ -437,6 +438,30 @@ public class ActivitySignupController {
 		return dtos;
 	}
 	 
+	
+	
+//	chart
+	
+	//進入分析圖表
+	@GetMapping("/activity/signupOrderAnalysis")
+	public String signupOrderAnalysis() {
+		return "activity/managerSignupOrderChart";
+	}
+	
+	// Chart 每月報名量
+	@ResponseBody
+	@GetMapping("/activity/singupOrderDataPerMonth")
+	public List<Map<String, Object>> getSignupDataPerMonth() {
+	    return actSignupService.getSignupDataPerMonth();
+	}
+	
+
+	// Chart 類別報名數量
+	@ResponseBody
+	@GetMapping("/activity/singupOrderanalysisByType")
+	public List<Map<String, Object>> getSignupDataByType() {
+	    return actSignupService.getSignupDataByType();
+	}
 
 // 取消訂單(修改訂單狀態, 未付款的訂單狀態可以用前端判斷即可, 已付款則訂單成立. )
 

@@ -22,8 +22,7 @@ import tw.hicamp.activity.model.Activity;
 
 @Controller
 public class OSMController {
-	     @ResponseBody
-	 	 @PostMapping("/activity/testMap")
+	 	 @PostMapping("/activity/mapOsmLeafLet")
 	 	 public String locationSubmit(@ModelAttribute Activity activity, 
 	 			 					  BindingResult bindingResult, 
 	 			 					  @RequestParam("activityLocation") String activityLocation, Model model) {
@@ -42,7 +41,7 @@ public class OSMController {
 	 	        return "/activity/testMap";
 	 	      }
 	 	     
-	 @GetMapping("activity/testGetMap")
+	 @GetMapping("activity/getMap")
 	 public String locationSubmit(Model model) {
 	 	         
 	  model.addAttribute("activity", new Activity());
