@@ -67,11 +67,18 @@
 			</div>
 
 			<div class="row">
-				<nav class="nav" style="font-size: 18px;">
+				<nav class="nav">
 					<a class="nav-link active"
 						href="http://localhost:8080/HiCamp/shopping/getProducts?productType=服飾">服飾</a>
 					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=配件">配件</a>
 					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=露營">露營</a>
+					<select name="productTypeSelect" id="productTypeSelect">
+						<option value="排序">排序</option>
+						<option value="價格高到低">價格高到低</option>
+						<option value="價格低到高">價格低到高</option>
+					</select>
+
+
 				</nav>
 				<th:block th:each="product : ${typePorductList}">
 					<div class="col-lg-4 col-md-6 text-center">
