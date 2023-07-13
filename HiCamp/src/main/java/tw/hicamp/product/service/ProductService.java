@@ -102,5 +102,9 @@ public class ProductService {
 	public List<Product> orderByPriceDESC(){
 		return pRepo.orderByproductPriceDESC();
 	}
+	
+	public List<Product> orderByPointDESC(){
+		return pRepo.orderByPointDESC();
+	}
 
 }

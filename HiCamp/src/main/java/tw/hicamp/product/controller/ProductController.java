@@ -200,7 +200,7 @@ public class ProductController {
 	@GetMapping("/shopping")
 	public String getShopProducts(Model m, HttpSession session) {
 		List<Product> productList = pService.getAllProduct();
-
+		List<Product> hotproductList = pService.orderByPointDESC();
 		List<Product> upPorduct = new ArrayList<>();
 		for (Product apro : productList) {
 			if (apro.getProductStutas().equals("上架")) {
@@ -214,6 +214,7 @@ public class ProductController {
 			session.setAttribute("countCart", countCart);
 		}
 		m.addAttribute("productList", upPorduct);
+		m.addAttribute("hotproducts", hotproductList);
 
 		return "product/shopping";
 	}
@@ -230,7 +231,7 @@ public class ProductController {
 		}
 		return upPorduct;
 	}
-
+	
 	// 前台取一筆資料
 	@GetMapping("/shopping/shopProduct")
 	public String getShopProduct(@RequestParam("productNo") int productNo, Model m) {

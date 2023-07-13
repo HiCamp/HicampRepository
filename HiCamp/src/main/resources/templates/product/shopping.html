@@ -89,21 +89,11 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="logo-carousel-inner">
-								<div class="single-logo-item">
-									<img th:src="@{/assets/img/company-logos/1.png}" alt="">
-								</div>
-								<div class="single-logo-item">
-									<img th:src="@{/assets/img/company-logos/2.png}" alt="">
-								</div>
-								<div class="single-logo-item">
-									<img th:src="@{/assets/img/company-logos/3.png}" alt="">
-								</div>
-								<div class="single-logo-item">
-									<img th:src="@{/assets/img/company-logos/4.png}" alt="">
-								</div>
-								<div class="single-logo-item">
-									<img th:src="@{/assets/img/company-logos/5.png}" alt="">
-								</div>
+								<th:block th:each="product : ${hotproducts}">
+									<div class="single-logo-item">
+										<img th:src="'http://localhost:8080/HiCamp/product/getBigPic?productNo='+${product.productNo}" >
+									</div>
+								</th:block>
 							</div>
 						</div>
 					</div>

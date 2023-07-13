@@ -31,7 +31,7 @@ public class Product {
 	private String productInfo;
 	private String productStutas;
 	private byte[] productBigPicture;
-//	private int point;
+	private int point;
 
 	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
