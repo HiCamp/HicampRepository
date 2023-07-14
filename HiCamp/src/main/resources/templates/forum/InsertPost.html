@@ -292,24 +292,21 @@
       document.getElementById('fillData').addEventListener('click', function () {
          document.getElementById('postType').value = "登山";
          document.getElementById('postTitle').value = "想召喚愛山的你，一起讓中央山脈躍上大銀幕！";
-         editor.model.change(writer => {
-            const paragraph1 = writer.createElement('paragraph');
-            writer.appendText("有「台灣屋脊」之稱的中央山脈，已靜靜守護台灣數百萬年。我們都曾在地理課本中，與中央山脈有過紙本圖片上的一面之緣，卻未曾走入中央山脈深處、登上遙遠高處，一窺那幅員廣闊卻鮮少為人所見的珍貴山林景象。", paragraph1);
-            const paragraph2 = writer.createElement('paragraph');
-            writer.appendText("深耕自然生態保育 20 多年的楊守義導演，秉持用台灣人視角記錄下「中央山脈」完整面貌的精神，耗時三年、花費千萬元、出動八支補給隊伍、近百位山友的支援，跟著兩位台灣知名越野跑者──周青、古明政，以越野型態完成縱貫 332 公里長的「中央山脈大縱走」挑戰。並將這段台灣人與中央山脈的動人挑戰故事，拍攝成紀錄片《赤心巔峰》，希望能讓大眾在戲院中一同深入體會走在「台灣屋脊」上的震撼與感動！", paragraph2);
-            const paragraph3 = writer.createElement('paragraph');
-            writer.appendText("然而，後期製作與上映發行等龐大支出，是製作團隊獨自努力卻難以翻越的山頭。為讓民眾有機會看到這部嘔心瀝血的作品，製作團隊於 4/26 發起《赤心巔峰》紀錄片後製暨上映集資計畫，希望能夠透過群眾力量，讓更多人看見這難得的挑戰故事、以及中央山脈的絕美山色！", paragraph3);
-            const paragraph4 = writer.createElement('paragraph');
-            writer.appendText("超過兩年籌備、號召近百位山友協力  促成近年台灣山岳史上最大行動《赤心巔峰》計畫自 2020 年開始籌畫，由「山頂狼」古明政與「越野一哥」周青所發起，目標不只是完成中央山脈主稜縱走，更挑戰用最快的速度完成任務。於此一明確目標設定下，兩位訓練精良並擁有豐富越野經驗的專業跑者，選擇以「越野」模式來進行本次挑戰。有別於一般登山多選擇緩步健行以細品山林之美，越野快速前進則是在具備體能與技術的前提下，以速度換取更遠的活動距離，除了是另外一種登山方式，更是一種勇敢挑戰極限、超越自我實踐的運動精神。", paragraph4);
-            const paragraph5 = writer.createElement('paragraph');
-            writer.appendText("創舉背後，是耗時兩年多的籌備與路線探勘。高山主脊山徑複雜多樣，需頻繁地入山勘查、綁標誌布條、建立 GPS 軌跡，甚至需提前入山鋸下有刺植物，避免跑者刺傷。在 9 天挑戰中，更出動了超過 80 位的山友與跑友，組成 8 支補給隊伍，分別從西部與東部上山支援。補給夥伴們不僅需各自進行事前訓練，更需背著不輕的數種補給品與裝備，提前在兩位越野跑者抵達營地前，準備好當日伙食，讓大家能元氣滿滿地繼續接下來的挑戰。此外，更有夥伴在山下留守，運用衛星追蹤通訊裝置，全程看顧跑者即時動態，才得以促成這近年來台灣山岳史上最大行動之一。", paragraph5);           
-            writer.append(paragraph1, editor.model.document.getRoot());
-            writer.append(paragraph2, editor.model.document.getRoot());
-            writer.append(paragraph3, editor.model.document.getRoot());
-            writer.append(paragraph4, editor.model.document.getRoot());
-            writer.append(paragraph5, editor.model.document.getRoot());
-         });
+         window.editor.setData(`
+         <p style="font-size:20px;">有「台灣屋脊」之稱的中央山脈，已靜靜守護台灣數百萬年。我們都曾在地理課本中，與中央山脈有過紙本圖片上的一面之緣，卻未曾走入中央山脈深處、登上遙遠高處，一窺那幅員廣闊卻鮮少為人所見的珍貴山林景象。</p>
+         <img src="https://cdntwrunning.biji.co/800_5c69a31c1114c4e5b2eb15e3cea8f260.png" alt="image1-description" />
+         <p style="font-size:20px;">深耕自然生態保育 20 多年的楊守義導演，秉持用台灣人視角記錄下「中央山脈」完整面貌的精神，耗時三年、花費千萬元、出動八支補給隊伍、近百位山友的支援，跟著兩位台灣知名越野跑者──周青、古明政，以越野型態完成縱貫 332 公里長的「中央山脈大縱走」挑戰。並將這段台灣人與中央山脈的動人挑戰故事，拍攝成紀錄片《赤心巔峰》，希望能讓大眾在戲院中一同深入體會走在「台灣屋脊」上的震撼與感動！</p>
+         <img src="https://cdntwrunning.biji.co/800_ddf8d000ad7f87d09deef07a2d873a56.jpg" alt="image2-description" />
+         <p style="font-size:20px;">然而，後期製作與上映發行等龐大支出，是製作團隊獨自努力卻難以翻越的山頭。為讓民眾有機會看到這部嘔心瀝血的作品，製作團隊於 4/26 發起《赤心巔峰》紀錄片後製暨上映集資計畫，希望能夠透過群眾力量，讓更多人看見這難得的挑戰故事、以及中央山脈的絕美山色！</p>
+         <img src="https://cdntwrunning.biji.co/800_58e2993f98032b2fa28be2fac54a7b76.jpg" alt="image3-description" />
+         <p style="font-size:20px;">超過兩年籌備、號召近百位山友協力  促成近年台灣山岳史上最大行動《赤心巔峰》計畫自 2020 年開始籌畫，由「山頂狼」古明政與「越野一哥」周青所發起，目標不只是完成中央山脈主稜縱走，更挑戰用最快的速度完成任務。於此一明確目標設定下，兩位訓練精良並擁有豐富越野經驗的專業跑者，選擇以「越野」模式來進行本次挑戰。有別於一般登山多選擇緩步健行以細品山林之美，越野快速前進則是在具備體能與技術的前提下，以速度換取更遠的活動距離，除了是另外一種登山方式，更是一種勇敢挑戰極限、超越自我實踐的運動精神。</p>
+         <img src="https://cdntwrunning.biji.co/800_a187656bba0f8a470b085ac01d43ec2a.jpg" alt="image4-description" />
+         <p style="font-size:20px;">創舉背後，是耗時兩年多的籌備與路線探勘。高山主脊山徑複雜多樣，需頻繁地入山勘查、綁標誌布條、建立 GPS 軌跡，甚至需提前入山鋸下有刺植物，避免跑者刺傷。在 9 天挑戰中，更出動了超過 80 位的山友與跑友，組成 8 支補給隊伍，分別從西部與東部上山支援。補給夥伴們不僅需各自進行事前訓練，更需背著不輕的數種補給品與裝備，提前在兩位越野跑者抵達營地前，準備好當日伙食，讓大家能元氣滿滿地繼續接下來的挑戰。此外，更有夥伴在山下留守，運用衛星追蹤通訊裝置，全程看顧跑者即時動態，才得以促成這近年來台灣山岳史上最大行動之一。</p>
+   `);
       });
+
+
+
 
    </script>
 </body>

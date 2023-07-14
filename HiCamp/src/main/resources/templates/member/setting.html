@@ -209,7 +209,7 @@
 				<form method="post" class="insertPhotoForm" enctype="multipart/form-data">
 					<div class="modal-body">
 						<input type="file" name="memberPhoto" class="memberPhoto" style="margin-bottom:15px">
-						<img src="" id="updateImg">
+						<img src="" id="updateImg" onerror="this.style.display='none'">
 					</div>
 					<div class="modal-footer">
 						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">關閉</button>
@@ -313,6 +313,7 @@
 				var reader = new FileReader();
 				reader.onload = function (e) {
 					$("#updateImg").attr('src', e.target.result);
+					$("#updateImg").css('display', "block");
 				}
 				reader.readAsDataURL(input.files[0]);
 			}
