@@ -153,7 +153,7 @@
                     <td th:text="${signupOrder.activityName}"  style="width:800px"></td>
                     <td th:text="${#dates.format(signupOrder.activityDepartureDate, 'yyyy-MM-dd')} + ' ~ ' + ${#dates.format(signupOrder.activityReturnDate, 'yyyy-MM-dd')}"  style="width:700px"></td>
                     <td th:text="${signupOrder.signupTotalAmount}"  style="width:350px"></td>
-                    <td th:text="${signupOrder.signupPaymentStatus}" style="width:250px" id="signupPaymentStatus" ></td>
+                    <td th:text="${signupOrder.signupPaymentStatus}" style="width:250px" class="activityStatus"> ></td>
                     <td style="width:250px"> 
                     <button type="button" style="border: none; background-color: white;" class="checkSignupOrderBtn" th:value="${signupOrder.activitySignupNo}">
                     <i class="fas fa-search" style="cursor:pointer; font-size:120%;"></i></button></td>
@@ -248,7 +248,7 @@ $(document).ready(function() {
                         "<td>" + activitySignup.activityName + "</td>" +
                          "<td>" + formattedDate + "</td>" +
                         "<td>" + activitySignup.signupTotalAmount + "</td>" +
-                        "<td>" + activitySignup.signupPaymentStatus + "</td>" +
+                        "<td class='activityStatus'>" + activitySignup.signupPaymentStatus + "</td>" +
                         "<td><button type='button' class='checkSignupOrderBtn' style='border: none; background-color: white;' value='" + activitySignup.activitySignupNo + "'><i class='fas fa-search'></i></button></td>" +
           			    "<td><button type='button' class='cancelSignupOrderBtn' style='border: none; background-color: white;' value='" + activitySignup.activitySignupNo + "'><i class='fa-solid fa-trash-can'></i></button></td>" +
                         "</tr>";
@@ -295,7 +295,7 @@ $(function() {
                         "<td>" + activitySignup.activityName + "</td>" +
                          "<td>" + formattedDate + "</td>" +
                         "<td>" + activitySignup.signupTotalAmount + "</td>" +
-                        "<td>" + activitySignup.signupPaymentStatus + "</td>" +
+                        "<td class='activityStatus'>" + activitySignup.signupPaymentStatus + "</td>" +
                         "<td><button type='button' class='checkSignupOrderBtn' style='border: none; background-color: white;' value='" + activitySignup.activitySignupNo + "'><i class='fas fa-search'></i></button></td>" +
           			    "<td><button type='button' class='cancelSignupOrderBtn' style='border: none; background-color: white;' value='" + activitySignup.activitySignupNo + "'><i class='fa-solid fa-trash-can'></i></button></td>" +
                         "</tr>";
@@ -323,10 +323,12 @@ function formatDate(date) {
 <!-- 改變訂單狀態 -->
 <script>
 $(document).ready(function() {
+	let cancelBtn;
     $(document).on("click", ".cancelSignupOrderBtn", function() {
         var activitySignupNo = $(this).val();
         var signupDate = new Date($("#signupDate-" + activitySignupNo).text());
         var currentDate = new Date(); 
+        cancelBtn = $(this);
         
         var timeDiff = currentDate.getTime() - signupDate.getTime();
         var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
@@ -357,12 +359,13 @@ $(document).ready(function() {
 		          if (confirmed) {
 		            swal('已送出取消請求', '會盡快替您處理訂單事宜')
 		              .then(() => {
-		                this.submit();
+			    		cancelBtn.parents("tr").find(".activityStatus").text("訂單取消,請求審核中");
+		                //this.submit();
 		              });
 		          }
 		        });
-		    
-		             $("#signupPaymentStatus").text("訂單取消,請求審核中");
+		    		console.log('修改成功'+ cancelBtn.parents("tr").find(".activityStatus").text());
+		             //$("#signupPaymentStatus").text("訂單取消,請求審核中");
             },
             error: function() {
                 alert("訂單取消請求發生錯誤");

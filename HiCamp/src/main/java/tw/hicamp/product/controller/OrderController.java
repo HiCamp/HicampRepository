@@ -135,13 +135,14 @@ public class OrderController {
 	public String getOrder(HttpSession session, Model model) {
 //		int memberNo = 11;
 		Object memberNoObj = session.getAttribute("memberNo"); //
+		System.out.println("getOrder memberNoObj" + memberNoObj);
 		if (memberNoObj != null) { //
 			int memberNo = (int) memberNoObj; //
 
 		OrderDTO orderDTO = new OrderDTO();
 		Member member = mService.findByNo(memberNo);
 		Orders memberOrder = oService.findnewOrderByMember(memberNo);
-		System.out.println(member.getMemberName());
+		System.out.println("getOrder MemberName" + member.getMemberName());
 
 		orderDTO.setMemberName(member.getMemberName());
 		orderDTO.setMemberEmail(member.getMemberEmail());
@@ -185,17 +186,18 @@ public class OrderController {
 	}
 	//ECsucc
 	@PostMapping("/orders/ECsucc")
-	public String ectest(@RequestParam("order") int order,HttpSession session, Model model) {
-		System.out.println(order);
+	public String ectest(@RequestParam("order") int order, HttpSession session, Model model) {
+		System.out.println("orderNo "+order);
 		oService.updateOrderStutas(order, "已付款");
 //		int memberNo = 1;
 		Object memberNoObj = session.getAttribute("memberNo"); //
-		if (memberNoObj != null) { //
-			int memberNo = (int) memberNoObj; //
+		System.out.println("memberNoObj"+memberNoObj);
+		Orders orderNew = oService.getOrder(order);
+		System.out.println("MemberNo"+orderNew.getMember().getMemberNo());
 
 		OrderDTO orderDTO = new OrderDTO();
-		Member member = mService.findByNo(memberNo);
-		Orders memberOrder = oService.findnewOrderByMember(memberNo);
+		Member member = mService.findByNo(orderNew.getMember().getMemberNo());
+		Orders memberOrder = oService.findnewOrderByMember(orderNew.getMember().getMemberNo());
 		System.out.println("MemberName"+ member.getMemberName());
 
 		orderDTO.setMemberName(member.getMemberName());
@@ -228,7 +230,6 @@ public class OrderController {
 		orderDTO.setOrderItemDTO(OderItemDTOList);
 		model.addAttribute("orderDTO", orderDTO);
 //			model.addAttribute("OderItemDTOList", OderItemDTOList);
-		} //
 		
 		
 		return "product/ECpaySucc";

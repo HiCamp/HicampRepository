@@ -98,6 +98,10 @@
 									data-color="default" data-size="large" data-count="false" data-ver="3"
 									style="display: none;"></div>
 							</div>
+							
+							<button class="fontsizeBig btn"><i class="fa-solid fa-magnifying-glass-plus"></i></button>
+							<button class="fontsizeSmall btn"><i class="fa-solid fa-magnifying-glass-minus"></i></button>
+							<br>
 							<div class="content" th:utext="${post.postContent}">
 							</div>
 							<div class="buttons-row">
@@ -463,6 +467,19 @@
 				.catch((error) => {
 					console.error('Error:', error);
 				});
+				
+				
+			$(".fontsizeBig").click(function(){
+			console.log('1')
+				$(".content p span").css({"font-size": "30px"})
+				$(".content span p").css({"font-size": "30px"})
+				$(".content p").css({"font-size": "30px"})
+			});
+			$(".fontsizeSmall").click(function(){
+				$(".content p span").css({"font-size": "14px"})
+				$(".content span p").css({"font-size": "14px"})
+				$(".content p").css({"font-size": "14px"})
+			});
 		}
 	</script>
 </body>

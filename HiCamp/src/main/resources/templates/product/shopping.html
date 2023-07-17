@@ -85,15 +85,17 @@
 	<div class="product-section mt-150 mb-150">
 		<div class="container">
 			<div class="logo-carousel-section">
-				<h2 style="text-align: center; margin-bottom: 20px; color: red;">熱們商品</h2>
+				<h2 style="text-align: center; margin-bottom: 20px; color: red; font-family: '微軟正黑體';">熱門商品</h2>
 				<div class="container">
 					<div class="row">
 						<div class="col-lg-12">
 							<div class="logo-carousel-inner">
 								<th:block th:each="product : ${hotproducts}">
 									<div class="single-logo-item">
-										<a th:href="'http://localhost:8080/HiCamp/shopping/shopProduct?productNo='+${product.productNo}">
-											<img th:src="'http://localhost:8080/HiCamp/product/getBigPic?productNo='+${product.productNo}" >
+										<a
+											th:href="'http://localhost:8080/HiCamp/shopping/shopProduct?productNo='+${product.productNo}">
+											<img
+												th:src="'http://localhost:8080/HiCamp/product/getBigPic?productNo='+${product.productNo}">
 										</a>
 									</div>
 								</th:block>
@@ -111,7 +113,7 @@
 					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=配件">配件</a>
 					<a class="nav-link" href="http://localhost:8080/HiCamp/shopping/getProducts?productType=露營">露營</a>
 					<select name="productTypeSelect" id="productTypeSelect">
-						<option value="排序">排序</option>
+						<option value="預設排序">預設排序</option>
 						<option value="價格高到低">價格高到低</option>
 						<option value="價格低到高">價格低到高</option>
 						<option value="新上架">新上架</option>

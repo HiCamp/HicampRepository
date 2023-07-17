@@ -234,7 +234,7 @@ public class ProductController {
 	
 	// 前台取一筆資料
 	@GetMapping("/shopping/shopProduct")
-	public String getShopProduct(@RequestParam("productNo") int productNo, Model m) {
+	public String getShopProduct(@RequestParam("productNo") int productNo,HttpSession session, Model m) {
 
 		Product product = pService.getProduct(productNo);
 
@@ -252,6 +252,13 @@ public class ProductController {
 		productDTO.setProductStutas(product.getProductStutas());
 		productDTO.setProductBigPicture(product.getProductBigPicture());
 		productDTO.setProductPisNos(productPic);
+		
+		Object memberNoObj = session.getAttribute("memberNo");
+		if (memberNoObj != null) {
+			int memberNo = (int) memberNoObj;
+			Integer countCart = shoppingCartService.countCart(memberNo);
+			session.setAttribute("countCart", countCart);
+		}
 
 		System.out.println(productPic);
 
