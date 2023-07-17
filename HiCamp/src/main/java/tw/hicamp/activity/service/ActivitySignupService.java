@@ -111,11 +111,23 @@ public class ActivitySignupService {
         return actSignupRepo.findSignupDataGroupByType();
     }
 	
-	
-	
-	
+//	更新狀態
+    @Transactional
+    public ActivitySignup updateActivitySignupOrderPaymentStatusByNo(Integer activitySignupNo, String signupPaymentStatus) {
+        ActivitySignup activitySignup = actSignupRepo.findById(activitySignupNo).orElse(null);
 
+        if (activitySignup != null) {
+            activitySignup.setSignupPaymentStatus(signupPaymentStatus);
+            
+            activitySignup = actSignupRepo.save(activitySignup);
+        }
+
+        return activitySignup;
+    }
+	
+	
 	public ActivitySignupService() {
 	}
+
 
 }

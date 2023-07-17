@@ -68,7 +68,8 @@
 						<div class="card single-accordion">
 						    <div class="card-header" id="headingThree">
 						      <h5 class="mb-0">
-						        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+						        <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree" 
+style="background-color:#374b56; color:#fff; font-size:1em; font-weight: bold;">
 						          報名行程確認
 						        </button>
 						      </h5>
@@ -82,8 +83,8 @@
 						<form th:action="@{/activity/placeOrder}" method="post" th:object="${activitySignupOrderDto}">
 						<table class="cart-table">
 							<thead class="cart-table-head">
-								<tr class="table-head-row">
-									<th class="product-image" >活動照片</th>
+								<tr class="table-head-row" style="background-color:#FFF" >
+									<th class="product-image">活動照片</th>
 									<th class="product-no" >活動日期</th>
 									<th class="product-name" >活動名稱</th>
 									<th class="product-price" >活動價格</th>
@@ -93,7 +94,7 @@
 							</thead>
 							<tbody>
 								<tr class="table-body-row cartbody-row">
-									<td class="product-image"><img style="height: 50px;" th:src="'http://localhost:8080/HiCamp/activity/showPictures?activityPictureNo='+${activitySignupOrderDto.activityPictureNo}"></td>
+									<td class="product-image"><img style="max-width:120px;" th:src="'http://localhost:8080/HiCamp/activity/showPictures?activityPictureNo='+${activitySignupOrderDto.activityPictureNo}"></td>
 									<td class="product-no"><input style="outline: none; border: none;" th:value="'出發日期: ' + ${#dates.format(activitySignupOrderDto.activityDepartureDate, 'yyyy-MM-dd')}" readonly><br>
 															<input style="outline: none; border: none;" th:value="'結束日期: ' + ${#dates.format(activitySignupOrderDto.activityReturnDate, 'yyyy-MM-dd')}" readonly>
 															<input type="hidden" id="activityPeriodNo" th:value="${activitySignupOrderDto.activityPeriodNo}"></td>
@@ -130,7 +131,8 @@
 						  <div class="card single-accordion">
 						    <div class="card-header" id="headingOne">
 						      <h5 class="mb-0">
-						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne" 
+						        style="background-color:#374b56; color:#fff; font-size:1em; font-weight: bold;">
 						          個人資料確認
 						        </button>
 						      </h5>
@@ -160,7 +162,8 @@
 						  <div class="card single-accordion">
 						    <div class="card-header" id="headingOne">
 						      <h5 class="mb-0">
-						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne">
+						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="true" aria-controls="collapseOne" 
+						        style="background-color:#374b56; color:#fff; font-size:1em; font-weight: bold;">
 						          付款方式確認
 						        </button>
 						      </h5>
@@ -191,60 +194,29 @@
 						  </div>
 						</div>
 						  
-						  
-						  <!--  
-						    <div class="card single-accordion">
-						    <div class="card-header" id="headingOne">
-						      <h5 class="mb-0">
-						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-						          個人資料(2)確認
-						        </button>
-						      </h5>
-						    </div>
-						    
-						    <div id="collapseTwo" class="collapse hidden" aria-labelledby="headingOne" data-parent="#accordionExample">
-						      <div class="card-body">
-						        <div class="billing-address-form">
-									    <p>姓名:<input type="text"  placeholder="Name"></p>
-									    <p>性別:<input type="text"  placeholder="Gender"></p>
-									    <p>生日(西元):<input type="text"  placeholder="BirthDay(XXXX/XX/XX)"></p>
-									    <p>身分證字號:<input type="text"  placeholder="ID"></p>
-									    <p>連絡電話:<input type="text"  placeholder="Phone"></p>
-									    <p>Email:<input type="email" placeholder="Email"></p>
-									    <p>聯絡地址:<input type="text"  placeholder="Address"></p>
-									    <p>緊急聯絡人:<input type="text"  placeholder="Emergency Contact"></p>
-									    <p>緊急聯絡人電話:<input type="text"  placeholder="Emergency Contact Phone"></p>
-									    <p>備註:<textarea name="bill" id="bill" cols="30" rows="10" placeholder="此資料僅供申辦保險及申請山屋及營位用途"></textarea></p>
-						        </div>
-						      </div>
-						    </div>
-						    
-						  </div>
-						  
-						   -->		
 						</div>
 
 					</div>
 				</div>
 
-				<div class="col-lg-4">
+				<div class="col-lg-4" >
 					<div class="total-section">
 						<table class="total-table">
 							<thead class="total-table-head">
-								<tr class="table-total-row">
-									<th>總計: Total</th>
-									<th>Price</th>
+								<tr class="table-total-row" style="background-color:#374b56; color:#fff; font-size:1em; font-weight: bold; height:68px;">
+									<th style="background-color:#374b56; color:#fff; font-size:1em; font-weight: bold;">總計: Total</th>
+									<th style="background-color:#374b56; color:#fff; font-size:1em; font-weight: bold;">Price</th>
 								</tr>
 							</thead>
 							<tbody>
-								<tr class="total-data">
+								<tr class="total-data" style="height:80px;">
 									<td><strong >總計金額: </strong></td>
 									<td id="totalPrice">$</td>
 								</tr>
 							</tbody>
 						</table>
 						<div class="cart-buttons" style="float:right;">
-							<a class="placeOrderBtn boxed-btn black" id="placeOrderBtn" >確認送出</a>
+							<a class="placeOrderBtn boxed-btn black" id="placeOrderBtn" >確認付款</a>
 						</div>
 					</div>
 				</div>

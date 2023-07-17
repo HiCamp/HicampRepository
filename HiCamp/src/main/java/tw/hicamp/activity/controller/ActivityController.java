@@ -41,6 +41,7 @@ public class ActivityController {
 	
 	@Autowired
 	private ActivitySignupService actSignupService;
+	
 
 // ==管理者頁面==========================================================================================
 

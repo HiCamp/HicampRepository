@@ -168,13 +168,19 @@
 					</div>
 				</div>
 				
-				<div style="font-family:monospace; color:#374b56; margin:50px 10px; padding:5px;">
+				<div style="font-family:monospace; color:#374b56; margin:50px 10px; padding:5px; width:1280px;">
 					<h3 style="font-family:monospace; color:#374b56; ">詳細資訊:</h3>
-					<pre th:text=" ${activity.activityInfo}" style="font-size:1.4em; font-family:monospace; color:#374b56; white-space: pre-wrap;" ></pre>
+					<pre th:text=" ${activity.activityInfo}" style="font-size:1.4em; font-family:monospace; color:#374b56; white-space: pre-wrap; width:1280px;" ></pre>
 				</div>
 				
-				<div style="width: 1320px; height: 800px; ">
+				<h3 style="font-family:monospace; color:#374b56; ">地理資訊:</h3>				
+				<div style="width: 1320px; height: 1000px; ">
 				    <iframe th:src="@{/activity/getMap}" width="1310" height="800"></iframe>
+				</div>
+				
+				<h3 style="font-family:monospace; color:#374b56; ">天氣資訊:</h3>				
+				<div style="width: 1320px; height: 1200px; ">
+				    <iframe th:src="@{/activity/weather}" width="1310" height="800"></iframe>
 				</div>
 				
 			</div>

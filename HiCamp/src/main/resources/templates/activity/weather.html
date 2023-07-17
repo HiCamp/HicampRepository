@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Weather Data</title>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/styles/default.min.css">
+<script
+	src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.7.2/highlight.min.js"
+	onload="hljs.highlightAll();"></script>
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>hljs.initHighlightingOnLoad();</script>
+<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css">
+
+<style>
+ html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    
+.weather-icon {
+	width: 30px;
+	height: 30px;
+	margin-right: 5px;
+}
+</style>
+</head>
+
+<body>
+	<!--  
+	獲取的json字串
+	<p th:text="${weatherData}" class="json"></p>-->
+
+	<div style="padding: 10px; margin: 10px">
+
+		<h2>未來36小時縣市天氣預報:</h2>
+		<br>
+		<div>
+			<button type="button" class="btn btn-outline-info"
+				id="temperatureButton">溫度</button>
+			<button id="rainProbabilityButton" type="button"
+				class="btn btn-outline-info">降雨機率</button>
+		</div>
+		<br>
+		<div id="temperatureChartContainer">
+			<h3>各縣市氣溫:</h3>
+			<canvas id="weatherChart"></canvas>
+		</div>
+
+		<div id="rainProbabilityChartContainer" style="display: none;">
+			<h3>各縣市降雨機率:</h3>
+			<canvas id="rainProbabilityChart"></canvas>
+		</div>
+
+	</div>
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+	<script>
+   $(document).ready(function () {
+            showTemperatureChart();
+            
+        });
+        
+    var data;
+    var weatherChart;
+	var rainProbabilityChart;    
+	var isShowingTemperatureChart = true;
+    
+ 	function findWeatherElement(elements, elementName) {
+        let element = elements.find(e => e.elementName === elementName);
+
+        if (element && element.time && element.time[0] && element.time[0].parameter) {
+            return element.time[0].parameter.parameterName;
+        }
+        return '-';
+    }
+
+    $.ajax({
+        url: 'https://opendata.cwb.gov.tw/api/v1/rest/datastore/F-D0047-091?Authorization=CWB-507B37E0-0383-4D8C-878D-628B54EC3536',
+        method: 'GET'
+    }).done(function (response) {
+        console.log(response);
+        const data = response.records.locations[0].location;
+        
+	// --依照縣市北中南順序排序---------------
+  		const cityOrder = ['基隆市', '臺北市', '新北市', '桃園市', '新竹市', '新竹縣', '苗栗縣', '臺中市', '彰化縣', '南投縣', '雲林縣', '嘉義市', '嘉義縣', '臺南市', '高雄市', '屏東縣', '臺東縣', '花蓮縣', '宜蘭縣', '澎湖縣', '金門縣', '連江縣'];
+		data.sort(function (a, b) {
+		  const indexA = cityOrder.indexOf(a.locationName);
+		  const indexB = cityOrder.indexOf(b.locationName);
+		
+		  if (indexA < indexB) {
+		    return -1;
+		  }
+		  if (indexA > indexB) {
+		    return 1;
+		  }
+		  return 0;
+		});
+	// --依照縣市北中南順序排序 END---------------
+        
+
+
+		// --- 使用Chart.js繪製折線圖 ---------
+		
+		//氣溫圖表
+			   var ctx = document.getElementById('weatherChart').getContext('2d');
+			    weatherChart = new Chart(ctx, {
+			            type: 'line',
+			            data: {
+			                labels: [], 
+			                datasets: []
+			            },
+			options: {
+			  scales: {
+			    y: {
+			      beginAtZero: true,
+			      title: {
+			        display: true,
+			        text: "溫度 (℃)",
+                                font: {
+                                    size: 20
+                                }
+			      },
+			      ticks: {
+			        stepSize: 10 // y軸刻度間距
+			      }
+			    },
+			    x: {
+			      title: {
+			        display: true,
+			        text: "縣市別",
+			        font: {
+                                    size: 20 
+                                }
+			      }
+			    }
+			  }
+			}
+		 });
+			        
+		 //降雨機率圖表
+	    var ctx = document.getElementById('rainProbabilityChart').getContext('2d');
+        rainProbabilityChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: []
+            },
+         options: {
+        scales: {
+            y: {
+                beginAtZero: true,
+                title: {
+                    display: true,
+                    text: "降雨機率 (%)",
+                                font: {
+                                    size: 20 
+                                }
+                },
+                ticks: {
+                    stepSize: 10,
+                },
+            },
+            x: {
+                title: {
+                    display: true,
+                    text: "縣市別",
+                    font: {
+                                    size: 20 
+                                }
+                },
+                ticks: {
+                    autoSkip: false,  
+                },
+            },
+        },
+    },
+        });  
+		// --- 使用Chart.js繪製折線圖 END -----  
+		
+		// 將資料填入圖表
+		let locationNames = [];
+        let temperature1 = [];
+        let temperature2 = [];
+        let temperature3 = [];
+		let rainProbability = [];
+		
+		
+        // 將資料放入溫度圖表
+         for (let i = 0; i < data.length; i++) {
+            const row = data[i];
+            locationNames.push(row.locationName);
+
+            let elementMinT = row.weatherElement.find(e => e.elementName === 'MinT');
+            let elementMaxT = row.weatherElement.find(e => e.elementName === 'MaxT');
+
+            if (elementMinT && elementMinT.time && elementMinT.time.length > 0) {
+                temperature1.push(parseFloat(elementMinT.time[0].elementValue[0].value));
+            }
+            if (elementMinT && elementMinT.time && elementMinT.time.length > 1) {
+                temperature2.push(parseFloat(elementMinT.time[1].elementValue[0].value));
+            }
+            if (elementMinT && elementMinT.time && elementMinT.time.length > 2) {
+                temperature3.push(parseFloat(elementMinT.time[2].elementValue[0].value));
+            }
+        }
+
+        console.log('locationNames:', locationNames);
+        console.log('temperature1:', temperature1);
+        console.log('temperature2:', temperature2);
+        console.log('temperature3:', temperature3);
+
+        weatherChart.data.labels = locationNames;
+
+        // 設定線條資料
+        if (temperature1.length > 0) {
+            weatherChart.data.datasets.push({
+                label: '最高溫度',
+                data: temperature1,
+                borderColor: 'rgb(255, 99, 132)',
+                backgroundColor: 'rgba(255, 99, 132, 0.5)',
+            });
+        }
+        if (temperature2.length > 0) {
+            weatherChart.data.datasets.push({
+                label: '最低溫度',
+                data: temperature2,
+                borderColor: 'rgb(75, 192, 192)',
+                backgroundColor: 'rgba(75, 192, 192, 0.5)',
+            });
+        }
+        if (temperature3.length > 0) {
+            weatherChart.data.datasets.push({
+                label: '平均溫度',
+                data: temperature3,
+                borderColor: 'rgb(255, 205, 86)',
+                backgroundColor: 'rgba(255, 205, 86, 0.5)',
+            });
+        }
+
+        weatherChart.update();
+        
+        
+    // 將資料填入降雨機率圖表
+
+	for (let i = 0; i < data.length; i++) {
+  	const row = data[i];
+  	
+  	let elementPoP = row.weatherElement.find(e => e.elementName === 'PoP12h');
+
+  	if (elementPoP && elementPoP.time && elementPoP.time.length > 0) {
+  	    rainProbability.push(parseFloat(elementPoP.time[0].elementValue[0].value));
+      }else {
+         rainProbability = [0];
+      }
+      
+    }
+  
+    console.log('rainProbability:', rainProbability);
+
+	rainProbabilityChart.data.labels = locationNames;
+
+        if (rainProbability.length > 0) {
+            rainProbabilityChart.data.datasets.push({
+                label: '降雨機率(%)',
+                data: rainProbability,
+                borderColor: 'rgb(54, 162, 235)',
+                 backgroundColor: 'rgba(54, 162, 235, 0.5)'
+            });
+        }
+
+		rainProbabilityChart.update();
+    });
+        
+        
+          // 建立切換顯示圖表按鈕
+        var temperatureButton = document.getElementById('temperatureButton');
+        var rainProbabilityButton = document.getElementById('rainProbabilityButton');
+
+        temperatureButton.addEventListener('click', function () {
+            if (!isShowingTemperatureChart) {
+                showTemperatureChart();
+            }
+        });
+
+        rainProbabilityButton.addEventListener('click', function () {
+            if (isShowingTemperatureChart) {
+                showRainProbabilityChart();
+            }
+        });
+
+        // 顯示溫度圖表
+        function showTemperatureChart() {
+            document.getElementById('temperatureChartContainer').style.display = 'block';
+            document.getElementById('rainProbabilityChartContainer').style.display = 'none';
+            isShowingTemperatureChart = true;
+        }
+
+        // 顯示降雨機率圖表
+        function showRainProbabilityChart() {
+            document.getElementById('temperatureChartContainer').style.display = 'none';
+            document.getElementById('rainProbabilityChartContainer').style.display = 'block';
+            isShowingTemperatureChart = false;
+        }
+
+</script>
+</body>
+</html>

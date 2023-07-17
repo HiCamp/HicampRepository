@@ -41,6 +41,7 @@
 	display: flex;
 	align-items: center;
 	justify-content: space-between;
+	font-size: 1.2em;
 }
 
 .billing-address-form .signupInfomation p input {
@@ -50,11 +51,13 @@
 	border-radius: 5px;
 	width: 70%;
 	font-size: 16px;
+		font-size: 1.2em;
 }
 
 .billing-address-form .signupInfomation p label {
 	width: 25%;
 	font-weight: 600;
+		font-size: 1.2em;
 }
 
 button.btn.btn-link {
@@ -64,6 +67,14 @@ button.btn.btn-link {
 	border-radius: 5px;
 	font-size: 18px;
 }
+
+        table {
+            border-collapse: collapse;
+        }
+        
+        table, th, td {
+            border: 1px solid #ddd;
+        }
 </style>
 </head>
 <body>
@@ -84,12 +95,16 @@ button.btn.btn-link {
 		</div>
 	</div>
 	<!-- end breadcrumb section -->
-	
-	<!-- 訂單細項 -->
-	<!--  -->
-	<!--  -->
 <div class="checkout-section mt-150 mb-150" style="margin: 0;">
+
+
 		<div class="container">
+			<nav aria-label="breadcrumb" style=" font-size:1.5em;display: block; ">
+		  		<ol class="breadcrumb" style="background-color:#fff; margin-top:10px; display: flex; flex-wrap: wrap;  " >
+		    		<li class="breadcrumb-item" ><a href="http://localhost:8080/HiCamp/activity/memberCenterFindAllSignupOrders" >報名總覽</a></li>
+		    		<li class="breadcrumb-item active" aria-current="page">訂單明細</li>
+		  		</ol>
+			</nav>
 			<div class="row">
 				<div class="col-lg-12">
 					<div class="checkout-accordion-wrap">
@@ -98,7 +113,8 @@ button.btn.btn-link {
 						  <div class="card single-accordion" style="padding:10px; margin:10px">
 						    <div class="card-header" id="headingOne">
 						      <h5 class="mb-0">
-						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+						        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne"
+						        style="background-color:#374b56; color:#fff; font-size:1em; font-weight: bold;">
 						          訂單明細:
 						        </button>
 						      </h5>
@@ -107,7 +123,20 @@ button.btn.btn-link {
 						    <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
 						      <div class="card-body">
 						        <div class="billing-address-form" style="display: flex; justify-content: center">
-						        	<form class="signupInfomation" th:object="${member}" style="width: 50%;">
+						        	
+									<form class="signupInfomation" style="width: 50%;border: 1px solid #ddd; margin:10px;padding:10px">
+									    <p>訂單編號:<input type="text" th:value="${activitySignup.activitySignupNo}"></p>
+									    <p>訂單日期:<input type="text" th:value="${#dates.format(activitySignup.signupDate, 'yyyy-MM-dd')}"></p>
+									    <p>活動名稱:<input type="text" th:value="${activity.activityName}"></p>
+									    <p>出發地點:<input type="text" th:value="${activity.activityLocation}"></p>
+									    <p>出發日期:<input type="text" th:value="${#dates.format(activityPeriod.activityDepartureDate, 'yyyy-MM-dd')}"></p>
+									    <p>回程日期:<input type="text" th:value="${#dates.format(activityPeriod.activityReturnDate, 'yyyy-MM-dd')}"></p>
+									    <p>活動單價:<input type="text" th:value="${activityPeriod.activityPeriodPrice}"></p>
+									    <p>訂購數量:<input type="text" th:value="${activitySignup.signupQuantity}"></p>
+									    <p>訂購總額:<input type="text" th:value="${activitySignup.signupTotalAmount}"></p>
+									    <p>付款狀態:<input type="text" th:value="${activitySignup.signupPaymentStatus}"></p>
+									</form>
+									<form class="signupInfomation" th:object="${member}" style="width: 50%;border: 1px solid #ddd; margin:10px;padding:10px">
 									    <input type="hidden" th:field="*{memberNo}" id="memberNo" >
 									    <p>會員資訊:<p>
 									    <p>姓名:<input type="text" th:field="*{memberName}" placeholder="Name"></p>
@@ -120,19 +149,6 @@ button.btn.btn-link {
 									    <p>緊急聯絡人:<input type="text" th:field="*{memberEmergencyContact}" placeholder="Emergency Contact"></p>
 									    <p>緊急聯絡人電話:<input type="text" th:field="*{memberEmergencyPhone}" placeholder="Emergency Contact Phone"></p>
 									</form>
-									<form class="signupInfomation" style="width: 50%;">
-									    <p>訂單編號:<input type="text" th:value="${activitySignup.activitySignupNo}"></p>
-									    <p>訂單日期:<input type="text" th:value="${#dates.format(activitySignup.signupDate, 'yyyy-MM-dd')}"></p>
-									    <p>活動名稱:<input type="text" th:value="${activity.activityName}"></p>
-									    <p>出發地點:<input type="text" th:value="${activity.activityLocation}"></p>
-									    <p>出發日期:<input type="text" th:value="${#dates.format(activityPeriod.activityDepartureDate, 'yyyy-MM-dd')}"></p>
-									    <p>回程日期:<input type="text" th:value="${#dates.format(activityPeriod.activityReturnDate, 'yyyy-MM-dd')}"></p>
-									    <p>活動單價:<input type="text" th:value="${activityPeriod.activityPeriodPrice}"></p>
-									    <p>訂購數量:<input type="text" th:value="${activitySignup.signupQuantity}"></p>
-									    <p>訂購總額:<input type="text" th:value="${activitySignup.signupTotalAmount}"></p>
-									    <p>付款狀態:<input type="text" th:value="${activitySignup.signupPaymentStatus}"></p>
-									</form>
-									
 						        </div>
 						      </div>
 						    </div>

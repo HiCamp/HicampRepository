@@ -38,7 +38,7 @@ public class OSMController {
 	 	        System.out.println(responseBody);
 	 	        activity.setActivityLocation(activityLocation);
 
-	 	        return "/activity/testMap";
+	 	        return "/activity/osmMap";
 	 	      }
 	 	     
 	 @GetMapping("activity/getMap")
@@ -46,8 +46,10 @@ public class OSMController {
 	 	         
 	  model.addAttribute("activity", new Activity());
 	 	        
-	 return "/activity/testMap";
+	 return "/activity/osmMap";
 	 }
+	 
+
 	  
 	public OSMController() {
 	}

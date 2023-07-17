@@ -85,6 +85,16 @@
 	<!--  -->
 	
 	<div style="margin:20px auto; padding:10px;justify-content:center; width:1500px;">
+	
+		<nav aria-label="breadcrumb" style=" font-size:1.5em;display: block; ">
+  		<ol class="breadcrumb" style="background-color:#fff; margin-top:10px; display: flex; flex-wrap: wrap;  " >
+    		<li class="breadcrumb-item active" aria-current="page">報名總覽</li>
+  		</ol>
+	</nav>
+	
+	
+	<div>
+		<h4>查詢訂單:</h4>
 	<table>
 	<tbody>
 	
@@ -111,17 +121,16 @@
  	</table>
  	</div>
  	
- 	
 	<div style="margin:20px auto; padding:10px;justify-content:center; width:1500px;">
 	<ul class="nav nav-tabs">
   	<li class="nav-item">
-    <a class="nav-link active" aria-current="page" href="#">訂單查詢</a>
+    <a class="nav-link active" aria-current="page" href="#">訂單列表</a>
     
  <div class="order-table-container" style="padding: 10px;" >
     <table class="order-table">
         <thead>
-            <tr>
-                <th colspan="8">您的查詢結果如下:</th>
+            <tr  style="height:68px;font-size:1.2em;">
+                <th colspan="8" style="background-color:#374b56; color:#fff;  font-weight: bold; ">您的查詢結果如下:</th>
             </tr>
             <tr>
                 <th style="display:none;">會員編號</th>
@@ -139,12 +148,12 @@
             <th:block th:each="signupOrder : ${signupOrders}" >
                 <tr>
                     <td th:text="${signupOrder.memberNo}" class="memberNo" style="display:none;"></td>
-                    <td th:text="${signupOrder.activitySignupNo}" class="activitySignupNo" style="width:250px"></td>
-                    <td th:text="${#dates.format(signupOrder.SignupDate, 'yyyy-MM-dd')}"style="width:500px"></td>
+                    <td th:text="${signupOrder.activitySignupNo}" class="activitySignupNo" style="width:250px"><input type="hidden" id="activitySignupNoInput" value="${signupOrder.activitySignupNo}"></td>
+                    <td th:text="${#dates.format(signupOrder.SignupDate, 'yyyy-MM-dd')}"style="width:500px" id="signupDate-${signupOrder.activitySignupNo}"></td>
                     <td th:text="${signupOrder.activityName}"  style="width:800px"></td>
                     <td th:text="${#dates.format(signupOrder.activityDepartureDate, 'yyyy-MM-dd')} + ' ~ ' + ${#dates.format(signupOrder.activityReturnDate, 'yyyy-MM-dd')}"  style="width:700px"></td>
                     <td th:text="${signupOrder.signupTotalAmount}"  style="width:350px"></td>
-                    <td th:text="${signupOrder.signupPaymentStatus}" style="width:250px"></td>
+                    <td th:text="${signupOrder.signupPaymentStatus}" style="width:250px" id="signupPaymentStatus" ></td>
                     <td style="width:250px"> 
                     <button type="button" style="border: none; background-color: white;" class="checkSignupOrderBtn" th:value="${signupOrder.activitySignupNo}">
                     <i class="fas fa-search" style="cursor:pointer; font-size:120%;"></i></button></td>
@@ -159,9 +168,9 @@
 	</ul>
 	</div>
 	
-	
-
 <div th:replace="~{/layout/frontBottomBar}"></div>
+	
+</div>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
@@ -309,6 +318,58 @@ function formatDate(date) {
   return year + '-' + month + '-' + day;
 }
 
+</script>
+
+<!-- 改變訂單狀態 -->
+<script>
+$(document).ready(function() {
+    $(document).on("click", ".cancelSignupOrderBtn", function() {
+        var activitySignupNo = $(this).val();
+        var signupDate = new Date($("#signupDate-" + activitySignupNo).text());
+        var currentDate = new Date(); 
+        
+        var timeDiff = currentDate.getTime() - signupDate.getTime();
+        var daysDiff = Math.ceil(timeDiff / (1000 * 3600 * 24));
+        
+        if (daysDiff > 1) {
+            alert("無法取消訂單");
+            return;
+        }
+        
+        
+        console.log(activitySignupNo);
+       $.ajax({
+            url: "http://localhost:8080/HiCamp/activity/updateSignupPaymentStatus",
+            type: "PUT",
+			data: {
+			    activitySignupNo: activitySignupNo,
+			    signupPaymentStatus: "訂單取消,請求審核中"
+			},
+            success: function(response) {
+              swal({
+		        title: '是否確認取消訂單?',
+		        text: "",
+		        icon: 'info',
+		        buttons: ['取消', '確定'],
+		        dangerMode: false,
+		      })
+		        .then((confirmed) => {
+		          if (confirmed) {
+		            swal('已送出取消請求', '會盡快替您處理訂單事宜')
+		              .then(() => {
+		                this.submit();
+		              });
+		          }
+		        });
+		    
+		             $("#signupPaymentStatus").text("訂單取消,請求審核中");
+            },
+            error: function() {
+                alert("訂單取消請求發生錯誤");
+            }
+        });
+    });
+});
 </script>
 
 </body>

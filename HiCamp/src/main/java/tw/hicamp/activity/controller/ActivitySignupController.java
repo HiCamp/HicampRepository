@@ -194,6 +194,9 @@ public class ActivitySignupController {
 
 		return "redirect:activity/manageOneSingupOrder";
 	}
+	
+	
+	
 
 //	刪除 postman ok 
 	@ResponseBody
@@ -219,7 +222,7 @@ public class ActivitySignupController {
 		Integer memberNo = (Integer) session.getAttribute("memberNo");
 
 		if (memberNo == null) {
-			return "activity/activitylogin";
+			return "/Member/login";
 		}
 
 		Member member = memberService.findByNo(memberNo);
@@ -458,6 +461,23 @@ public class ActivitySignupController {
 		return dtos;
 	}
 	 
+//	更新訂單狀態
+	@ResponseBody
+	@PutMapping("/activity/updateSignupPaymentStatus")
+	public String editSignupOrderPaymentStatus(
+			@RequestParam("activitySignupNo") Integer activitySignupNo,
+			@RequestParam("signupPaymentStatus") String signupPaymentStatus, Model model) throws ParseException {
+		
+		ActivitySignup findactivitySignup = actSignupService.findActivitySignupOrdersBySignupNo(activitySignupNo);
+		if(findactivitySignup !=null) {
+			ActivitySignup activitySignup = actSignupService.updateActivitySignupOrderPaymentStatusByNo(activitySignupNo, signupPaymentStatus);
+			model.addAttribute("activitySignup", activitySignup);
+			return "更新成功";
+		}else {
+			return "查無此筆資料";
+		}
+		
+	}
 	
 	
 //	chart
