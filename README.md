@@ -16,9 +16,7 @@ Java Web Project
 
 #################技術資源#################
 
-後端：JAVA (Spring Boot + Spring + Hibernate)  
-
-      Database: MSSQL
+後端：JAVA (Spring Boot + Spring + Hibernate)  Database: MSSQL
 
       
 前端： HTML/CSS/JavaScript/Ajax/jQuery/BootStrap
