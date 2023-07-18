@@ -17,8 +17,12 @@ Java Web Project
 #################功能介紹#################
 
 會員(Member)-于秉原-ms06f.joshua@gmail.com
+
 活動(Activity)-林秀文-sally820828@gmail.com
+
 商城(Product)-陳季翎-iceberg5995@gmail.com
+
 露營區(Campsite)-彭昱翔-aassas99449@gmail.com
+
 論壇(Forum)-陳韋禔-zxcv774123@gmail.com
 
