@@ -269,7 +269,7 @@ public class ProductController {
 
 	// 前台搜尋
 	@GetMapping("/shopping/getProducts")
-	public String getProducts(@RequestParam("productType") String productType, Model model) {
+	public String getProducts(HttpSession session, @RequestParam("productType") String productType, Model model) {
 		List<Product> productList = pService.findByType(productType);
 
 		List<Product> typePorduct = new ArrayList<>();
@@ -277,6 +277,12 @@ public class ProductController {
 			if (products.getProductStutas().equals("上架") ) {
 					typePorduct.add(products);
 			}
+		}
+		Object memberObj = session.getAttribute("memberNo");
+		if (memberObj != null) {
+			int memberNo = (int)memberObj;
+			Integer countCart = shoppingCartService.countCart(memberNo);
+			session.setAttribute("countCart", countCart);
 		}
 		System.out.println(typePorduct);
 		
