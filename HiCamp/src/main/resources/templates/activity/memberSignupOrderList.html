@@ -276,7 +276,7 @@ $(function() {
       url: 'http://localhost:8080/HiCamp/activity/memberCenterFindSignupOrderBySignupDate',
       type: 'GET',
       data: {
-        signupDate: selectedDate
+        endDate: selectedDate
       },
       success: function(data) {
       console.log(data);
@@ -304,7 +304,7 @@ $(function() {
         });
       },
       error: function() {
-        alert('查詢失敗');
+        alert('請選擇日期');
       }
     });
   });

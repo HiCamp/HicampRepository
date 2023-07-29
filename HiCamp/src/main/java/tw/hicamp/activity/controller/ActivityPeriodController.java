@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import tw.hicamp.activity.dto.ActivityDtoForBackEndPage;
 import tw.hicamp.activity.model.Activity;
 import tw.hicamp.activity.model.ActivityPeriod;
 import tw.hicamp.activity.service.ActivityPeriodService;
@@ -22,18 +24,18 @@ public class ActivityPeriodController {
 	@Autowired
 	private ActivityService aService;
 
-//	@Autowired
-//	private ActivityPictureService actPicService;
-
 	@Autowired
 	private ActivityPeriodService actPeriodService;
 
-	@GetMapping("/activity/testteeeeeeeeeest")
-	public String test() {
-		return "activity/testpage";
-	}
+// ==管理者頁面 Outline ======================================================================================
+
+// 1.新增活動期別  http://localhost:8080/HiCamp/activity/insertNewPeriod
+// 2.修改活動期別 http://localhost:8080/HiCamp/activity/updateActivityDto
+// 3.刪除單筆期別 http://localhost:8080/HiCamp/activity/deleteActivityPeriod
+
+// ==========================================================================================================	
 	
-//	新增期別
+//	1. 新增活動期別-------------------------------------------------------------------------------------------
 	@PostMapping("/activity/insertNewPeriod")
 	@ResponseBody
 	public ActivityPeriod insertNewPeriod(@RequestParam("activityNo")Integer activityNo,
@@ -59,17 +61,21 @@ public class ActivityPeriodController {
 		return activityPeriod;
 	}
 
-//	查詢單筆期別
-	@GetMapping("/activity/findActivityPeriodById")
-	public String findActivityByActivityPeriod(@RequestParam("activityPeriodNo") Integer activityPeriodNo, Model model) {
-		
-		ActivityPeriod activityPeriod = actPeriodService.findActPeriodById(activityPeriodNo);
-		
-		model.addAttribute("activityPeriod", activityPeriod);
-		return "activity/testActivityPeriod";
+//	2. 修改活動期別-------------------------------------------------------------------------------------------
+	@ResponseBody
+	@PutMapping("/activity/updateActivityDto")
+	public String updateActivityWithPeriod(@RequestBody ActivityDtoForBackEndPage activity, Model model) {
+
+		actPeriodService.updateActivityPeriodById(activity.getActivityPeriodNo(), activity.getActivityNo(),
+				activity.getActivityDepartureDate(), activity.getActivityReturnDate(), activity.getSignupDeadline(),
+				activity.getSignupQuantity(), activity.getActivityPeriodPrice(), activity.getActivityPeriodQuota());
+
+		model.addAttribute("activity", activity);
+
+		return "activity/manageOneActivity";
 	}
 	
-//	刪除期別
+//	3. 刪除單筆期別-------------------------------------------------------------------------------------------
 	@DeleteMapping("/activity/deleteActivityPeriod")
 	public String deleteActivityPeriod(@RequestParam("activityPeriodNo") Integer activityPeriodNo) {
 		actPeriodService.deleteActPeriodById(activityPeriodNo);

@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import jakarta.transaction.Transactional;
-import tw.hicamp.activity.model.ActivityPeriod;
 import tw.hicamp.activity.model.ActivitySignup;
 import tw.hicamp.activity.model.ActivitySignupRepository;
 
@@ -20,10 +19,12 @@ public class ActivitySignupService {
 	@Autowired
 	private ActivitySignupRepository actSignupRepo;
 
+//	新增-----------------------------------------------------------------------------
 	public ActivitySignup insertActivitySignup(ActivitySignup activitySignup) {
 		return actSignupRepo.save(activitySignup);
 	}
 
+//	查詢-----------------------------------------------------------------------------
 	public List<ActivitySignup> findAllSignupOrders() {
 		return actSignupRepo.findAll();
 	}
@@ -41,28 +42,6 @@ public class ActivitySignupService {
 		return signupOrders;
 	}
 
-	@Transactional
-	public ActivitySignup updateActivitySignupOrderByNo(Integer activitySignupNo, Integer memberNo,
-			Integer activityPeriodNo, Date signupDate, Integer signupQuantity, Integer signupTotalAmount,
-			String signupPaymentStatus) {
-		Optional<ActivitySignup> optional = actSignupRepo.findById(activitySignupNo);
-
-		if (optional.isPresent()) {
-			ActivitySignup activitySignup = optional.get();
-
-//			activitySignup.setActivitySignupNo(activitySignupNo);
-			activitySignup.setMemberNo(memberNo);
-			activitySignup.setActivityPeriodNo(activityPeriodNo);
-			activitySignup.setSignupDate(signupDate);
-			activitySignup.setSignupTotalAmount(signupTotalAmount);
-			activitySignup.setSignupPaymentStatus(signupPaymentStatus);
-			activitySignup.setSignupQuantity(signupQuantity);
-
-			return activitySignup;
-		}
-		return null;
-	}
-
 //	透過期別查詢訂單
 	public int findTotalOrdersByActivityPeriodNo(Integer activityPeriodNo) {
 		List<ActivitySignup> activitySignupList = actSignupRepo.findByActivityPeriodNo(activityPeriodNo);
@@ -75,41 +54,44 @@ public class ActivitySignupService {
 	}
 
 //	透過日期查詢
-	public List<ActivitySignup> findSignupOrderBySignupDate(Date signupDate, int memberNo) {
-//		 List<ActivitySignup> activitySignupList = actSignupRepo.findSingupOrderBySignupDate(signupDate);
+	public List<ActivitySignup> findSignupOrderBySignupDate(Date endDate, int memberNo) {
 
 		Calendar calendar = Calendar.getInstance();
-		calendar.setTime(signupDate);
+		calendar.setTime(endDate);
 		calendar.add(Calendar.YEAR, -1);
 		Date startDate = calendar.getTime();
-		List<ActivitySignup> activitySignupList = actSignupRepo.findBySignupDateBetween(startDate, signupDate);
+		List<ActivitySignup> activitySignupList = actSignupRepo.findBySignupDateBetween(startDate, endDate, memberNo);
 
 		return activitySignupList;
 	}
-
-//	public List<ActivitySignup> findAllSignupOrdersByMemberNo(Integer memberNo){
-//		 List<ActivitySignup> activitySignupList = actSignupRepo.findAllSignupOrdersById(memberNo);
-//		 return activitySignupList;
-//	}
-
-	public void deleteActSignupOrderBySignupNo(Integer activitySignupNo) {
-		actSignupRepo.deleteById(activitySignupNo);
-	}
 	
+//	透過關鍵字查詢
 	public List<ActivitySignup> findByKeyword(String keyword, int memberNo) {
 	    return actSignupRepo.findByKeyword("%" + keyword + "%", memberNo);
 	}
 	
 	
-	//chart
-    public List<Map<String, Object>> getSignupDataPerMonth() {
-        return actSignupRepo.findSignupDataGroupByMonth();
-    }
-    
+//	修改-----------------------------------------------------------------------------	
+	@Transactional
+	public ActivitySignup updateActivitySignupOrderByNo(Integer activitySignupNo, Integer memberNo,
+			Integer activityPeriodNo, Date signupDate, Integer signupQuantity, Integer signupTotalAmount,
+			String signupPaymentStatus) {
+		Optional<ActivitySignup> optional = actSignupRepo.findById(activitySignupNo);
 
-    public List<Map<String, Object>> getSignupDataByType() {
-        return actSignupRepo.findSignupDataGroupByType();
-    }
+		if (optional.isPresent()) {
+			ActivitySignup activitySignup = optional.get();
+
+			activitySignup.setMemberNo(memberNo);
+			activitySignup.setActivityPeriodNo(activityPeriodNo);
+			activitySignup.setSignupDate(signupDate);
+			activitySignup.setSignupTotalAmount(signupTotalAmount);
+			activitySignup.setSignupPaymentStatus(signupPaymentStatus);
+			activitySignup.setSignupQuantity(signupQuantity);
+
+			return activitySignup;
+		}
+		return null;
+	}
 	
 //	更新狀態
     @Transactional
@@ -124,10 +106,21 @@ public class ActivitySignupService {
 
         return activitySignup;
     }
-	
-	
-	public ActivitySignupService() {
+
+//	刪除--------------------------------------------------------------------------------	    
+	public void deleteActSignupOrderBySignupNo(Integer activitySignupNo) {
+		actSignupRepo.deleteById(activitySignupNo);
 	}
+	
+    //chart
+    public List<Map<String, Object>> getSignupDataPerMonth() {
+    	return actSignupRepo.findSignupDataGroupByMonth();
+    }
+    
+//    public List<Map<String, Object>> getSignupDataByType() {
+//    	return actSignupRepo.findSignupDataGroupByType();
+//    }
 
-
+    public ActivitySignupService() {
+	}
 }

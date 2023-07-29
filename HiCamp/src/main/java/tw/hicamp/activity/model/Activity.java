@@ -47,7 +47,6 @@ public class Activity {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<ActivityPicture> activityPictures = new ArrayList<>();	
-//	List<泛型: 因為查出來的可能是多個pictures, 所以放的是ActivityPicture料> 
 	
 	@JsonManagedReference
 	@OneToMany(mappedBy = "activity", cascade = CascadeType.ALL, orphanRemoval = true)

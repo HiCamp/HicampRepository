@@ -2,6 +2,9 @@ package tw.hicamp.activity.dto;
 
 import java.util.Date;
 
+import tw.hicamp.activity.model.Activity;
+import tw.hicamp.activity.model.ActivityPeriod;
+
 public class ActivityDto {
 
 	private Integer activityNo;
@@ -27,7 +30,23 @@ public class ActivityDto {
 	private Date signupDeadline;
 	
 	private Integer RemainingQuota;
-
+	
+	public ActivityDto(Activity activity) {
+		setActivityNo(activity.getActivityNo());
+	    setActivityType(activity.getActivityType());
+	    setActivityName(activity.getActivityName());
+	    setActivityInfo(activity.getActivityInfo());
+	    setActivityQuota(activity.getActivityQuota());
+	    setActivityPrice(activity.getActivityPrice());
+	}
+	
+	public void ActivityDtoAddPeriod(ActivityPeriod activityPeriod) {
+	    setActivityPeriodNo(activityPeriod.getActivityPeriodNo());
+	    setActivityDepartureDate(activityPeriod.getActivityDepartureDate());
+	    setActivityReturnDate(activityPeriod.getActivityReturnDate());
+	    setSignupDeadline(activityPeriod.getSignupDeadline());
+	}
+	
 	public Integer getActivityNo() {
 		return activityNo;
 	}

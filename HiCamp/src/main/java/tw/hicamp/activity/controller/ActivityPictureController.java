@@ -31,16 +31,16 @@ public class ActivityPictureController {
 
 	@Autowired
 	private ActivityPictureService actPicService;
+	
+// ==管理者頁面 Outline ======================================================================================
 
+// 1.上傳多張照片(更新頁面編輯圖片)  http://localhost:8080/HiCamp/activity/insertpic
+// 2.顯示所有照片(透過ID搜尋圖片, 顯示於彈跳視窗) http://localhost:8080/HiCamp/activity/showPictures
+// 3.刪除單張照片  http://localhost:8080/HiCamp/activity/deletepic
 
-	@GetMapping("/activity/picture")
-	public String newPicture() {
-		return "Activity/uploadPicture";
-	}
+// ==========================================================================================================	
 
-// ==管理者頁面==========================================================================================
-
-// 上傳照片(更新頁面編輯圖片) 
+// 1. 上傳照片(後台更新頁面編輯圖片) -----------------------------------------------------------------------------
 	@PostMapping("/activity/insertpic")
 	public String uploadPicture(@RequestParam("activityNo") Integer activityNo,
 			@RequestParam("activityPicture") MultipartFile[] files, Model model) {
@@ -50,7 +50,7 @@ public class ActivityPictureController {
 		if (activity == null) {
 			return "查無此筆資料";
 		}
-
+		
 		try {
 			List<ActivityPicture> activityPictureList = new ArrayList<>();
 
@@ -76,7 +76,7 @@ public class ActivityPictureController {
 		}
 	}
 
-// 顯示照片(透過ID搜尋圖片, 顯示於彈跳視窗)
+// 2. 顯示照片(透過ID搜尋圖片, 顯示於彈跳視窗)-----------------------------------------------------------------------
 // 先透過ActivityNo找圖片ID
 	@ResponseBody
 	@GetMapping("/activity/activityPicNo")
@@ -105,31 +105,12 @@ public class ActivityPictureController {
 		return null;
 	}
 
-//	刪除照片
-	@DeleteMapping("/activity/deletepic")
+//	3. 刪除單張照片---------------------------------------------------------------------------------------------------
 	@ResponseBody
+	@DeleteMapping("/activity/deletepic")
 	public String deleteActivityPicture(@RequestParam("activityPictureNo") Integer activityPictureNo) {
 		actPicService.deletePicById(activityPictureNo);
 		return "刪除成功";
 	}
-
-	
-//	@PostMapping("activity/upload")
-//	public String uploadPicture(@RequestParam("activityFileName") String activityFileName, 
-//			@RequestParam("activityPicture") MultipartFile file) {
-//		
-//		try {
-//			List<ActivityPicture> activityPicture = (List<ActivityPicture>) new ActivityPicture();
-//			((ActivityPicture) activityPicture).setActivityFileName(activityFileName);
-//			((ActivityPicture) activityPicture).setActivityPicture(file.getBytes());
-//			
-//			actPicService.insertPictures(activityPicture);
-//			return "Activity/activityFindAll";
-//			
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//			return "redirect:/Activity/error";
-//		}
-//	}
 	
 }

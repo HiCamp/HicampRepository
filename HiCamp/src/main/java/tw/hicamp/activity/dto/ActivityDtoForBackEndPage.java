@@ -4,15 +4,15 @@ import java.util.Date;
 
 public class ActivityDtoForBackEndPage {
 
-	private Integer activityNo;
+	private Integer activityNo; 
 
 	private String activityType;
 
 	private String activityName;
 
-	private String activityInfo;
+	private String activityInfo;//
 
-	private String activityLocation;
+	private String activityLocation;//
 	
 	private Integer activityPeriodNo;
 
