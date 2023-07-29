@@ -138,6 +138,9 @@ public class OrderController {
 		System.out.println("getOrder memberNoObj" + memberNoObj);
 		if (memberNoObj != null) { //
 			int memberNo = (int) memberNoObj; //
+			
+			Integer countCart = sCartService.countCart(memberNo);
+			session.setAttribute("countCart", countCart);
 
 		OrderDTO orderDTO = new OrderDTO();
 		Member member = mService.findByNo(memberNo);
@@ -192,6 +195,8 @@ public class OrderController {
 //		int memberNo = 1;
 		Object memberNoObj = session.getAttribute("memberNo"); //
 		System.out.println("memberNoObj"+memberNoObj);
+		session.setAttribute("memberNo", 1);
+		session.setAttribute("memberName", "林秀文");
 		Orders orderNew = oService.getOrder(order);
 		System.out.println("MemberNo"+orderNew.getMember().getMemberNo());
 
