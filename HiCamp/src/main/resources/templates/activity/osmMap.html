@@ -2,190 +2,202 @@
 <html xmlns:th="https://www.thymeleaf.org">
 
 <head>
-  <title>testMap</title>
-  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-  <link href="/style.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
-    integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
-    crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
-    integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
-    crossorigin=""></script>
-  <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
-  <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
-  <script src="https://unpkg.com/leaflet-elevation/dist/leaflet-elevation.min.js"></script>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <link th:href="@{/activity/bootstrap.min.css}" rel="stylesheet">
+<title>testMap</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 
-  <style>
-    html,
-    body {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      overflow: hidden;
-    }
+<link href="/style.css" rel="stylesheet">
+<link rel="stylesheet"
+	href="https://unpkg.com/leaflet@1.3.4/dist/leaflet.css"
+	integrity="sha512-puBpdR0798OZvTTbP4A8Ix/l+A4dHDD0DGqYW6RQ+9jxkRFclaxxQb/SJAWZfWAkuyeQUytO7+7N4QKrDh+drA=="
+	crossorigin="" />
+<link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<script src="https://unpkg.com/leaflet@1.3.4/dist/leaflet.js"
+	integrity="sha512-nMMmRyTVoLYqjP9hrbed9S+FzjZHW5gY1TWCHA5ckwXZBadntCNs8kEqAWdrb9O7rxbCaA4lKTIWjDXZxflOcA=="
+	crossorigin=""></script>
+<script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
+<script src="https://unpkg.com/leaflet-elevation/dist/leaflet-elevation.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 
-    #map,
-    #mapid {
-      width: 100%;
-      height: 100%;
-    }
+<style>
+/* Reset CSS */
+html, body {
+	margin: 0;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
 
-    #mapid {
-      display: none;
-      /* hide Leaflet */
-    }
+/* Map container */
+#map-container {
+	width: 100%;
+	height: calc(100% - 40px);
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: stretch;
+	z-index: 1000;
+}
 
-    iframe {
-      display: block;
-      position:relative;
-      /* show OpenStreetMap */
-    }
+/* Map display */
+#map, #mapid {
+	flex-grow: 1;
+	border: 1px solid black;
+	position: fixed;
+}
 
-    #map-container {
-      width: 100%;
-      height: calc(100% - 40px);
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: stretch;
-      z-index: 1000;
-    }
+/* Hide Leaflet map and show OpenStreetMap through iframe */
+#map {
+	display: none;
+}
 
-    #map,
-    #mapid {
-      flex-grow: 1;
-      border: 1px solid black;
-      position: fixed;
-    }
+iframe {
+	display: block;
+	position: relative;
+}
 
-    #address-form {
-      margin-bottom: 15px;
-    }
+/* Address form styles */
+#address-form {
+	margin-bottom: 15px;
+}
 
-    .btn {
-      margin-right: 10px;
-      border-radius: 3px;
-      height: 30px;
-      line-height: 30px;
-      padding: 0 10px;
-      font-size: 14px;
-    }
+#address-form input {
+	border-radius: 3px;
+	height: 30px;
+	padding: 0 5px;
+	margin-right: 10px;
+}
 
-    .btn-outline-success {
-      color: #28a745;
-      border-color: #28a745;
-    }
+/* Buttons styles */
+.btn {
+	margin-right: 10px;
+	border-radius: 3px;
+	height: 30px;
+	line-height: 30px;
+	padding: 0 10px;
+	font-size: 14px;
+}
 
-    #address-form input {
-      border-radius: 3px;
-      height: 30px;
-      padding: 0 5px;
-      margin-right: 10px;
-    }
+.btn-outline-success {
+	color: #28a745;
+	border-color: #28a745;
+}
 
-    .submit {
-      height: 30px;
-      line-height: 30px;
-    }
+.submit {
+	height: 30px;
+	line-height: 30px;
+}
 
-    #marker-info {
-      margin-bottom: 20px;
-    }
+/* Marker info */
+#marker-info {
+	margin-bottom: 20px;
+}
 
-    small a {
-      color: #007bff;
-      text-decoration: none;
-    }
+small a {
+	color: #007bff;
+	text-decoration: none;
+}
 
+/* Button container */
+#button-container {
+	overflow: hidden;
+}
 
-    #button-container {
-      overflow: hidden;
-    }
+/* Undo marker and Export GPX buttons */
+#undo-marker, #export-gpx {
+	float: left;
+	display: inline-block;
+	padding: 8px 16px;
+	font-size: 14px;
+	font-weight: bold;
+	text-align: center;
+	text-decoration: none;
+	cursor: pointer;
+	border-radius: 3px;
+	border: none;
+	transition: background-color 0.3s ease;
+	margin-right: 10px;
+}
 
-    #undo-marker,
-    #export-gpx {
-      float: left;
-      display: inline-block;
-      padding: 8px 16px;
-      font-size: 14px;
-      font-weight: bold;
-      text-align: center;
-      text-decoration: none;
-      cursor: pointer;
-      border-radius: 3px;
-      border: none;
-      transition: background-color 0.3s ease;
-      margin-right: 10px;
-    }
+#undo-marker {
+	color: #28a745;
+	border-color: #28a745;
+}
 
-    #undo-marker {
-      color: #28a745;
-      border-color: #28a745;
-    }
+#export-gpx {
+	color: #28a745;
+	border-color: #28a745;
+}
 
-    #export-gpx {
-      color: #28a745;
-      border-color: #28a745;
-    }
-
-    #undo-marker:hover,
-    #export-gpx:hover {
-      background-color: #c82333;
-    }
-  </style>
+/* Hover styles for buttons */
+#undo-marker:hover, #export-gpx:hover {
+	background-color: #c82333;
+}
+</style>
 </head>
 
 <body class="bg-secondary">
 
+	<div>
+		<!-- 切換OSM&LeafLet按鈕 -->
+		<button type="button" class="btn btn-outline-success"
+			id="show-openstreetmap">OpenStreetMap</button>
+		<button type="button" class="btn btn-outline-success"
+			id="show-leaflet">Leaflet Map</button>
+		<br>
+		<!-- 地點查詢/OSM -->
+		<form id="address-form">
+			<h4 style="display: inline; color: #28a745;">請輸入要查詢的地點:</h4>
+			<input id="address-input" type="text"
+				placeholder="Please enter the address"
+				style="border-radius: 3px; height: 20px">
+			<button type="submit" class="submit btn btn-outline-success">送出</button>
+		</form>
 
-  <div>
-    <!-- 按鈕 -->
-    <button type="button" class="btn btn-outline-success" id="show-openstreetmap">OpenStreetMap</button>
-    <button type="button" class="btn btn-outline-success" id="show-leaflet">Leaflet Map</button>
-    <br>
-    <!-- 地點查詢/OSM -->
-    <form id="address-form">
-      <h4 style="display: inline;color: #28a745;">請輸入要查詢的地點:</h4>
-      <input id="address-input" type="text" placeholder="Please enter the address"
-        style="border-radius: 3px; height:20px">
-      <button type="submit" class="submit btn btn-outline-success">送出</button>
-    </form>
+		<!-- LeafLet點位標註按鈕&顯示經緯度座標 -->
+		<button id="undo-marker" style="display: inline-block;">Undo
+			Marker</button>
+		<button id="export-gpx" style="display: inline-block;">Export
+			GPX</button>
+		<div id="marker-info"></div>
 
-    <button id="undo-marker" style="display: inline-block;">Undo Marker</button>
-    <button id="export-gpx" style="display: inline-block;">Export GPX</button>
+		<!-- 前往OSM網站 -->
+		<small> <a
+			href="https://www.openstreetmap.org/?mlat=51.47814&amp;mlon=-0.00000#map=16/51.4781/-0.0000"
+			target="_blank">前往 OpenStreetMap 網站查看詳細資訊</a>
+		</small>
 
-    <div id="marker-info"></div>
+		<!-- LeafLet地圖 -->
+		<div id="mapid"
+			style="position: relative; z-index: 1000; height: 800px; width: 1300px;"></div>
 
+		<!-- openstreetmap -->
+		<iframe width="1300px" height="800px" frameborder="0" scrolling="no"
+			marginheight="0" marginwidth="0"
+			src="https://www.openstreetmap.org/export/embed.html?bbox=-0.00305%2C51.47764%2C0.00305%2C51.47864&amp;layer=mapnik"
+			style="border: 1px solid black"> </iframe>
 
-    <small>
-      <a href="https://www.openstreetmap.org/?mlat=51.47814&amp;mlon=-0.00000#map=16/51.4781/-0.0000" target="_blank">前往
-        OpenStreetMap 網站查看詳細資訊</a>
-    </small>
+		<div id="activityData" data-activityno="${activity.activityNo}"></div>
+		<div id="activityLocationData" data-activitylocation="${activity.activityLocation}"></div>
+		<input type="hidden" id="activityLocation" value="${activity.activityLocation}">
+	</div>
 
-    <div id="mapid" style="position: relative; z-index: 1000; height: 800px; width: 1300px;"></div>
-  </div>
+	<br />
 
-  <!-- openstreetmap -->
-  <iframe width="1300px" height="800px" frameborder="0" scrolling="no" marginheight="0" marginwidth="0"
-    src="https://www.openstreetmap.org/export/embed.html?bbox=-0.00305%2C51.47764%2C0.00305%2C51.47864&amp;layer=mapnik"
-    style="border: 1px solid black">
-  </iframe>
-  <br />
-
-  <script>
+	<!-- JS -->
+	<script>
+    // 創建 Leaflet 地圖實例，設定 [地圖中心座標，縮放等級]
     var map = L.map('mapid').setView([24.361805, 121.439359], 13);
     var markers = [];
     var polyline;
 
+	// 使用 Leaflet 圖層顯示 OpenStreetMap 地圖，並添加地圖標記
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '<a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
       maxZoom: 18,
     }).addTo(map);
 
-
+    // 點擊地圖時觸發事件, 可標註點位, 將標記加入到 markers 陣列中
     map.on('click', function (e) {
       e.originalEvent.preventDefault();
       var marker = L.marker(e.latlng, { draggable: true })
@@ -193,22 +205,14 @@
         .addTo(map);
       markers.push(marker);
       marker.openPopup();
-      updatePolyline();
+      updatePolyline(); 
 
-      marker.on('dragend', function (event) {
-      
-        var updatedMarker = event.target;
-        var position = updatedMarker.getLatLng();
-        updatedMarker.setPopupContent('緯度: ' + position.lat + ', \n經度: ' + position.lng);
-        updatedMarker.openPopup();
-        updatePolyline();
-      });
-
-      // Update the OpenStreetMap iframe URL to include the new marker
+    // 更新 OpenStreetMap iframe 的 URL，以在 iframe 中顯示新增的標記位置
       var bboxWest = e.latlng.lng - 0.00305;
       var bboxSouth = e.latlng.lat - 0.00305;
       var bboxEast = e.latlng.lng + 0.00305;
       var bboxNorth = e.latlng.lat + 0.00305;
+      
       var iframeSrc = 'https://www.openstreetmap.org/export/embed.html?bbox=' +
         bboxWest + '%2C' + bboxSouth + '%2C' +
         bboxEast + '%2C' + bboxNorth +
@@ -222,30 +226,13 @@
       if (polyline) {
         map.removeLayer(polyline);
       }
-
       var latlngs = markers.map(function (marker) {
         return marker.getLatLng();
       });
-
       polyline = L.polyline(latlngs, { color: '#CCCCCC' }).addTo(map);
     }
 
-    map.on('click', function (e) {
-      var marker = L.marker(e.latlng, { draggable: true }).addTo(map);
-      markers.push(marker);
-      updatePolyline();
-
-      var markerInfo = document.getElementById('marker-info');
-      markerInfo.textContent = 'Latitude: ' + e.latlng.lat + ', Longitude: ' + e.latlng.lng;
-
-      marker.on('dragend', function (event) {
-        var updatedMarker = event.target;
-        var position = updatedMarker.getLatLng();
-        markerInfo.textContent = 'Latitude: ' + position.lat + ', Longitude: ' + position.lng;
-        updatePolyline();
-      });
-    });
-
+	// 控制undo-marker按紐
     document.getElementById('undo-marker').addEventListener('click', function () {
       if (markers.length > 0) {
         var marker = markers.pop();
@@ -253,7 +240,8 @@
         updatePolyline();
       }
     });
-
+	
+	// 控制export-gpx匯出按紐
     document.getElementById('export-gpx').addEventListener('click', function () {
       var gpx = '<?xml version="1.0" encoding="UTF-8"?><gpx version="1.1" creator="My App" xmlns="http://www.topografix.com/GPX/1/1">';
       markers.forEach(function (marker) {
@@ -271,9 +259,35 @@
       link.click();
       document.body.removeChild(link);
     });
+    
 
+	//地圖初始化及地址查詢
 
-    // OSM地圖設定    
+	$(document).ready(function () {
+	  var mapData = $('#mapData');
+	  
+    var urlParams = new URLSearchParams(window.location.search);
+    var activityNo = urlParams.get('activityNo');
+    var activityLocation = document.getElementById("activityLocation").value;
+    console.log("Activity Number: ", activityNo);
+    console.log("Activity Location: ", activityLocation);
+
+    addressLookup(activityLocation);
+    
+	  $('#address-form').on('submit', function (event) {
+	    event.preventDefault();
+	    var addressInput = $('#address-input');
+	    var address = addressInput.val();
+	    // Look up the address the user submitted
+	    addressLookup(address);
+	  });
+	
+	  document.querySelector('iframe').addEventListener('click', function (event) {
+	    event.preventDefault();
+	  });
+	});
+	
+    // OSM 地址查詢   
     function addressLookup(address) {
       var encodedAddress = encodeURIComponent(address);
       var geocodingApiUrl = 'https://nominatim.openstreetmap.org/search?format=json&limit=1&q=' + encodedAddress;
@@ -283,11 +297,11 @@
         method: 'GET',
         dataType: 'json'
       })
-        .done(function (data) {
-          if (data.length > 0) {
-            var lat = data[0].lat;
-            var lon = data[0].lon;
-            map.setView([lat, lon], 13);
+         .done(function (data) {
+    if (data.length > 0) {
+      var lat = data[0].lat;
+      var lon = data[0].lon;
+      map.setView([lat, lon], 13);
 
             var bboxWest = parseFloat(lon) - 0.00305;
             var bboxSouth = parseFloat(lat) - 0.00305;
@@ -313,34 +327,7 @@
         });
     }
 
-    $(document).ready(function () {
-      addressLookup("南湖大山");
-
-      $('#address-form').on('submit', function (event) {
-        event.preventDefault();
-        var addressInput = $('#address-input');
-        var address = addressInput.val();
-        // Look up the address the user submitted
-        addressLookup(address);
-      });
-
-      document.querySelector('iframe').addEventListener('click', function (event) {
-        event.preventDefault();
-      });
-    });
-
-    var iframeSrc = 'https://www.openstreetmap.org/export/embed.html?bbox=' +
-      bboxWest + '%2C' + bboxSouth + '%2C' +
-      bboxEast + '%2C' + bboxNorth +
-      '&amp;layer=mapnik&amp;marker=' + lat + '%2C' + lon;
-
-    var iframe = document.querySelector('iframe');
-    iframe.src = iframeSrc;
-
-  </script>
-
-  <!-- 顯示/隱藏 -->
-  <script>
+   // 地圖切換: 顯示/隱藏OSM/LeafLet地圖
     document.getElementById('undo-marker').style.display = 'none';
     document.getElementById('export-gpx').style.display = 'none';
 
@@ -362,8 +349,25 @@
       map.invalidateSize();
     });
   </script>
+<!-- 
+	<script>
+    	$(document).ready(function () {
+      addressLookup("南湖大山");
 
+      $('#address-form').on('submit', function (event) {
+        event.preventDefault();
+        var addressInput = $('#address-input');
+        var address = addressInput.val();
+        // Look up the address the user submitted
+        addressLookup(address);
+      });
+
+      document.querySelector('iframe').addEventListener('click', function (event) {
+        event.preventDefault();
+      });
+    });
+	
+  </script>-->
 
 </body>
-
 </html>

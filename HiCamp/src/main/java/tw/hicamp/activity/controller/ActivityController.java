@@ -258,6 +258,8 @@ public class ActivityController {
 		}
 
 		System.out.println("quota:" + quota);
+		model.addAttribute("activityNo", activityNo);
+		model.addAttribute("activityLocation", activity.getActivityLocation());
 		model.addAttribute("activity", activity);
 		model.addAttribute("activityPictures", activityPictures);
 		model.addAttribute("activityPeriods", activityPeriods);

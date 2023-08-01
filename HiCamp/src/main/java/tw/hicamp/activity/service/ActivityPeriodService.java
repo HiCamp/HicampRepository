@@ -9,18 +9,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tw.hicamp.activity.model.ActivityPeriod;
-import tw.hicamp.activity.model.ActivityPictureRepository;
 import tw.hicamp.activity.model.ActivityPeriodRepository;
-import tw.hicamp.activity.model.ActivityRepository;
 
 @Service
 public class ActivityPeriodService {
-
-	@Autowired
-	private ActivityRepository actRepo;
-
-	@Autowired
-	private ActivityPictureRepository actPicRepo;
 	
 	@Autowired
 	private ActivityPeriodRepository actPeriodRepo;

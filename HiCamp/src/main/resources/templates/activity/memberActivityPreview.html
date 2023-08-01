@@ -173,9 +173,10 @@
 					<pre th:text=" ${activity.activityInfo}" style="font-size:1.4em; font-family:monospace; color:#374b56; white-space: pre-wrap; width:1280px;" ></pre>
 				</div>
 				
-				<h3 style="font-family:monospace; color:#374b56; ">地理資訊:</h3>				
+				<h3 style="font-family:monospace; color:#374b56; ">地理資訊:</h3>	
+				
 				<div style="width: 1320px; height: 1000px; ">
-				    <iframe th:src="@{/activity/getMap}" width="1310" height="800"></iframe>
+				       <iframe th:src="@{'/activity/mapOsmLeafLet?activityLocation=' + ${activityLocation} + '&activityNo=' + ${activityNo}}" width="1310" height="800"></iframe>
 				</div>
 				
 				<h3 style="font-family:monospace; color:#374b56; ">天氣資訊:</h3>				

@@ -1,11 +1,6 @@
 package tw.hicamp.activity.service;
 
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestParam;
-
-import tw.hicamp.member.model.Member;
-import tw.hicamp.member.service.MemberService;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -27,7 +22,6 @@ public class MailService {
 							   String message) {
 		MimeMessagePreparator messagePreparator = mimeMessage -> {
 			MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-			messageHelper.setFrom("sally820828@gmail.com");
 			messageHelper.setTo(memberEmail);
 			messageHelper.setSubject(title);
 			messageHelper.setText(message,true);

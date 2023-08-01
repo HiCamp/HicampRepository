@@ -12,8 +12,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tw.hicamp.activity.model.Activity;
-import tw.hicamp.activity.model.ActivityPicture;
-import tw.hicamp.activity.model.ActivityPictureRepository;
 import tw.hicamp.activity.model.ActivityRepository;
 
 @Service
@@ -22,25 +20,10 @@ public class ActivityService {
 	@Autowired
 	private ActivityRepository actRepo;
 
-	@Autowired
-	private ActivityPictureRepository actPicRepo;
-
-	// insert----------------------------------------------------------------------
+// insert----------------------------------------------------------------------
 	public Activity insert(Activity activity) {
 		return actRepo.save(activity);
 	}
-
-//	public Activity insertAct(Activity activity, ActivityPicture activityPicture) {
-////		activity.setActivityPictures(new HashSet<>(Collections.singletonList(activityPicture)));
-////	    Set<ActivityPicture> pictures = new HashSet<>();
-////	    pictures.add(activityPicture);
-////	    activity.setActivityPictures(pictures);
-//		activityPicture.setActivity(activity);
-//		actRepo.save(activity);
-//		actPicRepo.save(activityPicture);
-//		return activity;
-//	}
-	 
 //	select----------------------------------------------------------------------
 	public List<Activity> findAllActivity() {
 		return actRepo.findAll();
@@ -57,11 +40,6 @@ public class ActivityService {
 	public Activity findActivityByActId(Integer activityNo) {
 		return actRepo.getReferenceById(activityNo);
 	}
-
-	// 會用到ㄇ?
-//	public Activity findLatest() {
-//		return actRepo.findFirstByOrderByAddedDesc();
-//	}
 
 //	update----------------------------------------------------------------------
 	@Transactional
@@ -109,9 +87,8 @@ public class ActivityService {
 		return page;
 	}
 	
-	public ActivityService(ActivityRepository actRepo, ActivityPictureRepository actPicRepo) {
+	public ActivityService(ActivityRepository actRepo) {
 	this.actRepo = actRepo;
-	this.actPicRepo = actPicRepo;
 }
 	public ActivityService() {
 	}

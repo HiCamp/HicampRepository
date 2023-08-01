@@ -15,16 +15,15 @@ public class ActivityPictureService {
 	@Autowired
 	private ActivityPictureRepository actPicRepo;
 
-//	insert
+//	insert-----------------------------------------------------------------------------
 	public List<ActivityPicture> insertPictures(List<ActivityPicture> activityPictures) {
 	    return actPicRepo.saveAll(activityPictures);
 	}
 
-//	select
+//	select-----------------------------------------------------------------------------
 	public List<ActivityPicture> findAllPictures() {
 		return actPicRepo.findAll();
 	}
-	
 	
 	public Optional<ActivityPicture> findPicById(Integer activityPictureNo) {
 	    return actPicRepo.findById(activityPictureNo);
@@ -34,17 +33,7 @@ public class ActivityPictureService {
 		return actPicRepo.findFirstActivityPictureNoByActivityNo(activityNo);
 	}
 
-//	public ActivityPicture findPicById(Integer activityPictureNo) {
-//		Optional<ActivityPicture> optional = actPicRepo.findById(activityPictureNo);
-//		
-//		if (optional.isPresent()) {
-//			
-//			return optional.get();
-//		}
-//		return null;
-//	}
-
-//	delete
+//	delete-----------------------------------------------------------------------------
 	public void deletePicById(Integer activityPictureNo) {
 		actPicRepo.deleteById(activityPictureNo);
 	}

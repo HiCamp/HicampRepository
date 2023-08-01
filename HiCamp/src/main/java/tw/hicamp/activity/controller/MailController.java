@@ -13,9 +13,10 @@ public class MailController {
 	@Autowired
 	private MailService mailService;
 
+//	測試用
 	@GetMapping("/activity/sendMail")
 	@ResponseBody
-	public String hello() {
+	public String sendEmail() {
 		mailService.prepareAndSend("sally820828@gmail.com", "title", "Sample mail subject");
 		return "Mail sent";
 	}

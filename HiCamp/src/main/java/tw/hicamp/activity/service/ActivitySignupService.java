@@ -93,7 +93,7 @@ public class ActivitySignupService {
 		return null;
 	}
 	
-//	更新狀態
+//	更改付款狀態
     @Transactional
     public ActivitySignup updateActivitySignupOrderPaymentStatusByNo(Integer activitySignupNo, String signupPaymentStatus) {
         ActivitySignup activitySignup = actSignupRepo.findById(activitySignupNo).orElse(null);
@@ -112,7 +112,7 @@ public class ActivitySignupService {
 		actSignupRepo.deleteById(activitySignupNo);
 	}
 	
-    //chart
+//  chart
     public List<Map<String, Object>> getSignupDataPerMonth() {
     	return actSignupRepo.findSignupDataGroupByMonth();
     }
